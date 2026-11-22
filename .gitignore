@@ -1,0 +1,45 @@
+# ---- 依赖 ----
+node_modules/
+.pnpm-store/
+.yarn/
+
+# ---- 构建与缓存 ----
+dist/
+build/
+out/
+coverage/
+.tsbuildinfo
+*.tsbuildinfo
+.cache/
+.turbo/
+*.tgz
+
+# 注意：lib/ 是各插件随仓库分发的构建产物，安装时零构建，必须入库，不要加进忽略列表。
+
+# ---- 日志 ----
+*.log
+logs/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# ---- 本地环境与密钥 ----
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+
+# ---- 编辑器 / 操作系统 ----
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 临时文件 ----
+*.tmp
+*.bak
+*.bak-*

@@ -1,0 +1,43 @@
+# 文本归一化：仓库内统一 LF，检出也统一 LF。
+# 必须显式写 eol=lf：只写 text 时，Windows 上会按 core.eol=native 转成 CRLF，
+# 与 .editorconfig 的 end_of_line=lf 冲突，并让同一份文件在不同机器上 diff 出噪音。
+* text=auto eol=lf
+
+# 明确的文本类型
+*.md       text
+*.json     text
+*.yml      text
+*.yaml     text
+*.js       text
+*.mjs      text
+*.cjs      text
+*.ts       text
+*.css      text
+*.html     text
+*.sh       text
+*.txt      text
+
+# Windows 脚本保持 CRLF：PowerShell 传统行尾，避免旧编辑器与记事本告警
+*.ps1      text eol=crlf
+*.psm1     text eol=crlf
+*.bat      text eol=crlf
+*.cmd      text eol=crlf
+
+# 二进制文件不做行尾转换
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.webp     binary
+*.ico      binary
+*.woff     binary
+*.woff2    binary
+*.ttf      binary
+*.otf      binary
+*.mp4      binary
+*.webm     binary
+*.zip      binary
+*.7z       binary
+
+# sourcemap 是构建产物的单行 JSON，diff 没有可读性，折叠显示
+*.map      -diff
