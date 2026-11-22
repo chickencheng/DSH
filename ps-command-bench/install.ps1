@@ -1,4 +1,4 @@
-# Install ps-command-bench into the desktop profile (local demo).
+# Install ps-command-bench into the desktop profile.
 # Copies the plugin into the profile's node_modules and adds its package name
 # to dsh.profile.bundles. A full DSH restart is required afterwards.
 # Usage: right-click "Run with PowerShell", or run .\install.ps1
@@ -42,5 +42,5 @@ if ($bundles -notcontains 'ps-command-bench') {
 }
 
 Write-Host ''
-Write-Host 'Done. Fully quit and reopen DSH Next, then click the lightning button'
-Write-Host 'at the bottom-right corner of the desktop window.'
+Write-Host 'Done. Fully quit and reopen DSH Next, then open the "PS console"'
+Write-Host 'entry in the left sidebar.'
