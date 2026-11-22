@@ -1,0 +1,5 @@
+# 把本插件作为一条 Loader 条目插入 profile 配置树。
+# id 与 name 必须等于包名 ps-command-bench，loader 才能从 node_modules 解析到它。
+- insert:
+    - id: ps-command-bench
+      name: ps-command-bench

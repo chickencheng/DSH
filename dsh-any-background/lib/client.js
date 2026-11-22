@@ -1,0 +1,11734 @@
+window.__ModuleLoader__.load({
+	id: "dsh-any-background",
+	factory: (require) => {
+		var module = { exports: {} };
+		var exports = module.exports;
+		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+		let react = require("react");
+		let react_jsx_runtime = require("react/jsx-runtime");
+		let react_dom = require("react-dom");
+		//#region src/client/runtime.ts
+		function resolveStore() {
+			try {
+				return require("@deepseek-ai/dsh-client-store");
+			} catch {}
+			try {
+				return require("@deepseek-ai/dsh-client-runtime/client");
+			} catch {
+				console.warn("dsh-any-background: no client store module resolved on this host; the settings panel will be disabled");
+				return null;
+			}
+		}
+		/** null when neither store package resolves on this host (see resolveStore). */
+		const defineStore = resolveStore()?.defineStore ?? null;
+		//#endregion
+		//#region src/client/i18n.ts
+		const NS = "settings.anyBg";
+		const zh = {
+			nav: "主题",
+			brandTag: "外观定制",
+			pageColor: "色彩",
+			pageInterface: "界面",
+			pageFont: "字体",
+			pageBackground: "背景",
+			pageProfile: "配置",
+			descColor: "拖动色轮或输入精确数值，整个界面的配色将实时跟随变化",
+			descInterface: "为主界面的各个区域单独调节透明度与模糊，营造空间层次感",
+			descFont: "上传自定义字体为整套界面换字形，并按区域为文字添加描边，让内容在复杂的壁纸上依然清晰",
+			descBackground: "上传一张图片或一段视频作为壁纸并自由摆放，或让算法为你实时生成动态背景",
+			descProfile: "一键套用外观预设，保存多套配置随时切换，设置昼夜自动换装，或导出/导入完整主题",
+			colorTitle: "主题色",
+			colorHint: "在色轮外圈选择色相，在内部方形中调整饱和度和明度；双击滑块可恢复默认值",
+			swatchTitle: "灵感色板",
+			hexCaption: "当前主题色",
+			uiTitle: "主界面",
+			uiOpacity: "透明度",
+			uiBlur: "模糊度",
+			uiOpacityBg: "主背景",
+			uiOpacitySide: "侧边栏",
+			uiOpacityCard: "对话框中选项面板",
+			uiOpacityInput: "输入框与控件",
+			uiSop: "设置界面",
+			uiChatRegion: "对话文本框",
+			uiTrajectory: "轨迹页",
+			uiPanelNative: "右方侧边栏",
+			guideDesc: "管理主题色、壁纸与界面透明度",
+			uiProduced: "产出物/高亮内容",
+			uiHeader: "顶栏选项",
+			uiHeaderBar: "标题栏",
+			captionInkLabel: "标题条带文字",
+			captionInkHint: "桌面端顶部那条标题带上的文字（原生「应用 / 编辑」菜单与侧栏开合按钮）由谁上色。条带是侧栏材质压在壁纸上的结果，两者可能一个深一个浅。",
+			captionInkAuto: "自动",
+			captionInkTheme: "跟随主题",
+			captionInkWhite: "始终白色",
+			captionInkBlack: "始终黑色",
+			tpTitle: "第三方插件兼容",
+			tpEnabled: "保护第三方表面",
+			tpHint: "本插件把宿主的一批底色令牌改成了半透明，好让壁纸透出来。其它插件如果用同样的令牌画表面，就会跟着一起变透明、和滚过的文字叠在一起。开启后认出这些插件，只把它们的那几块钉在可读的密度上，不随滑块调节。",
+			tpNone: "未检测到读取这些令牌的其它插件。",
+			tpPinned: "已钉住",
+			tpUnpinned: "未登记 —— 若它的表面变透明或看不清，请把开机日志这一行发给我",
+			tpReaderLanes: "吸顶总结栏",
+			fontPageTitle: "字体与描边",
+			fontTitle: "自定义字体",
+			fontHint: "支持 ttf/otf/woff/woff2 字体文件（上限 100MB），将应用到整个界面的文字；代码块的等宽字体保持不变。中文字体通常有几十 MB，首次上传与刷新加载需要片刻",
+			fontUpload: "上传字体",
+			fontUploading: "上传中…",
+			fontRemove: "移除字体",
+			fontEnabled: "启用字体",
+			fontNone: "未设置，使用宿主默认字体",
+			fontFail: "字体上传失败，请确认是有效的 ttf/otf/woff/woff2 文件",
+			uploadTooLarge: "文件过大，上限 {limit}",
+			bgUploadFail: "壁纸上传失败",
+			videoUploadFail: "视频上传失败，本次播放不会被保存",
+			strokeTitle: "文字描边",
+			strokeHint: "按区域为文字添加描边：粗细为 0 表示关闭，「自动」会生成与文字颜色相反的颜色，「主题色」跟随当前主题色。代码块与图标已自动豁免，多色语法不会糊成一团",
+			strokeWidth: "描边粗细",
+			strokeAuto: "自动反色",
+			strokeGray: "灰色",
+			strokeBlack: "黑色",
+			strokeWhite: "白色",
+			strokeTheme: "主题色",
+			strokeCustom: "自定义",
+			bgTitle: "背景",
+			bgChoose: "选择图片或视频",
+			bgRemove: "移除背景",
+			bgFromUrl: "从网址",
+			bgUrlPlaceholder: "粘贴图片或视频网址 https://…",
+			bgUrlApply: "应用",
+			bgUrlCancel: "取消",
+			bgUrlApplying: "加载中…",
+			bgUrlBadHttp: "仅支持 http/https 图片网址",
+			bgUrlFail: "获取图片失败",
+			bgEdit: "编辑位置",
+			bgEditLocked: "仅「适应」模式可编辑位置",
+			wpOpacity: "背景透明度",
+			bgBlur: "背景模糊",
+			bgModeTitle: "布局模式",
+			bgModeFit: "适应",
+			bgModeFill: "填充",
+			bgModeStretch: "拉伸",
+			bgModeTile: "平铺",
+			bgModeCenter: "居中",
+			bgVideoBadge: "视频",
+			bgSourceImage: "图片 / 视频",
+			bgSourceGenerated: "动态生成",
+			dropHint: "点击选择图片或视频，或将文件拖到这里",
+			liveBadge: "动态壁纸",
+			bgHint: "「适应」布局模式下悬停预览可编辑图片/视频的位置与缩放（其余布局模式按模式自动排布）；动态生成模式下可选择类型、预设与参数。绑定种子后刷新页面壁纸保持不变，取消绑定则每次刷新随机换新",
+			editorTitle: "背景编辑器",
+			editorHint: "拖动移动画面，滚轮或双指缩放大小",
+			editorCommit: "确认",
+			editorCancel: "取消",
+			editorReset: "重置",
+			extractColor: "从背景提取主题色",
+			extracting: "取色中…",
+			extractDone: "已应用背景主色调",
+			extractFail: "未在背景中找到鲜明的颜色，请换一张背景",
+			crashTitle: "界面渲染出错",
+			crashDesc: "主题设置面板遇到问题，点击下方按钮重置后重试",
+			crashReset: "重置面板",
+			exportTheme: "导出配置",
+			importTheme: "导入配置",
+			exportCardTitle: "导出配置",
+			exportCardDesc: "将主题色、透明度、模糊与壁纸打包为 dsh-any-theme.json 文件",
+			importCardTitle: "导入配置",
+			importCardDesc: "从之前导出的 JSON 文件一键恢复完整主题",
+			toastExportDone: "配置文件已开始下载",
+			importDone: "已导入主题配置",
+			importFail: "导入失败，文件格式不正确",
+			footerTag: "外观插件",
+			eyedropper: "从背景取色",
+			pickerTitle: "从背景取色",
+			pickerHint: "移动鼠标预览颜色，点击背景选取为主题色",
+			pickerClose: "关闭",
+			bgTypeMesh: "网格渐变",
+			bgTypeShader: "Shader",
+			bgTypePattern: "几何图案",
+			bgMeshDesc: "柔和的多点渐变色块",
+			bgShaderDesc: "持续流动的光影动画",
+			bgPatternDesc: "规律的几何纹理",
+			bgRegenerate: "重新生成",
+			bgSeedLocked: "已绑定 · 刷新不变",
+			bgSeedUnlocked: "未绑定 · 刷新换新",
+			seedLock: "锁定种子",
+			bgMeshScale: "扩散范围",
+			bgMeshIntensity: "色彩强度",
+			bgShaderPreset: "预设",
+			bgShaderSpeed: "流动速度",
+			bgShaderScale: "纹理尺度",
+			bgPatternPreset: "图案",
+			bgPatternDensity: "密度",
+			bgPatternScale: "尺度",
+			presetAurora: "极光",
+			presetNebula: "星云",
+			presetNoise: "流动噪声",
+			presetDots: "点阵",
+			presetWaves: "波浪",
+			presetPoly: "低多边形",
+			presetStarfield: "星空",
+			presetRain: "雨滴",
+			presetContour: "等高线",
+			presetMeta: "流体光斑",
+			bgPause: "暂停",
+			bgResume: "播放",
+			bgUrlVideoFail: "获取视频失败，请确认链接可直接下载视频文件",
+			schemeTitle: "界面明暗",
+			schemeLight: "亮色",
+			schemeDark: "暗色",
+			schemeAuto: "自动",
+			schemeHint: "「自动」优先跟随背景画面的实际明暗决定界面明暗（无背景时依据主题色明度）；强制亮色/暗色后整套配色按所选方向生成，未选主题色时使用中性灰配色",
+			presetGalleryTitle: "外观预设",
+			presetName_default: "默认",
+			presetDesc_default: "恢复插件的初始外观",
+			presetName_glass: "毛玻璃",
+			presetDesc_glass: "通透表面 + 磨砂玻璃层次",
+			presetName_minimal: "极简白",
+			presetDesc_minimal: "接近实色的表面，无模糊",
+			presetName_midnight: "暗夜紫",
+			presetDesc_midnight: "深色强调，重磨砂低透明度",
+			presetName_cyber: "赛博",
+			presetDesc_cyber: "艳丽洋红，界面近乎消失",
+			presetName_warm: "暖阳",
+			presetDesc_warm: "琥珀色调的明亮实色界面",
+			presetApplied: "预设已应用",
+			profilesTitle: "我的配置",
+			profileSave: "保存当前配置",
+			profileNamePlaceholder: "输入配置名称…",
+			profileNameRequired: "请先输入配置名称",
+			profileSaved: "配置已保存",
+			profileRenamed: "配置已重命名",
+			profileDuplicated: "配置已复制",
+			profileApplied: "配置已应用",
+			profileApply: "应用",
+			profileRename: "重命名",
+			profileDuplicate: "复制配置",
+			profileDelete: "删除配置",
+			profileDeleteConfirm: "确认删除",
+			profileNone: "不切换",
+			profilesEmpty: "还没有保存的配置。调整好外观后点击「保存当前配置」，即可随时一键切换。",
+			scheduleTitle: "昼夜自动切换",
+			scheduleHint: "按时间或系统深色模式，在两套已保存的配置之间自动切换（切换的是配色与表面参数，壁纸不变）",
+			scheduleMode: "切换依据",
+			scheduleModeTime: "固定时段",
+			scheduleModeSystem: "跟随系统",
+			scheduleTimes: "切换时间",
+			scheduleDayStart: "日间开始",
+			scheduleNightStart: "夜间开始",
+			scheduleProfiles: "对应配置",
+			scheduleDayProfile: "日间",
+			scheduleNightProfile: "夜间",
+			rotTitle: "壁纸轮换",
+			rotHint: "把多张图片加入轮换池，按所选频率自动更换壁纸；启用后立即生效",
+			rotAdd: "添加图片",
+			rotRemove: "移除",
+			rotShuffle: "随机",
+			rotOrder: "顺序",
+			rotReload: "每次刷新",
+			rotHourly: "每小时",
+			rotDaily: "每天",
+			rotWeekly: "每周",
+			rotNow: "立即切换"
+		};
+		const en = {
+			nav: "Theme",
+			brandTag: "Appearance",
+			pageColor: "Color",
+			pageInterface: "Interface",
+			pageFont: "Font",
+			pageBackground: "Background",
+			pageProfile: "Profile",
+			descColor: "Drag the wheel or type exact values — the whole UI follows live",
+			descInterface: "Tune opacity and blur per surface to build depth",
+			descFont: "Swap the interface typeface with your own font file, and outline text per region so it stays legible over busy wallpapers",
+			descBackground: "Upload an image or a video as wallpaper and place it freely, or let the algorithm paint a live background",
+			descProfile: "Apply a one-click preset, save multiple named profiles, schedule a day/night switch, or export/import the full theme",
+			colorTitle: "Theme color",
+			colorHint: "Pick hue on the outer ring, adjust saturation & lightness in the square; double-click a slider to reset",
+			swatchTitle: "Quick swatches",
+			hexCaption: "Current accent",
+			uiTitle: "Interface",
+			uiOpacity: "Opacity",
+			uiBlur: "Blur",
+			uiOpacityBg: "Main background",
+			uiOpacitySide: "Sidebar",
+			uiOpacityCard: "Cards & panels",
+			uiOpacityInput: "Input & controls",
+			uiSop: "Settings interface",
+			uiChatRegion: "Conversation text frame",
+			uiTrajectory: "Trajectory view",
+			uiPanelNative: "Right sidebar",
+			guideDesc: "Theme color, wallpaper and interface opacity in the right sidebar",
+			uiProduced: "Produced / highlights",
+			uiHeader: "Header popovers",
+			uiHeaderBar: "Header bar",
+			captionInkLabel: "Caption strip text",
+			captionInkHint: "Who paints the text on the desktop caption strip — the native \"App / Edit\" menu bar and the sidebar toggle. The strip is the sidebar material over the wallpaper, so it can end up on the opposite side of the theme.",
+			captionInkAuto: "Auto",
+			captionInkTheme: "Follow theme",
+			captionInkWhite: "Always white",
+			captionInkBlack: "Always black",
+			tpTitle: "Third-party compatibility",
+			tpEnabled: "Protect third-party surfaces",
+			tpHint: "This plugin turns a batch of the host’s background tokens translucent so the wallpaper shows through. Another plugin that paints its surfaces with those same tokens goes translucent with it and collides with the text scrolling underneath. When on, those plugins are detected and only their surfaces are pinned to a legible density — outside the sliders.",
+			tpNone: "No other plugin was seen filling from these tokens.",
+			tpPinned: "pinned",
+			tpUnpinned: "not registered — if its surface fades or becomes unreadable, send me that boot-log line",
+			tpReaderLanes: "its sticky reading lanes",
+			fontPageTitle: "Font & outline",
+			fontTitle: "Custom font",
+			fontHint: "Accepts ttf/otf/woff/woff2 files (up to 100MB) and applies them to the whole interface; code blocks keep their monospace stack. CJK fonts routinely span tens of MB, so the first upload and each reload take a moment",
+			fontUpload: "Upload font",
+			fontUploading: "Uploading…",
+			fontRemove: "Remove font",
+			fontEnabled: "Font enabled",
+			fontNone: "None — host default",
+			fontFail: "Upload failed — make sure it is a valid ttf/otf/woff/woff2 file",
+			uploadTooLarge: "File is too large (limit {limit})",
+			bgUploadFail: "Wallpaper upload failed",
+			videoUploadFail: "Video upload failed — this playback will not be saved",
+			strokeTitle: "Text outline",
+			strokeHint: "Outline text per region: width 0 turns it off, \"auto\" picks the inverse of the text color, and \"theme\" follows the current accent. Code blocks and icons are exempted automatically, so multi-color syntax never smears",
+			strokeWidth: "Outline width",
+			strokeAuto: "Auto contrast",
+			strokeGray: "Gray",
+			strokeBlack: "Black",
+			strokeWhite: "White",
+			strokeTheme: "Accent",
+			strokeCustom: "Custom",
+			bgTitle: "Background",
+			bgChoose: "Choose image or video",
+			bgRemove: "Remove background",
+			bgFromUrl: "From URL",
+			bgUrlPlaceholder: "Paste an image or video URL https://…",
+			bgUrlApply: "Apply",
+			bgUrlCancel: "Cancel",
+			bgUrlApplying: "Loading…",
+			bgUrlBadHttp: "Only http/https image URLs are supported",
+			bgUrlFail: "Could not fetch the image",
+			bgEdit: "Edit position",
+			bgEditLocked: "Position editing is only available in Fit mode",
+			wpOpacity: "Background opacity",
+			bgBlur: "Background blur",
+			bgModeTitle: "Layout mode",
+			bgModeFit: "Fit",
+			bgModeFill: "Fill",
+			bgModeStretch: "Stretch",
+			bgModeTile: "Tile",
+			bgModeCenter: "Center",
+			bgVideoBadge: "Video",
+			bgSourceImage: "Image / Video",
+			bgSourceGenerated: "Generated",
+			dropHint: "Click to choose an image or video, or drop one here",
+			liveBadge: "Live wallpaper",
+			bgHint: "In Fit layout mode hover the preview to reposition and zoom the image/video (other modes arrange it automatically); in generated mode pick a type, preset and parameters. With the seed locked the wallpaper stays the same across refreshes; unlocked, every refresh randomizes it",
+			editorTitle: "Background editor",
+			editorHint: "Drag to move; scroll or pinch with two fingers to zoom",
+			editorCommit: "Confirm",
+			editorCancel: "Cancel",
+			editorReset: "Reset",
+			extractColor: "Extract from background",
+			extracting: "Extracting…",
+			extractDone: "Background color applied",
+			extractFail: "No vivid color found in this background, try another",
+			crashTitle: "Section crashed",
+			crashDesc: "The theme panel hit an error. Reset below to recover.",
+			crashReset: "Reset panel",
+			exportTheme: "Export",
+			importTheme: "Import",
+			exportCardTitle: "Export profile",
+			exportCardDesc: "Bundle color, opacity, blur and wallpaper into dsh-any-theme.json",
+			importCardTitle: "Import profile",
+			importCardDesc: "Restore a full theme from a previously exported JSON file",
+			toastExportDone: "Export started",
+			importDone: "Theme imported",
+			importFail: "Import failed — invalid file",
+			footerTag: "Appearance plugin",
+			eyedropper: "Eyedropper",
+			pickerTitle: "Pick from background",
+			pickerHint: "Hover to preview, click to pick as theme color",
+			pickerClose: "Close",
+			bgTypeMesh: "Mesh gradient",
+			bgTypeShader: "Shader",
+			bgTypePattern: "Pattern",
+			bgMeshDesc: "Soft multi-blob gradients",
+			bgShaderDesc: "Flowing light animation",
+			bgPatternDesc: "Regular geometric texture",
+			bgRegenerate: "Regenerate",
+			bgSeedLocked: "Seeded · stable on refresh",
+			bgSeedUnlocked: "Unseeded · new on refresh",
+			seedLock: "Lock seed",
+			bgMeshScale: "Spread",
+			bgMeshIntensity: "Intensity",
+			bgShaderPreset: "Preset",
+			bgShaderSpeed: "Flow speed",
+			bgShaderScale: "Texture scale",
+			bgPatternPreset: "Pattern",
+			bgPatternDensity: "Density",
+			bgPatternScale: "Scale",
+			presetAurora: "Aurora",
+			presetNebula: "Nebula",
+			presetNoise: "Flowing noise",
+			presetDots: "Dots",
+			presetWaves: "Waves",
+			presetPoly: "Low poly",
+			presetStarfield: "Starfield",
+			presetRain: "Rain",
+			presetContour: "Contours",
+			presetMeta: "Fluid orbs",
+			bgPause: "Pause",
+			bgResume: "Play",
+			bgUrlVideoFail: "Could not fetch the video — make sure the link downloads a video file directly",
+			schemeTitle: "Interface scheme",
+			schemeLight: "Light",
+			schemeDark: "Dark",
+			schemeAuto: "Auto",
+			schemeHint: "\"Auto\" follows the background brightness first (accent lightness as fallback only); forcing light/dark regenerates the palette in that direction - with no accent picked, a neutral gray palette is used",
+			presetGalleryTitle: "Appearance presets",
+			presetName_default: "Default",
+			presetDesc_default: "Restore the plugin's original look",
+			presetName_glass: "Frosted glass",
+			presetDesc_glass: "Translucent surfaces + frosted depth",
+			presetName_minimal: "Minimal",
+			presetDesc_minimal: "Near-solid surfaces, no frost",
+			presetName_midnight: "Midnight",
+			presetDesc_midnight: "Deep violet accent, heavy frost",
+			presetName_cyber: "Cyber",
+			presetDesc_cyber: "Vivid magenta, vanishing surfaces",
+			presetName_warm: "Warm daylight",
+			presetDesc_warm: "Amber accent on solid light surfaces",
+			presetApplied: "Preset applied",
+			profilesTitle: "Saved profiles",
+			profileSave: "Save current",
+			profileNamePlaceholder: "Profile name…",
+			profileNameRequired: "Enter a name first",
+			profileSaved: "Profile saved",
+			profileRenamed: "Profile renamed",
+			profileDuplicated: "Profile duplicated",
+			profileApplied: "Profile applied",
+			profileApply: "Apply",
+			profileRename: "Rename",
+			profileDuplicate: "Duplicate",
+			profileDelete: "Delete profile",
+			profileDeleteConfirm: "Sure?",
+			profileNone: "None",
+			profilesEmpty: "No saved profiles yet. Tune the look, then hit \"Save current\" to switch back anytime.",
+			scheduleTitle: "Day/night auto switch",
+			scheduleHint: "Automatically swap between two saved profiles by clock time or the OS dark mode (colors and surfaces switch; the wallpaper stays)",
+			scheduleMode: "Trigger",
+			scheduleModeTime: "Fixed times",
+			scheduleModeSystem: "Follow system",
+			scheduleTimes: "Switch times",
+			scheduleDayStart: "Day starts",
+			scheduleNightStart: "Night starts",
+			scheduleProfiles: "Profiles",
+			scheduleDayProfile: "Day",
+			scheduleNightProfile: "Night",
+			rotTitle: "Wallpaper rotation",
+			rotHint: "Add images to a rotation pool and let the wallpaper change on your cadence; takes effect immediately when enabled",
+			rotAdd: "Add images",
+			rotRemove: "Remove",
+			rotShuffle: "Shuffle",
+			rotOrder: "In order",
+			rotReload: "Every refresh",
+			rotHourly: "Hourly",
+			rotDaily: "Daily",
+			rotWeekly: "Weekly",
+			rotNow: "Switch now"
+		};
+		//#endregion
+		//#region src/client/state.ts
+		const DEFAULT_CONFIG = {
+			color: null,
+			opacities: {
+				bg: 0,
+				sidebar: .5,
+				card: .5,
+				input: .5
+			},
+			blurs: {
+				bg: 0,
+				sidebar: 30,
+				card: 30,
+				settings: 30,
+				chat: 30,
+				trajectory: 30,
+				input: 30,
+				panel: 30,
+				produced: 30,
+				header: 30,
+				headerBar: 30
+			},
+			strokes: {
+				bg: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				sidebar: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				card: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				settings: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				chat: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				trajectory: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				input: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				panel: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				produced: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				header: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				},
+				headerBar: {
+					width: 0,
+					color: "auto",
+					customColor: "#808080"
+				}
+			},
+			settingsOpacity: .5,
+			wallpaperOpacity: 1,
+			blur: 0,
+			bgState: {
+				zoom: 1,
+				x: 0,
+				y: 0,
+				iw: 0,
+				ih: 0
+			},
+			videoBgState: {
+				zoom: 1,
+				x: 0,
+				y: 0,
+				iw: 0,
+				ih: 0
+			},
+			backgroundType: "image",
+			bgMode: "fit",
+			videoMime: null,
+			fontMime: null,
+			fontEnabled: true,
+			generatedBg: null,
+			regenerateOnReload: false,
+			chatTextOpacity: .5,
+			trajectoryOpacity: .5,
+			panelOpacity: .5,
+			producedOpacity: .5,
+			headerOpacity: .5,
+			headerBarOpacity: .5,
+			captionInk: "auto",
+			protectThirdParty: true,
+			profiles: [],
+			rotation: {
+				enabled: false,
+				mode: "shuffle",
+				interval: "daily",
+				current: 0,
+				items: [],
+				lastRotate: null
+			},
+			schedule: {
+				enabled: false,
+				mode: "time",
+				dayProfile: null,
+				nightProfile: null,
+				dayStart: "07:00",
+				nightStart: "19:00"
+			},
+			schemeOverride: "auto",
+			activeProfile: null
+		};
+		const clamp01 = (n, def) => typeof n === "number" ? Math.min(1, Math.max(0, n)) : def;
+		/** One place decides what a stored / adopted 「标题栏文字」 value means: anything the
+		*  host half or an older config file did not name is `auto`, which is 0.3.8's behaviour. */
+		const CAPTION_INK_MODES = [
+			"auto",
+			"theme",
+			"white",
+			"black"
+		];
+		function adoptCaptionInk(v) {
+			return CAPTION_INK_MODES.includes(v) ? v : DEFAULT_CONFIG.captionInk;
+		}
+		let cfg = {
+			...DEFAULT_CONFIG,
+			opacities: { ...DEFAULT_CONFIG.opacities },
+			blurs: { ...DEFAULT_CONFIG.blurs },
+			strokes: structuredClone(DEFAULT_CONFIG.strokes),
+			bgState: { ...DEFAULT_CONFIG.bgState },
+			videoBgState: { ...DEFAULT_CONFIG.videoBgState }
+		};
+		let wpImageUrl = null;
+		let wpUrl = null;
+		let wpVideoUrl = null;
+		/** Captured video frame standing in for previews/color extraction (still-image APIs). */
+		let wpVideoSnapshot = null;
+		/** Local blob URL backing an in-session video; revoked when replaced or cleared. */
+		let wpVideoObjectUrl = null;
+		function setWpUrl(url) {
+			wpUrl = url;
+		}
+		let imageRev = 0;
+		function bumpImageRev(url) {
+			if (url === null) return url;
+			if (!/^https?:\/\//i.test(url) && !url.startsWith("/")) return url;
+			imageRev++;
+			return `${url}${url.includes("?") ? "&" : "?"}r=${imageRev}`;
+		}
+		function setWpImageUrl(url) {
+			wpImageUrl = bumpImageRev(url);
+		}
+		let videoRev = 0;
+		function setWpVideoUrl(url, mime) {
+			if (url === null) {
+				wpVideoUrl = null;
+				wpVideoSnapshot = null;
+			} else {
+				videoRev++;
+				wpVideoUrl = url.startsWith("blob:") ? url : `${url}${url.includes("?") ? "&" : "?"}r=${videoRev}`;
+			}
+			if (wpVideoObjectUrl !== null && wpVideoObjectUrl !== url) {
+				URL.revokeObjectURL(wpVideoObjectUrl);
+				wpVideoObjectUrl = null;
+			}
+			if (url !== null && url.startsWith("blob:")) wpVideoObjectUrl = url;
+			cfg.videoMime = url ? mime : null;
+		}
+		function setWpVideoSnapshot(url) {
+			wpVideoSnapshot = url;
+		}
+		/** Release the in-session video object URL (plugin teardown). */
+		function disposeVideoObjectUrl() {
+			if (wpVideoObjectUrl !== null) {
+				URL.revokeObjectURL(wpVideoObjectUrl);
+				wpVideoObjectUrl = null;
+			}
+		}
+		function setBgState(s) {
+			cfg.bgState = s;
+		}
+		let bgDark = null;
+		function setBgDark(v) {
+			bgDark = v;
+		}
+		function rBgDark() {
+			return bgDark;
+		}
+		function rHasColor() {
+			return cfg.color !== null;
+		}
+		function rColor() {
+			return cfg.color ?? [
+				220,
+				.55,
+				.25
+			];
+		}
+		function rWpImage() {
+			return wpImageUrl;
+		}
+		function rWpVideo() {
+			return wpVideoUrl;
+		}
+		function rBgMode() {
+			return cfg.bgMode ?? DEFAULT_CONFIG.bgMode;
+		}
+		function rChatTextOpacity() {
+			return clamp01(cfg.chatTextOpacity, DEFAULT_CONFIG.chatTextOpacity);
+		}
+		function rTrajectoryOpacity() {
+			return clamp01(cfg.trajectoryOpacity, DEFAULT_CONFIG.trajectoryOpacity);
+		}
+		/** Display URL: the uploaded image/video snapshot per active type, else the generated snapshot. */
+		function rWp() {
+			if (cfg.backgroundType === "image") return wpImageUrl;
+			if (cfg.backgroundType === "video") return wpVideoSnapshot;
+			return wpUrl;
+		}
+		function rOps() {
+			const o = cfg.opacities ?? {};
+			const out = {};
+			for (const k of [
+				"bg",
+				"sidebar",
+				"card",
+				"input"
+			]) out[k] = clamp01(o[k], DEFAULT_CONFIG.opacities[k]);
+			return out;
+		}
+		function rBlurs() {
+			const b = cfg.blurs ?? {};
+			const out = {};
+			for (const k of [
+				"bg",
+				"sidebar",
+				"card",
+				"settings",
+				"chat",
+				"trajectory",
+				"input",
+				"panel",
+				"produced",
+				"header",
+				"headerBar"
+			]) {
+				const v = b[k];
+				out[k] = typeof v === "number" ? Math.min(60, Math.max(0, v)) : DEFAULT_CONFIG.blurs[k];
+			}
+			return out;
+		}
+		const STROKE_GROUPS = [
+			"bg",
+			"sidebar",
+			"card",
+			"settings",
+			"chat",
+			"trajectory",
+			"input",
+			"panel",
+			"produced",
+			"header",
+			"headerBar"
+		];
+		const STROKE_COLOR_KEYS = [
+			"auto",
+			"gray",
+			"black",
+			"white",
+			"theme",
+			"custom"
+		];
+		const HEX_RE = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+		const DEFAULT_STROKE = {
+			width: 0,
+			color: "auto",
+			customColor: "#808080"
+		};
+		function adoptStroke(raw) {
+			const s = raw ?? {};
+			return {
+				width: typeof s.width === "number" && isFinite(s.width) ? Math.min(4, Math.max(0, s.width)) : DEFAULT_STROKE.width,
+				color: STROKE_COLOR_KEYS.includes(s.color) ? s.color : DEFAULT_STROKE.color,
+				customColor: typeof s.customColor === "string" && HEX_RE.test(s.customColor) ? s.customColor : DEFAULT_STROKE.customColor
+			};
+		}
+		/** Move a possibly-partial strokes map into the full shape the UI reads. */
+		function strokesFrom(raw) {
+			const s = raw ?? {};
+			const out = {};
+			for (const k of STROKE_GROUPS) out[k] = adoptStroke(s[k]);
+			return out;
+		}
+		function rStrokes() {
+			return strokesFrom(cfg.strokes);
+		}
+		function rWop() {
+			return clamp01(cfg.wallpaperOpacity, DEFAULT_CONFIG.wallpaperOpacity);
+		}
+		function rBl() {
+			return typeof cfg.blur === "number" ? Math.min(60, Math.max(0, cfg.blur)) : DEFAULT_CONFIG.blur;
+		}
+		function rSop() {
+			return clamp01(cfg.settingsOpacity, DEFAULT_CONFIG.settingsOpacity);
+		}
+		function rPanelOpacity() {
+			return clamp01(cfg.panelOpacity, DEFAULT_CONFIG.panelOpacity);
+		}
+		function rProducedOpacity() {
+			return clamp01(cfg.producedOpacity, DEFAULT_CONFIG.producedOpacity);
+		}
+		function rHeaderOpacity() {
+			return clamp01(cfg.headerOpacity, DEFAULT_CONFIG.headerOpacity);
+		}
+		function rHeaderBarOpacity() {
+			return clamp01(cfg.headerBarOpacity, DEFAULT_CONFIG.headerBarOpacity);
+		}
+		/** Who owns the desktop caption strip's chrome ink — see `CaptionInkMode`. */
+		function rCaptionInk() {
+			return adoptCaptionInk(cfg.captionInk);
+		}
+		/** Whether the third-party compatibility pins are active — see `third-party.ts`. */
+		function rProtectThirdParty() {
+			return typeof cfg.protectThirdParty === "boolean" ? cfg.protectThirdParty : DEFAULT_CONFIG.protectThirdParty;
+		}
+		function rBgState() {
+			return cfg.bgState;
+		}
+		function rVideoBgState() {
+			return cfg.videoBgState;
+		}
+		function rProfiles() {
+			return Array.isArray(cfg.profiles) ? cfg.profiles : [];
+		}
+		function rRotation() {
+			const r = cfg.rotation;
+			return r && typeof r === "object" ? {
+				...DEFAULT_CONFIG.rotation,
+				...r,
+				items: Array.isArray(r.items) ? r.items : []
+			} : {
+				...DEFAULT_CONFIG.rotation,
+				items: []
+			};
+		}
+		function rSchedule() {
+			return cfg.schedule && typeof cfg.schedule === "object" ? {
+				...DEFAULT_CONFIG.schedule,
+				...cfg.schedule
+			} : { ...DEFAULT_CONFIG.schedule };
+		}
+		function rSchemeOverride() {
+			return cfg.schemeOverride === "light" || cfg.schemeOverride === "dark" ? cfg.schemeOverride : "auto";
+		}
+		/** Effective interface scheme (drives data-ds-dark-theme / color-scheme): a
+		*  forced override wins; in auto a picked color decides through its palette
+		*  direction (keeps native controls aligned with the drawn surfaces), and
+		*  without a pick the background's brightness verdict does. Stay light as the
+		*  last fallback. */
+		function rScheme() {
+			const o = rSchemeOverride();
+			if (o !== "auto") return o;
+			if (rHasColor()) return rColorScheme();
+			return rBgDark() ? "dark" : "light";
+		}
+		/** Direction the color palette itself is built in: a forced override wins; in
+		*  auto the theme color's own lightness decides (0.2.4 behavior) so surfaces
+		*  always contrast with the palette's label fonts — the wallpaper verdict must
+		*  not drag a dark color's surfaces into a light build (and vice versa) or
+		*  text and surfaces converge. */
+		function rColorScheme() {
+			const o = rSchemeOverride();
+			if (o !== "auto") return o;
+			return rHasColor() && rColor()[2] < .55 ? "dark" : "light";
+		}
+		/** Snapshot of the appearance fields a profile/preset restores. */
+		function currentAppearance() {
+			return {
+				color: cfg.color,
+				opacities: { ...rOps() },
+				blurs: { ...rBlurs() },
+				strokes: rStrokes(),
+				settingsOpacity: rSop(),
+				wallpaperOpacity: rWop(),
+				blur: rBl(),
+				chatTextOpacity: rChatTextOpacity(),
+				trajectoryOpacity: rTrajectoryOpacity(),
+				panelOpacity: rPanelOpacity(),
+				producedOpacity: rProducedOpacity(),
+				headerOpacity: rHeaderOpacity(),
+				headerBarOpacity: rHeaderBarOpacity()
+			};
+		}
+		/** Apply an appearance snapshot onto cfg (meta fields untouched). */
+		function applyAppearance(ap) {
+			cfg.color = Array.isArray(ap.color) && ap.color.length === 3 ? [...ap.color] : null;
+			cfg.opacities = {
+				...DEFAULT_CONFIG.opacities,
+				...ap.opacities ?? {}
+			};
+			cfg.blurs = {
+				...DEFAULT_CONFIG.blurs,
+				...ap.blurs ?? {}
+			};
+			cfg.strokes = strokesFrom(ap.strokes);
+			cfg.settingsOpacity = clamp01(ap.settingsOpacity, DEFAULT_CONFIG.settingsOpacity);
+			cfg.wallpaperOpacity = clamp01(ap.wallpaperOpacity, DEFAULT_CONFIG.wallpaperOpacity);
+			cfg.blur = typeof ap.blur === "number" ? Math.min(60, Math.max(0, ap.blur)) : DEFAULT_CONFIG.blur;
+			cfg.chatTextOpacity = clamp01(ap.chatTextOpacity, DEFAULT_CONFIG.chatTextOpacity);
+			cfg.trajectoryOpacity = clamp01(ap.trajectoryOpacity, DEFAULT_CONFIG.trajectoryOpacity);
+			cfg.panelOpacity = clamp01(ap.panelOpacity, DEFAULT_CONFIG.panelOpacity);
+			cfg.producedOpacity = clamp01(ap.producedOpacity, DEFAULT_CONFIG.producedOpacity);
+			cfg.headerOpacity = clamp01(ap.headerOpacity, DEFAULT_CONFIG.headerOpacity);
+			cfg.headerBarOpacity = clamp01(ap.headerBarOpacity, DEFAULT_CONFIG.headerBarOpacity);
+		}
+		const num = (n, def) => typeof n === "number" ? n : def;
+		const cl = (n, lo, hi, def) => typeof n === "number" ? Math.min(hi, Math.max(lo, n)) : def;
+		const HHMM_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+		function adoptProfiles(raw) {
+			if (!Array.isArray(raw)) return [];
+			const out = [];
+			for (const item of raw.slice(0, 20)) {
+				const p = item ?? {};
+				if (typeof p.id !== "string" || p.id.length === 0 || p.id.length > 64) continue;
+				if (out.some((e) => e.id === p.id)) continue;
+				const ac = p.config ?? {};
+				out.push({
+					id: p.id,
+					name: typeof p.name === "string" && p.name.trim() ? p.name.slice(0, 60) : "Profile",
+					createdAt: typeof p.createdAt === "string" ? p.createdAt : "",
+					config: {
+						color: Array.isArray(ac.color) && ac.color.length === 3 ? [...ac.color] : null,
+						opacities: {
+							...DEFAULT_CONFIG.opacities,
+							...ac.opacities ?? {}
+						},
+						blurs: {
+							...DEFAULT_CONFIG.blurs,
+							...ac.blurs ?? {}
+						},
+						strokes: strokesFrom(ac.strokes),
+						settingsOpacity: clamp01(ac.settingsOpacity, DEFAULT_CONFIG.settingsOpacity),
+						wallpaperOpacity: clamp01(ac.wallpaperOpacity, DEFAULT_CONFIG.wallpaperOpacity),
+						blur: num(ac.blur, DEFAULT_CONFIG.blur),
+						chatTextOpacity: clamp01(ac.chatTextOpacity, DEFAULT_CONFIG.chatTextOpacity),
+						trajectoryOpacity: clamp01(ac.trajectoryOpacity, DEFAULT_CONFIG.trajectoryOpacity),
+						panelOpacity: clamp01(ac.panelOpacity, DEFAULT_CONFIG.panelOpacity),
+						producedOpacity: clamp01(ac.producedOpacity, DEFAULT_CONFIG.producedOpacity),
+						headerOpacity: clamp01(ac.headerOpacity, DEFAULT_CONFIG.headerOpacity),
+						headerBarOpacity: clamp01(ac.headerBarOpacity, DEFAULT_CONFIG.headerBarOpacity)
+					}
+				});
+			}
+			return out;
+		}
+		function adoptRotation(raw) {
+			const r = raw ?? {};
+			const items = Array.isArray(r.items) ? r.items.filter((it) => {
+				const i = it ?? {};
+				return typeof i?.file === "string" && /^[\w-]+\.(jpg|jpeg|png|gif|webp)$/i.test(i.file);
+			}).slice(0, 30).map((it) => ({
+				file: it.file,
+				thumb: typeof it.thumb === "string" && it.thumb.startsWith("data:image/") && it.thumb.length <= 65536 ? it.thumb : ""
+			})) : [];
+			return {
+				enabled: r.enabled === true,
+				mode: r.mode === "order" ? "order" : "shuffle",
+				interval: r.interval === "reload" || r.interval === "hourly" || r.interval === "weekly" ? r.interval : "daily",
+				current: num(r.current, 0),
+				items,
+				lastRotate: typeof r.lastRotate === "string" ? r.lastRotate : null
+			};
+		}
+		function adoptSchedule(raw) {
+			const r = raw ?? {};
+			return {
+				enabled: r.enabled === true,
+				mode: r.mode === "system" ? "system" : "time",
+				dayProfile: typeof r.dayProfile === "string" ? r.dayProfile : null,
+				nightProfile: typeof r.nightProfile === "string" ? r.nightProfile : null,
+				dayStart: typeof r.dayStart === "string" && HHMM_RE.test(r.dayStart) ? r.dayStart : DEFAULT_CONFIG.schedule.dayStart,
+				nightStart: typeof r.nightStart === "string" && HHMM_RE.test(r.nightStart) ? r.nightStart : DEFAULT_CONFIG.schedule.nightStart
+			};
+		}
+		function adoptBgState(s) {
+			return {
+				zoom: num(s.zoom, 1),
+				x: num(s.x, 0),
+				y: num(s.y, 0),
+				iw: typeof s.iw === "number" && s.iw > 0 ? s.iw : 0,
+				ih: typeof s.ih === "number" && s.ih > 0 ? s.ih : 0
+			};
+		}
+		/** Move a possibly-absent partial config into the shape the UI reads. */
+		function adoptConfig(raw) {
+			const c = raw ?? {};
+			const color = Array.isArray(c.color) && c.color.length === 3 ? [
+				c.color[0],
+				c.color[1],
+				c.color[2]
+			] : null;
+			const legacy = typeof c.opacity === "number" ? c.opacity : null;
+			const ops = c.opacities ?? {};
+			const bl = c.blurs ?? {};
+			const blurs = {};
+			for (const k of [
+				"bg",
+				"sidebar",
+				"card",
+				"settings",
+				"chat",
+				"trajectory",
+				"input",
+				"panel",
+				"produced",
+				"header",
+				"headerBar"
+			]) blurs[k] = num(bl[k], DEFAULT_CONFIG.blurs[k]);
+			const bgType = [
+				"video",
+				"mesh",
+				"shader",
+				"pattern"
+			].includes(c.backgroundType) ? c.backgroundType : DEFAULT_CONFIG.backgroundType;
+			const bgMode = [
+				"fit",
+				"fill",
+				"stretch",
+				"tile",
+				"center"
+			].includes(c.bgMode) ? c.bgMode : DEFAULT_CONFIG.bgMode;
+			const gen = c.generatedBg && typeof c.generatedBg === "object" ? c.generatedBg : null;
+			const generatedBg = gen && gen.type === bgType ? c.generatedBg : null;
+			cfg = {
+				color,
+				opacities: {
+					bg: num(ops.bg, legacy ?? DEFAULT_CONFIG.opacities.bg),
+					sidebar: num(ops.sidebar, legacy !== null ? Math.min(1, legacy + .08) : DEFAULT_CONFIG.opacities.sidebar),
+					card: num(ops.card, DEFAULT_CONFIG.opacities.card),
+					input: num(ops.input, DEFAULT_CONFIG.opacities.input)
+				},
+				blurs,
+				strokes: strokesFrom(c.strokes),
+				settingsOpacity: num(c.settingsOpacity, DEFAULT_CONFIG.settingsOpacity),
+				wallpaperOpacity: num(c.wallpaperOpacity, DEFAULT_CONFIG.wallpaperOpacity),
+				blur: num(c.blur, DEFAULT_CONFIG.blur),
+				bgState: adoptBgState(c.bgState ?? {}),
+				videoBgState: adoptBgState(c.videoBgState ?? {}),
+				backgroundType: bgType,
+				bgMode,
+				videoMime: typeof c.videoMime === "string" ? c.videoMime : null,
+				fontMime: typeof c.fontMime === "string" ? c.fontMime : null,
+				fontEnabled: typeof c.fontEnabled === "boolean" ? c.fontEnabled : DEFAULT_CONFIG.fontEnabled,
+				generatedBg: generatedBg ? normalizeGeneratedBg(generatedBg) : null,
+				regenerateOnReload: typeof c.regenerateOnReload === "boolean" ? c.regenerateOnReload : DEFAULT_CONFIG.regenerateOnReload,
+				chatTextOpacity: clamp01(c.chatTextOpacity, DEFAULT_CONFIG.chatTextOpacity),
+				trajectoryOpacity: clamp01(c.trajectoryOpacity, DEFAULT_CONFIG.trajectoryOpacity),
+				panelOpacity: clamp01(c.panelOpacity, DEFAULT_CONFIG.panelOpacity),
+				producedOpacity: clamp01(c.producedOpacity, DEFAULT_CONFIG.producedOpacity),
+				headerOpacity: clamp01(c.headerOpacity, DEFAULT_CONFIG.headerOpacity),
+				headerBarOpacity: clamp01(c.headerBarOpacity, DEFAULT_CONFIG.headerBarOpacity),
+				captionInk: adoptCaptionInk(c.captionInk),
+				protectThirdParty: typeof c.protectThirdParty === "boolean" ? c.protectThirdParty : DEFAULT_CONFIG.protectThirdParty,
+				profiles: adoptProfiles(c.profiles),
+				rotation: adoptRotation(c.rotation),
+				schedule: adoptSchedule(c.schedule),
+				schemeOverride: c.schemeOverride === "light" || c.schemeOverride === "dark" ? c.schemeOverride : "auto",
+				activeProfile: typeof c.activeProfile === "string" ? c.activeProfile : null
+			};
+		}
+		function normalizeGeneratedBg(p) {
+			if (!p) return null;
+			if (p.type === "mesh") return {
+				type: "mesh",
+				seed: num(p.seed, 0),
+				scale: cl(p.scale, .3, 3, 1),
+				intensity: cl(p.intensity, 0, 1, .6)
+			};
+			if (p.type === "shader") return {
+				type: "shader",
+				preset: [
+					"aurora",
+					"nebula",
+					"noise",
+					"starfield"
+				].includes(p.preset) ? p.preset : "aurora",
+				speed: cl(p.speed, 0, 2, .3),
+				scale: cl(p.scale, .3, 3, 1),
+				seed: typeof p.seed === "number" ? Math.floor(p.seed) : 0
+			};
+			return {
+				type: "pattern",
+				preset: [
+					"dots",
+					"waves",
+					"poly",
+					"rain",
+					"contour",
+					"meta"
+				].includes(p.preset) ? p.preset : "dots",
+				density: cl(p.density, 0, 1, .5),
+				scale: cl(p.scale, .3, 3, 1),
+				seed: typeof p.seed === "number" ? Math.floor(p.seed) : 0
+			};
+		}
+		//#endregion
+		//#region src/host-compat/channel.ts
+		/** What this plugin supports, in upgrade order. One row = one build whose facts
+		*  were checked; several rows may share a `channel` when a newer build was
+		*  verified as needing no change to that folder's adapter (as `0.2.1-alpha.2` was) —
+		*  a row then reports `exact` instead of `line`, and no new folder appears.
+		*  Rows may ALSO share a patch line while carrying different channels, which is
+		*  how a line says "the facts changed halfway through it" (`0.2.0-rc.2` opens a
+		*  second answer on a line that had one — see the note on `HostChannel` for why
+		*  that row is keyed to the build).
+		*  Adding an ADAPTER means adding a channel plus a folder in
+		*  `client/host-compat/versions/`. */
+		const SUPPORTED_RELEASES = [
+			{
+				channel: "0.2.0-rc",
+				release: "0.2.0-rc.1"
+			},
+			{
+				channel: "0.2.0-rc.2",
+				release: "0.2.0-rc.2"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-alpha.1"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-alpha.2"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-alpha.3"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-alpha.4"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-alpha.5"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-rc.1"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-rc.2"
+			},
+			{
+				channel: "0.2.1",
+				release: "0.2.1-rc.3"
+			}
+		];
+		const UNKNOWN_HOST_INFO = {
+			version: null,
+			channel: "unknown"
+		};
+		/** True when a string looks like a release version. A bare `~/.dsh` directory
+		*  basename does not, which is why the disk probe sanity-checks before trusting
+		*  a path segment. */
+		const VERSION_RE = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
+		function looksLikeVersion(value) {
+			return VERSION_RE.test(value);
+		}
+		const PARSE_RE = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?$/;
+		function parse(version) {
+			const m = PARSE_RE.exec(version);
+			if (m === null) return null;
+			const parts = m[4] === void 0 ? [] : m[4].split(".");
+			const build = parts.length > 1 ? Number(parts[1]) : NaN;
+			return {
+				core: [
+					Number(m[1]),
+					Number(m[2]),
+					Number(m[3])
+				],
+				channel: parts.length > 0 ? parts[0] : null,
+				build: Number.isFinite(build) ? build : null
+			};
+		}
+		/** The table, parsed once: every row is a literal this file controls. */
+		const TABLE = SUPPORTED_RELEASES.map((row) => ({
+			...row,
+			parsed: parse(row.release)
+		}));
+		function cmpCore(a, b) {
+			for (let i = 0; i < 3; i++) if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1;
+			return 0;
+		}
+		/** Total order over releases, following the semver rule that a prerelease sorts
+		*  BELOW the release it precedes (`0.1.6-alpha.2 < 0.1.6`). */
+		function cmp(a, b) {
+			const core = cmpCore(a.core, b.core);
+			if (core !== 0) return core;
+			if (a.channel === null || b.channel === null) {
+				if (a.channel === b.channel) return 0;
+				return a.channel === null ? 1 : -1;
+			}
+			if (a.channel !== b.channel) return a.channel < b.channel ? -1 : 1;
+			const ab = a.build ?? 0;
+			const bb = b.build ?? 0;
+			return ab === bb ? 0 : ab < bb ? -1 : 1;
+		}
+		/** Pick the adapter for a release, clamping to the nearest verified line when the
+		*  release is outside everything this plugin has seen.
+		*
+		*  A release is matched by PATCH LINE before anything else: `0.2.1-alpha.3` and a
+		*  future `0.2.1` stable both belong to the line verified at `0.2.1-alpha.1…rc.2`, and
+		*  handing them that adapter beats giving up — the DOM probes only cover panel
+		*  mechanics, not the surface decisions the line is known for.
+		*
+		*  Outside every verified line the answer is a guess, so it is the closest one and
+		*  it says so (`nearest`): newer than the newest line → that newest adapter, older
+		*  than the oldest → the oldest, strictly between two → the LOWER one, because an
+		*  adapter may only claim what it was verified for. A release that will not parse
+		*  at all is `unknown`, and the DOM arbitrates there. */
+		function classifyRelease(version) {
+			const host = version === null ? null : parse(version);
+			if (host === null) return {
+				channel: "unknown",
+				match: "unresolved"
+			};
+			const sameLine = TABLE.filter((row) => cmpCore(row.parsed.core, host.core) === 0);
+			if (sameLine.length > 0) {
+				const exact = sameLine.find((row) => row.release === version);
+				if (exact !== void 0) return {
+					channel: exact.channel,
+					match: "exact"
+				};
+				const atOrBelow = sameLine.filter((row) => cmp(row.parsed, host) <= 0);
+				return {
+					channel: (atOrBelow.length > 0 ? atOrBelow[atOrBelow.length - 1] : sameLine[0]).channel,
+					match: "line"
+				};
+			}
+			const older = TABLE.filter((row) => cmp(row.parsed, host) < 0);
+			if (older.length === 0) return {
+				channel: TABLE[0].channel,
+				match: "nearest"
+			};
+			if (TABLE.filter((row) => cmp(row.parsed, host) > 0).length === 0) return {
+				channel: TABLE[TABLE.length - 1].channel,
+				match: "nearest"
+			};
+			return {
+				channel: older[older.length - 1].channel,
+				match: "nearest"
+			};
+		}
+		/** The channel a release maps onto — the verdict's answer without the confidence. */
+		function channelOf(version) {
+			return classifyRelease(version).channel;
+		}
+		//#endregion
+		//#region src/client/host-compat/versions/shared.ts
+		/** The host's own right Sidebar wrapper. */
+		const PANEL_WRAPPER = "[data-sidebar-right-panel]";
+		/** The same wrapper in its fullscreen state; the host raises its own z-index to 40. */
+		const PANEL_FULLSCREEN = "[data-sidebar-right-panel=\"fullscreen\"]";
+		/** The docked children a 0.1.7+ panel slides — the panel itself stays put. */
+		const DOCKKIT_SLIDERS = "[data-sidebar-right-panel] [data-dockkit-host=\"dock\"],[data-sidebar-right-panel] [data-dockkit-empty]";
+		/** The third-party workbench panel, one element on every release. Owned by the
+		*  PRODUCED slider (0.3.2): a conversation artifact that happens to open in a
+		*  panel, not a page column — so it fades and frosts with the produced surfaces. */
+		const BETTER_SIDEBAR_PANEL = "[data-dsh-bottom-panel]";
+		/** The cards that take the composer seat away from the input bar: approval
+		*  (`ui-approval`), plan review and the question composer (`ui-user-questions`).
+		*  They are siblings of `[data-composer-card]`, not its children — the seat
+		*  renders the elected takeover beside the fallback bar (verified per tag in
+		*  `ConversationContent.tsx` and both packages' `slots.inject('conversation.composer')`)
+		*  — and each paints the capsule's own `--dsw-specific-input-major`, from
+		*  `dsh-v0.1.5-rc.2` through `dsh-v0.2.1-alpha.2`.
+		*
+		*  The marker sits on the wrapper, the fill on its child card:
+		*  `[data-approval-key] > div`, `[data-plan-review-key] > section`,
+		*  `[data-question-key] > section`.
+		*
+		*  One more fact these three share, and it is the reason the input-frost
+		*  treatment for them lives in a runtime pass instead of a stylesheet rule:
+		*  NO release in range declares `position` on any of the three cards (checked
+		*  per tag — 0 hits for `position:` in `ApprovalPanel.module.css`,
+		*  `PlanReviewPanel.module.css` and `QuestionComposer.module.css`), so unlike
+		*  the fallback capsule — whose `.card` is `position:relative` on every tag —
+		*  the host does not hand the plugin a containing block to mount a
+		*  `z-index:-1` underlay on. Writing that `position` from the plugin's own
+		*  stylesheet turns the card's box into a cascade race with anything else that
+		*  positions it: a host build that caps the card with a percentage
+		*  `max-height` loses its absolute containing block the moment a plugin rule
+		*  wins that race, and the whole chain collapses — content outside the card,
+		*  buttons off the viewport (dsh-any-background issue #24). The consumer that
+		*  needs the containing block (`applyTakeoverFrost`) therefore probes each card
+		*  at runtime and only anchors a box whose computed position is `static`; see
+		*  `inputBlurRule`. */
+		const COMPOSER_TAKEOVER_CARD = "[data-approval-key]>div,[data-plan-review-key]>section,[data-question-key]>section";
+		/** The takeover cards' free-text answer field — only the question composer has
+		*  one (approval and plan review are button rows). Form controls do not inherit
+		*  text properties, so the stroke group needs the editor spelled out; appending
+		*  a suffix to `COMPOSER_TAKEOVER_CARD` would bind to its LAST arm only. */
+		const COMPOSER_TAKEOVER_EDITOR = "[data-question-key]>section textarea";
+		/** Every surface the panel opacity slider owns — the host's own right Sidebar.
+		*  Layout-neutral token re-scope. (The dsh-better-sidebar workbench used to be
+		*  listed here; it moved to the produced group, see `PRODUCED_RULE`.) */
+		const PANEL_SURFACES = PANEL_WRAPPER;
+		/** DOM-shape test for "this is NOT a 0.1.7-style frame". Used ONLY by the
+		*  unresolved adapter, where the DOM is the authority because the release is not. */
+		const WITHOUT_DOCKKIT_FRAME = ":not(:has([data-dockkit-host],[data-dockkit-empty]))";
+		/** The panel blur declaration pair. Both prefixes because Safari needs the
+		*  `-webkit-` one and the cascade must not let them disagree. */
+		function panelBlurRule(selectors) {
+			return `${selectors}{-webkit-backdrop-filter:var(--dsh-any-blur-panel,none);backdrop-filter:var(--dsh-any-blur-panel,none)}`;
+		}
+		/**
+		* The plugin-manager page's frosted card block, for the releases that ship it.
+		*
+		* `设置 → 插件` lists each group's plugins in a `ul` that has NO surface of its
+		* own — measured live on 0.1.7-alpha.1: a transparent flex column, 2px gaps, each
+		* `li` transparent with a 12px radius. With the settings surfaces faded, the whole
+		* table floats straight on the wallpaper. This frames each group's list the way the
+		* composer capsule is framed: a rounded block on an `::before` underlay.
+		*
+		* Which releases emit the page decides who gets this string — see `pluginPageRule`
+		* in each version folder.
+		*
+		* The card `ul` is matched through TWO scopes. `0.2.0-rc.1` added a first-read
+		* `ListSkeleton` that reuses `.cards` under `section[data-plugin-loading]`, so a
+		* rule keyed on `[data-plugin-scope]` alone would show the real list frosted and
+		* the loading list bare, then re-frost the block when the data lands. Hosts before
+		* that never emit the attribute, so the extra selector is inert rather than a
+		* version branch.
+		*
+		* BINDING, and why it is not just "put it in the dialog": the block paints from
+		* `--dsh-any-bg-settings-surface` and frosts from `--dsh-any-blur-settings`, i.e.
+		* the settings-opacity / settings-blur pair. On 0.1.7 the page is a child of
+		* `centerCol`, NOT of the settings dialog (and from `0.1.7-rc.2` the dialog is a
+		* `createPortal` beside `#root`, so it is further away still), therefore
+		* `SETTINGS_STYLE_RULE`'s token
+		* re-scope never reaches it and the list would otherwise follow the homepage card
+		* alpha; reading the plugin-owned variables off `:root` puts them under the slider
+		* that owns this page. The `var(--dsw-alias-bg-layer-2)` fallback covers the window
+		* before the first `applySettingsOverrides` write.
+		*
+		* The frost rides an underlay because backdrop-filter must never sit directly on a
+		* host part (containing block + backdrop root), and the `isolation` is what keeps
+		* the underlay's `z-index:-1` inside the block instead of escaping behind the frame.
+		* The `:has([role="dialog"])` valve matters here more than anywhere else: every row
+		* carries a `plugins.item` slot that third-party plugins fill with their own
+		* controls, so a dialog can legitimately open inside the list.
+		*/
+		const PLUGIN_PAGE_FROST_RULE = "[data-plugin-panel] [data-plugin-scope]>ul,[data-plugin-panel] [data-plugin-loading]>ul{position:relative;isolation:isolate;padding:8px;border-radius:14px}[data-plugin-panel] [data-plugin-scope]>ul:has([role=\"dialog\"]),[data-plugin-panel] [data-plugin-loading]>ul:has([role=\"dialog\"]){isolation:auto}[data-plugin-panel] [data-plugin-scope]>ul::before,[data-plugin-panel] [data-plugin-loading]>ul::before{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;background:var(--dsh-any-bg-settings-surface,var(--dsw-alias-bg-layer-2));-webkit-backdrop-filter:var(--dsh-any-blur-settings,none);backdrop-filter:var(--dsh-any-blur-settings,none)}";
+		/** The host's own `ui-theme` name for "dropdowns, popovers, suggestion lists", and
+		*  the token the plugin has always remapped onto the card slider. Whether it still
+		*  reaches a menu's paint is the question `MenuSurfaceFacts` below answers — from
+		*  `0.1.7-rc.2` the host aliases it AWAY from the menu layer, so declaring it alone
+		*  fades the non-`MenuSurface` overlays and nothing else. */
+		const MENU_FILL_TOKEN = "--dsw-specific-menu";
+		/** Frost by filtering the element itself — the only option where the element is the
+		*  thing that paints. Both prefixes because Safari needs the `-webkit-` one and the
+		*  cascade must not let them disagree. */
+		function elementFrostDecl(value) {
+			return `-webkit-backdrop-filter:${value};backdrop-filter:${value}`;
+		}
+		/**
+		* ── Where a menu's paint lives ────────────────────────────────────────────────
+		* Verified by reading the emitting source at each tag, not inferred from a changelog.
+		* The era this table now starts in (`0.2.0-rc.1`) already presents the shape below;
+		* the 0.1.5 / 0.1.6 / 0.1.7-alpha line, where the menu ELEMENT painted itself and the
+		* host frosted nothing at all before `0.1.7-alpha.1`, is recorded in
+		* `LAYERED_MENU_SURFACE`'s first bullet rather than in an adapter, because no adapter
+		* answers for it any more.
+		*
+		* `0.1.7-rc.2` and `dsh-v0.2.0-rc.1`: `TabMenu`, `MenuView`, `PopupSelectView`,
+		*   `ModelSelect` and `Menu` all render through the new
+		*   `ui-primitives/src/MenuSurface.tsx` (byte-identical between the two tags),
+		*   which leaves the element unpainted and draws on a `z-index:-1` child instead
+		*   (`MenuSurface.module.css` `.material`: `background:var(--dsw-menu-surface-fill)`
+		*   + `backdrop-filter:var(--dsw-menu-backdrop-filter)`). The four menu stylesheets
+		*   that used to paint the old token (Menu/MenuView/PopupSelectView/dockkit TabMenu)
+		*   drop it at rc.2, which is why the painter count goes 16 → 14.
+		*   Two consequences, both measured from those files:
+		*     · the host FLIPPED ITS ALIAS — `design-platform.css` now declares
+		*       `--dsw-specific-menu:var(--dsw-menu-surface-fill)` where every earlier
+		*       release declared the reverse. So a plugin that retints only the old token
+		*       writes a value nothing on a menu any longer reads, and the card / header
+		*       opacity sliders go inert on exactly the surfaces they were built for.
+		*     · that child layer exists on purpose: its comment says filtering only the
+		*       background "keeps nested menus and fixed overlays free of an ancestor
+		*       backdrop root", and the surface sets `isolation:isolate`. Filtering the
+		*       element anyway installs the backdrop root the layer was written to avoid.
+		*   The frost therefore rides `--dsw-menu-backdrop-filter`, whose consumer set is
+		*   the same 14 stylesheets at every tag in the table (stat dialog, queue dock,
+		*   context meter, todo panel, goal bar, job list, `HoverCard`, `PickerPopover`/
+		*   `TaskMenu`/`ScheduleCatalogAction`, the subagent lineage, `TeamAction`,
+		*   `CordisPanel`, `MenuSurface` itself) — re-declaring the token reaches the frost
+		*   whoever ends up applying it, and does not depend on any element being the
+		*   painting element. A 15th file names the same token without consuming it:
+		*   `ui-theme/src/styles/gradient-shadow-text.css` DECLARES it on `body` —
+		*   `blur(40px) saturate(150%)`, no media query — which is exactly why writing the
+		*   token on a menu with a `none` fallback deletes a frost the host always had.
+		*   That is now the intended reading of a 0 on the menu blur sliders — see the note
+		*   above `popoverBlurRule` in `wallpaper.ts`. `MenuSurface.tsx` / `.module.css` are
+		*   byte-identical from rc.2 through `0.2.1-alpha.2`, and the consumer set moved only
+		*   in line numbers (the same 15 files at every tag in the table, checked per tag).
+		*
+		* `dsh-v0.2.0-rc.2` … `dsh-v0.2.1-alpha.2`: the sticky GROUP HEADING inside those
+		*   menus changed owner. Through rc.1 the only grouped menu was `ModelSelect`, whose
+		*   own stylesheet painted that heading from the menu token
+		*   (`ModelSelect.module.css` `.groupTitle{position:sticky;
+		*   background:var(--dsw-specific-menu)}`), so the card slider drove it and a picked
+		*   wallpaper color tinted it. At rc.2 the rule is deleted and both grouped popups
+		*   (`ModelSelect`, `PopupSelectView`) render the new `ui-primitives/MenuGroup.tsx`,
+		*   whose heading stays transparent until `data-stuck` and then paints
+		*   `--dsw-alias-menu-group-header-fill` (light `rgba(248,249,250,.94)`, dark
+		*   `rgba(48,49,54,.94)`, declared in the `body` blocks of `design-platform.css`).
+		*   The surface did not go away — its token was RENAMED, and `ModelSelect.module.css`
+		*   is the one `--dsw-specific-menu` consumer that disappears at rc.2. Left alone, it
+		*   is the single menu element the fade no longer reaches: an untinted, near-opaque
+		*   band sitting on top of every row in the list the moment that list scrolls.
+		*/
+		/** The answer for `0.2.0-rc` and for `0.2.1-alpha`. The old token
+		*  stays in the list on purpose: 14 surfaces in the same claim set still paint their
+		*  fill from it — the lineage tree, `CordisPanel`, the stat dialog, `QueueDock`,
+		*  `TodoPanel`, `ContextMeter`, `GoalBar`, `JobListAction`, `HoverCard`, `TeamAction`,
+		*  `ModelSelect`'s own card and the schedule trio (`PickerPopover`, `TaskMenu`,
+		*  `ScheduleCatalogAction`) — while the shared menus moved to
+		*  `--dsw-menu-surface-fill`. Dropping either name fades one half of that set. */
+		const LAYERED_MENU_SURFACE = {
+			fillTokens: [MENU_FILL_TOKEN, "--dsw-menu-surface-fill"],
+			frostDecl: (value) => `--dsw-menu-backdrop-filter:${value}`
+		};
+		/** The fill the sticky group heading of a shared menu paints from — `MenuGroup`'s
+		*  own contribution to the menu's look, first emitted at `0.2.0-rc.2`. */
+		const MENU_GROUP_HEADER_FILL_TOKEN = "--dsw-alias-menu-group-header-fill";
+		/** The answer for `0.2.0-rc` from `0.2.0-rc.2` and for `0.2.1-alpha`: everything
+		*  `LAYERED_MENU_SURFACE` says, plus the heading `MenuGroup` renamed.
+		*
+		*  Riding `fillTokens` rather than being left out is a decision with evidence on
+		*  both sides, so state it: the host's README calls this token "independent of the
+		*  menu material" and gives it a 94% fill while the surface layer sits at 58%/45%.
+		*  That is a choice about an OPAQUE menu. This plugin's whole product is a menu the
+		*  wallpaper shows through, and one release earlier the very same heading read the
+		*  very same token as the card it sits on — so following it keeps rc.1's contract
+		*  ("the card slider owns every layer of a menu, in the picked color") instead of
+		*  leaving an untinted stock band inside a tinted, faded card.
+		*  Compositing is on its side too: the heading stacks on the surface layer it sticks
+		*  to, so a heading and a card at the same alpha still read as a band roughly
+		*  twice-as-dense as the card (1-(1-a)²) — occluding, at the slider's level, exactly
+		*  as it did when both came from one token. */
+		const LAYERED_MENU_SURFACE_WITH_GROUP_HEADER = {
+			fillTokens: [...LAYERED_MENU_SURFACE.fillTokens, MENU_GROUP_HEADER_FILL_TOKEN],
+			frostDecl: LAYERED_MENU_SURFACE.frostDecl
+		};
+		/** The answer when the release could not be resolved, and neither of the two
+		*  verified shapes can be asserted. Each half is chosen so that being on the
+		*  wrong line costs an inert declaration rather than a wrong pixel:
+		*    · BOTH fill tokens. A custom property nothing reads costs nothing, so this
+		*      half always lands: the fade reaches a self-painting menu through the old
+		*      token and a `MenuSurface` layer through the new one.
+		*    · the ELEMENT's frost, and not the host's blur token, because on `0.1.5` and
+		*      `0.1.6` `--dsw-menu-backdrop-filter` has no consumer at all (verified: zero
+		*      files before 0.1.7-alpha.1) — the token arm would leave those hosts with no
+		*      menu frost whatsoever, while filtering the element frosts every release.
+		*      On a `MenuSurface` host it does not stack: the surface root IS the element
+		*      that carries `role="menu"`, so our filter makes it a backdrop root, and the
+		*      `z-index:-1` layer inside it then has only the (unpainted) surface to sample
+		*      and its own default `blur(40px)` becomes inert. One frost — ours — plus a
+		*      `position:relative` element that hosts nested menus the way the layer was
+		*      written not to. Accepted for a bucket that by definition cannot know. */
+		const UNRESOLVED_MENU_SURFACE = {
+			fillTokens: LAYERED_MENU_SURFACE.fillTokens,
+			frostDecl: elementFrostDecl
+		};
+		/** Session-header slot anchors present on EVERY release in range. The slot
+		*  renderer stamps `data-slot="<key>"` unconditionally (`ui-renderer/scoped-slots.tsx`),
+		*  and all five keys are registered from 0.1.5-rc.2 through 0.2.1-alpha.1 —
+		*  verified per tag. Adapters append the keys their own release adds. */
+		const BASE_HEADER_SLOT_KEYS = [
+			"conversation.session.header",
+			"conversation.session.header.actions",
+			"conversation.session.header.utilities",
+			"conversation.session.header.corner",
+			"conversation.session.header.lineage"
+		];
+		//#endregion
+		//#region src/client/host-compat/versions/v0-2-0-rc-1/adapter.ts
+		/**
+		* Adapter for the DSH `0.2.0-rc` channel, verified at `0.2.0-rc.1`.
+		*
+		* A new MINOR line, and the panel is not what changed. Checked by reading the
+		* emitting source at the tag rather than a changelog:
+		*   · `ui-sidebar-right/src/client/shell/SidebarRight.module.css` is BYTE-IDENTICAL
+		*     to `0.1.7-rc.2`, and `ui-primitives/src/MenuSurface.tsx` is byte-identical
+		*     too. So the slide owner, the layer variable and where a menu gets its paint
+		*     all answer the same as the `0.1.7-rc` folder — nothing below re-derives them.
+		*   · the five `conversation.session.header*` slot keys are the same five;
+		*     `conversation.session.header.leading` is still deleted.
+		*   · `ui-settings-general/SettingsRoot.tsx` is byte-identical, so the settings
+		*     dialog is still a body-level `createPortal` and `SETTINGS_PANEL_SEL`'s
+		*     identity test still reaches it.
+		*   · the boot peer gate (`app-boot/src/plugin-compatibility.ts`,
+		*     `compatibility-preflight.ts`) is byte-identical, which is what makes the
+		*     manifest change below a HARD requirement rather than metadata: an unlisted
+		*     peer version disables the plugin at profile composition and its modules are
+		*     never imported.
+		*
+		* What did move, and reaches this plugin:
+		*
+		*  1. `ui-dockkit/components/TabLayout.tsx` clamps a FLOATING pane's `top` with
+		*     `max(var(--dsh-dockkit-float-top, 0px), Ypx)`. Only floats: the attributes
+		*     this plugin matches, `data-dockkit-host="dock"` and `data-dockkit-empty`,
+		*     are on unchanged lines (verified by grep at both tags), so the blur arm
+		*     stands as the rc.2 folder wrote it.
+		*
+		*  2. `ui-primitives/src/TextShimmer.tsx` is REWRITTEN. The old primitive set
+		*     `data-text-shimmer` and painted the element itself with a clipped gradient
+		*     (`background-clip:text` + `-webkit-text-fill-color:transparent`) sized by an
+		*     inline `--dsh-text-shimmer-spread`, which no longer exists anywhere in the
+		*     repo. The new one marks its root `data-shimmer` and moves the highlight onto
+		*     an absolutely-positioned overlay (`.decoration` / `.sweep` / `.highlight`)
+		*     tinted by `--dsw-alias-label-shimmer`, so the real glyphs keep their own
+		*     color. Consequence for the stroke sliders: the old failure mode — a stroke
+		*     repainting transparent-filled glyphs as one flat blob — is gone, but
+		*     `-webkit-text-stroke` is still inherited, so the chat stroke would now land
+		*     on BOTH the real text and the sweeping copy and double every glyph while it
+		*     animates. Progress chrome still is not conversation prose, so the exemption
+		*     stays and gains the new attribute (`STROKE_RULE`).
+		*     More rows use it now: `ReasoningRow` and `GenericCommandCard` join
+		*     `ChatGroupSeat` / `MessageItem` / `RunningStatus` / `DisclosureRow`.
+		*
+		*  3. `ui-plugin-manager` gains a first-read `ListSkeleton`. Its card `ul` carries
+		*     the same `.cards` class but sits under `section[data-plugin-loading]`
+		*     instead of `section[data-plugin-scope]`, so the shared frost rule had to
+		*     grow or the plugin page would show an unfrosted list for the length of the
+		*     first read and then re-frost it — see `PLUGIN_PAGE_FROST_RULE`.
+		*
+		* @module
+		*/
+		function panelFragments$3() {
+			return {
+				promotion: "",
+				blur: panelBlurRule(DOCKKIT_SLIDERS)
+			};
+		}
+		function createAdapter$3(host) {
+			return {
+				id: "0.2.0-rc.1",
+				channel: "0.2.0-rc",
+				host,
+				panelFragments: panelFragments$3,
+				pluginPageRule: PLUGIN_PAGE_FROST_RULE,
+				menus: LAYERED_MENU_SURFACE,
+				surface: {
+					ownsSidebarGuideSurface: true,
+					headerSlotKeys: BASE_HEADER_SLOT_KEYS
+				}
+			};
+		}
+		//#endregion
+		//#region src/client/host-compat/versions/v0-2-0-rc-2/adapter.ts
+		/**
+		* Adapter for the DSH `0.2.0-rc` line from `0.2.0-rc.2` on, verified at `0.2.0-rc.2`.
+		*
+		* The first case where one patch line AND one prerelease channel carry two
+		* answers, so this folder opens a second channel (see the note on `HostChannel`).
+		* What it took was one renamed token, and it is a menu token, which is the class of
+		* fact this table exists for:
+		*
+		*   · `ui-primitives/src/MenuGroup.tsx` + `.module.css` are NEW at rc.2 and the
+		*     headings of both grouped popups (`ModelSelect`, `PopupSelectView`) now come
+		*     from them. `ModelSelect.module.css` loses `.groupTitle{background:var(
+		*     --dsw-specific-menu)}` in the same breath — the sticky heading's paint moved
+		*     to `--dsw-alias-menu-group-header-fill`, a token that does not exist before
+		*     this tag (`git grep` at `0.1.7-rc.2` and `0.2.0-rc.1`: absent). Hence
+		*     `LAYERED_MENU_SURFACE_WITH_GROUP_HEADER` rather than the rc.1 constant: the
+		*     old claim set stayed true, it just stopped covering one element.
+		*   · the rest of the menu layer is the same code — `MenuSurface.tsx` and
+		*     `MenuSurface.module.css` are byte-identical to `0.2.0-rc.1`, and so is every
+		*     consumer of `--dsw-menu-backdrop-filter`.
+		*
+		* Also verified at this tag, and NOT a reason for a folder of its own:
+		*   · `SidebarRight.module.css` and `ui-dockkit/src/components/TabLayout.tsx` are
+		*     unchanged, so the panel is still a stationary frame whose dockkit children
+		*     slide (`panelBlurRule(DOCKKIT_SLIDERS)`, no promotion).
+		*   · the five `conversation.session.header*` slot keys, and still no `…leading`.
+		*   · `PluginManagerPage.tsx` still emits `section[data-plugin-panel]` with the card
+		*     `ul` under `[data-plugin-scope]` and `[data-plugin-loading]`.
+		*   · `TextShimmer` keeps the rc.1 shape (`data-shimmer`), so the stroke exemption
+		*     stands as written.
+		*
+		* What moved that reached this plugin WITHOUT a version branch, because the host
+		* wrote it as a chain with a fallback:
+		*   · `TurnTriggerNodeView.module.css` now fills from
+		*     `var(--dsw-alias-turn-trigger-bg, var(--dsw-alias-markdown-code-block))` and
+		*     hovers with `var(--dsw-alias-turn-trigger-bg-hover, var(--dsw-alias-interactive-bg-hover))`,
+		*     both aliases declared in `design-platform.css` at this tag. The produced
+		*     slider's arm reads the SAME chain (see `PRODUCED_RULE`), so older hosts take
+		*     the fallback and this one takes the new alias — without any release test. That
+		*     matters here rather than being pedantry: dark mode repoints the alias at
+		*     `--dsw-alias-interactive-bg-hover`, so an arm still mixing on the code-block
+		*     token would keep overriding the row with the OLD color and the row would stop
+		*     tracking its own hover.
+		*
+		* @module
+		*/
+		function panelFragments$2() {
+			return {
+				promotion: "",
+				blur: panelBlurRule(DOCKKIT_SLIDERS)
+			};
+		}
+		function createAdapter$2(host) {
+			return {
+				id: "0.2.0-rc.2",
+				channel: "0.2.0-rc.2",
+				host,
+				panelFragments: panelFragments$2,
+				pluginPageRule: PLUGIN_PAGE_FROST_RULE,
+				menus: LAYERED_MENU_SURFACE_WITH_GROUP_HEADER,
+				surface: {
+					ownsSidebarGuideSurface: true,
+					headerSlotKeys: BASE_HEADER_SLOT_KEYS
+				}
+			};
+		}
+		//#endregion
+		//#region src/client/host-compat/versions/v0-2-1/adapter.ts
+		/**
+		* Adapter for the DSH `0.2.1` patch line, verified at `0.2.1-alpha.1`,
+		* `alpha.2`, `alpha.3`, `alpha.4`, `alpha.5`, `rc.1`, `rc.2` and `rc.3`.
+		*
+		* A new MINOR line opened with a prerelease, and the answer is the `0.2.0-rc.2`
+		* folder's — which is a statement this file has to earn, because "same as the
+		* release before" is exactly the reasoning that went wrong when `0.1.7-rc.2` moved
+		* the menu paint. Read at the tag instead:
+		*   · `ui-theme/src/styles/design-platform.css` is BYTE-IDENTICAL to `0.2.0-rc.2`
+		*     (`git diff --numstat` empty), so every token this plugin writes — the menu
+		*     pair, the specific-menu alias, the turn-trigger chain — resolves to the same
+		*     values.
+		*   · `MenuGroup.tsx`, `MenuGroup.module.css`, `MenuSurface.tsx` and
+		*     `MenuSurface.module.css` are byte-identical too, and `MenuGroup` is still the
+		*     only consumer of `--dsw-alias-menu-group-header-fill`. That is why the menus
+		*     here answer with `LAYERED_MENU_SURFACE_WITH_GROUP_HEADER`, the same facts the
+		*     rc.2 folder checked, and not by re-typing them.
+		*   · `ui-sidebar-right/shell/SidebarRight.module.css` and
+		*     `ui-dockkit/src/components/TabLayout.tsx` unchanged (only `.tsx` service
+		*     wiring moved), so the panel stays a stationary frame with sliding dockkit
+		*     children and no promotion.
+		*   · the five `conversation.session.header*` slot keys, still no `…leading`.
+		*   · `PluginManagerPage.tsx` still emits the three anchors of the card list.
+		*   · `TextShimmer` still marks its root `data-shimmer`, so the stroke exemption
+		*     written for rc.1 stands.
+		*
+		* Re-checked at `0.2.1-rc.3` (`git diff rc.2 rc.3` on every file above), the
+		* facts hold untouched: `design-platform.css`, both menu stylesheets and
+		* `MenuGroup.tsx` byte-identical; `SidebarRight.module.css`, `TabLayout.tsx`,
+		* `base.css`, `gradient-shadow-text.css`, `AppFrame.*`, `InlineEditor.module.css`,
+		* `TextShimmer`, `JobListAction`, `TaskMenu`, `scoped-slots` and
+		* `PluginManagerPage.tsx` all unchanged, and the five header slot keys stand.
+		* What rc.3 did move, and why none of it needs a fact from this folder:
+		*   · `ui-primitives/Menu.tsx` is ADDITIVE — a `current` prop that renders
+		*     `aria-current="page"` and a `minWidthFromAnchor` switch that sets a
+		*     `min-width` style in portal mode. No stylesheet moved with it
+		*     (`MenuSurface.module.css` is byte-identical), so the menu paint and the
+		*     frost stay exactly where the facts say.
+		*   · the guide (`GuideBody.tsx`) and the sidebar panel list (`SidebarRoot.tsx`)
+		*     grow pin state and a More menu AROUND the existing registrations — guide
+		*     entries still arrive through `useGuideEntries`, panels through
+		*     `selectPanel`, and the new menus mount empty until something registers
+		*     into their `*.actions` slots, which this plugin does not. The tab
+		*     registry itself (`shell/`), which `native-tab.tsx` speaks to, is untouched.
+		*   · the session header's View tab row gained its own More menu
+		*     (`conversation.session.header.views.actions` slot). It mounts through
+		*     `<Menu … portal>` to `document.body`, so `header-tag.ts` already claims
+		*     it through the portaled arm — the trigger sits in the header and reports
+		*     `aria-expanded`, which is all that arm asks. The five in-place header
+		*     slot anchors are unchanged.
+		*   · `ConversationRoot.module.css` re-laid the View tab row (wrap, gaps, the
+		*     More launcher's classes). Layout inside the header, not a surface the
+		*     plugin styles by these class names.
+		*
+		* Re-checked again across the rest of the line (`alpha.3` … `rc.2`, `git diff
+		* <tag> rc.2` on every file above): the menu token contract, both menu stylesheets
+		* (`MenuSurface`, `MenuGroup`), `gradient-shadow-text.css` / `base.css`,
+		* `AppFrame.*`, `ConversationRoot`, `TaskMenu`, `preload-windows` and the five
+		* header slot keys are unchanged through `rc.2`. Two deltas, neither a fact here:
+		*   · `ui-sidebar-right/SidebarRight.module.css` gained `overflow:clip` on the
+		*     panel wrapper (hidden docked items no longer widen the frame's scrollable
+		*     overflow; fixed floating children still escape). The slide owner and the
+		*     element the frost rides are untouched, and the plugin never promotes the
+		*     wrapper on this line.
+		*   · `PluginManagerPage.tsx` was refactored and now emits `data-plugin-scope`
+		*     groups for `global`, `preset` and `more`. The anchors this plugin frames
+		*     (`[data-plugin-panel]`, `[data-plugin-scope] > ul`, `[data-plugin-loading] >
+		*     ul`) are still all there, and the rule is scope-value agnostic.
+		*
+		* Re-checked at `0.2.1-alpha.2`, same list: `design-platform.css` still byte-identical
+		* (`--dsw-menu-surface-fill` / `--dsw-specific-menu` / `--dsw-alias-menu-group-header-fill`
+		* on both scheme blocks); `MenuSurface.tsx`/`.module.css` byte-identical (blob hashes
+		* match); the `--dsw-specific-menu` and `--dsw-menu-backdrop-filter` file sets are the
+		* same 15 at both tags (the frost side being 14 consumers plus the `body` declaration
+		* in `gradient-shadow-text.css`);
+		* `[data-sidebar-right-panel]` and the dockkit slide unchanged; the five header slot
+		* keys unchanged; `AppFrame.tsx` / `AppFrame.module.css` untouched. The plugin-manager
+		* page gained a third `[data-plugin-scope]` group (`data-plugin-group="more"`) inside
+		* the same `[data-plugin-panel]`, which the existing rule already frames, so no new
+		* fact lands here.
+		*
+		* What did move, and why none of it needs a fact from this folder:
+		*
+		*  1. `ui-layout/AppFrame` gains a second grid row, `div.bottomRow[data-shell-bottom]`
+		*     holding the new `shell.bottom` slot, and it paints `--dsw-alias-bg-base` —
+		*     the main-background token, which `applyCustomTokensNow` already re-emits on
+		*     `body`, so the strip follows the main-bg slider with no new binding. The row
+		*     is `min-height:0` and empty unless a plugin fills the slot, so an untouched
+		*     install shows nothing. It also sits AFTER `RightbarColumn` in the frame's
+		*     children, which is the side `discoverParts()` does not count from: it anchors
+		*     on `data-rightbar-col` and reads `rightIdx-2` / `rightIdx-1`, so the sidebar
+		*     and center column are still the same two children.
+		*  2. `ui-primitives/InlineEditor.module.css` is the new home of the inline editor's
+		*     `.editor{background:var(--dsw-alias-bg-base)}`. Same token, so the same slider
+		*     reaches it wherever the component moved to.
+		*  3. `modules/system.ts` narrowed `claimStyles` to the tags a factory itself added
+		*     (see `ensureUiCss` for what that changed about our own sheet).
+		*  4. `@deepseek-ai/dsh-invariants` is DELETED at this tag — `git ls-tree` shows no
+		*     `packages/runtime-diagnostics/invariants`, and the boot/app plugin loader never
+		*     looked for a plugin's `invariant` export. This plugin's no-op companion was
+		*     therefore already dead weight here, and it goes rather than claiming a peer
+		*     version for a package the host no longer ships.
+		*  5. `ui-theme/src/styles/base.css` restructured the font tokens: the built-in stacks
+		*     moved to `--dsh-font-family-text-default` / `-code-default`, and the host now
+		*     composes the tokens itself on `body` —
+		*     `--dsw-font-family: var(--dsh-font-family-text, …), …` — fed by the per-role user
+		*     font lists `ThemePresenter` publishes (`--dsh-font-family-text` / `-code` /
+		*     `-terminal`, new at this tag). That is a NEW `body`-level declaration of the very
+		*     token this plugin's custom-font feature writes, at the same specificity as its
+		*     rule — so which one wins became a question of stylesheet order. `applyFontFace`
+		*     now asserts its `--dsw-font-family` with `!important`, the way the token sheet
+		*     already does, so a host re-injecting its base styles cannot quietly drop the
+		*     picked font. Code typography (`--ds-font-family-code`, plus the new
+		*     `--dsh-code-font-size` axis) stays untouched — this plugin never owned it.
+		*  6. AT `0.2.1-alpha.2`, `ui-jobs/JobListAction` moved its background-task list out of
+		*     the header row and into a `createPortal(…, document.body)` painted
+		*     `position:fixed; z-index:100` — and the list is a bare `<ul>` with NO `role`, so
+		*     `header-tag.ts`'s `[role="menu"|"tree"|"dialog"]` probe can never claim it and the
+		*     `ul[class*="_menu"]` class shape is the only thing that still styles it.
+		*     Through `0.2.1-alpha.1` the same list is IN-PLACE — `{open ? <ul className={css.menu}
+		*     style={{left: menuShift}}/> : null}` with `.menu{position:absolute; top:calc(100% +
+		*     5px); z-index:100}` under a `.root{position:relative}` — which is the exact DOM the
+		*     reported bug was captured from (`style="left: 0px;"`, no `top`, no role). The portal
+		*     is therefore what HID the bug on the newest tag, not what fixed it: an absolutely
+		*     positioned `z-index:100` child of the header row is only buried by the page once
+		*     something makes that row a stacking context, and the thing that did was this
+		*     plugin's own 「标题栏」 frost. Nothing here is a per-release fact to route on —
+		*     `0.2.1-alpha.2` merely swapped which header component gets caught by it, because
+		*     `ui-schedule/TaskMenu` (registered into `…header.utilities` on every release in
+		*     range) is `role="menu"` + `position:absolute; z-index:100` in place whenever the
+		*     Menu primitive is not in portal mode. The compensation lives with the injury: see
+		*     the `z-index` note on `HEADER_BAR_RULE` in `wallpaper.ts`. (Checked and rejected:
+		*     `ui-conversation/ContextMeter`'s `position:fixed` panel is NOT row chrome —
+		*     `InputBar.tsx` mounts it in the composer, so the row never re-anchored it.)
+		*
+		* @module
+		*/
+		function panelFragments$1() {
+			return {
+				promotion: "",
+				blur: panelBlurRule(DOCKKIT_SLIDERS)
+			};
+		}
+		function createAdapter$1(host) {
+			return {
+				id: "0.2.1-alpha.1…rc.3",
+				channel: "0.2.1",
+				host,
+				panelFragments: panelFragments$1,
+				pluginPageRule: PLUGIN_PAGE_FROST_RULE,
+				menus: LAYERED_MENU_SURFACE_WITH_GROUP_HEADER,
+				surface: {
+					ownsSidebarGuideSurface: true,
+					headerSlotKeys: BASE_HEADER_SLOT_KEYS
+				}
+			};
+		}
+		//#endregion
+		//#region src/client/host-compat/versions/unknown/adapter.ts
+		/**
+		* Stand-in for "we could not resolve the release".
+		*
+		* This is a REAL case, not a theoretical one: a plain `~/.dsh` install has no
+		* launcher layout, so the front-door probe finds neither a manifest nor a
+		* version-shaped directory name. It must not degrade into a guessed channel —
+		* a wrong guess silently restyles the window.
+		*
+		* Instead, the DOM arbitrates. Both panel arms ship, each gated on the shape that
+		* only one release family can present, which is exactly how this plugin behaved
+		* before release detection existed. It is why an unresolved host still gets a
+		* working panel blur.
+		*
+		* The one concession this costs: an engine without `:has()` cannot parse a gated
+		* selector and drops that block, so such a host loses the promotion. A resolved
+		* host does not have that problem — its arm is unconditional.
+		*
+		* @module
+		*/
+		function panelFragments() {
+			const wrapper = `${PANEL_WRAPPER}${WITHOUT_DOCKKIT_FRAME}`;
+			return {
+				promotion: `${wrapper}{position:fixed!important;z-index:26!important}${PANEL_FULLSCREEN}${WITHOUT_DOCKKIT_FRAME}{z-index:40!important}`,
+				blur: panelBlurRule(DOCKKIT_SLIDERS) + panelBlurRule(wrapper)
+			};
+		}
+		function createAdapter(host) {
+			return {
+				id: "unknown",
+				channel: "unknown",
+				host,
+				panelFragments,
+				pluginPageRule: PLUGIN_PAGE_FROST_RULE,
+				menus: UNRESOLVED_MENU_SURFACE,
+				surface: {
+					ownsSidebarGuideSurface: false,
+					headerSlotKeys: BASE_HEADER_SLOT_KEYS
+				}
+			};
+		}
+		//#endregion
+		//#region src/client/host-compat/versions/registry.ts
+		const ADAPTERS = {
+			"0.2.0-rc": createAdapter$3,
+			"0.2.0-rc.2": createAdapter$2,
+			"0.2.1": createAdapter$1,
+			unknown: createAdapter
+		};
+		/** Pick the adapter for a resolved host. `host.channel` is already narrowed to
+		*  the union by `adoptHostInfo`, so every channel here has a row by construction —
+		*  a new channel in `HostChannel` fails to compile until it is added. */
+		function buildAdapter(host) {
+			return ADAPTERS[host.channel](host);
+		}
+		//#endregion
+		//#region src/client/host-compat/release.ts
+		/**
+		* The client-side half of the front door: where the release verdict lands.
+		*
+		* The browser cannot detect the host release — the client context exposes no
+		* version field, and the app manifest that states it is only readable on the node
+		* half. So `src/host-compat/detect.ts` resolves it there and the verdict travels
+		* in the `read` RPC payload (see `client/rpc.ts`, which calls `adoptHostInfo`).
+		*
+		* This module only HOLDS the verdict and tells subscribers when it changes. It
+		* deliberately answers no feature questions — that is `capabilities.ts`, so the
+		* version → behaviour mapping stays in one place.
+		*
+		* @module
+		*/
+		let current = UNKNOWN_HOST_INFO;
+		/** False until the server verdict lands. Feature gates must not read "not asked
+		*  yet" as "an old host" — see `adapterResolved()`. */
+		let resolved = false;
+		const subs$2 = /* @__PURE__ */ new Set();
+		/** Cached adapter, keyed by the verdict it was built from. Held because React's
+		*  `useSyncExternalStore` requires a stable snapshot between notifications. */
+		let adapterCache = null;
+		/** Adopt the verdict delivered by the server's `read` payload.
+		*
+		*  The payload's `channel` is IGNORED and re-derived from `version` here: the
+		*  two halves are built together, so a disagreeing pair can only mean one of them
+		*  is stale, and re-deriving keeps `channelOf` the single definition of what a
+		*  channel means. */
+		function adoptHostInfo(raw) {
+			if (raw === null || typeof raw !== "object") return;
+			const h = raw;
+			const version = typeof h.version === "string" && looksLikeVersion(h.version.trim()) ? h.version.trim() : null;
+			const next = {
+				version,
+				channel: channelOf(version)
+			};
+			const changed = !resolved || current.version !== next.version || current.channel !== next.channel;
+			current = next;
+			resolved = true;
+			if (changed) {
+				adapterCache = null;
+				subs$2.forEach((cb) => cb());
+			}
+		}
+		/** Subscribe to the verdict landing (or changing). */
+		function subscribeHostInfo(cb) {
+			subs$2.add(cb);
+			return () => {
+				subs$2.delete(cb);
+			};
+		}
+		/** Whether the server verdict has landed at all. */
+		function adapterResolved() {
+			return resolved;
+		}
+		/** The adapter chosen for the current verdict — `unknown`'s stand-in until the
+		*  verdict lands, which is the safe answer: it asserts nothing and lets the DOM
+		*  arbitrate. */
+		function rHostAdapter() {
+			adapterCache ??= buildAdapter(current);
+			return adapterCache;
+		}
+		//#endregion
+		//#region src/client/rpc.ts
+		const RPC_CHANNEL = "/dsh-any-background";
+		/** Same-origin serve URL of the persisted video (enough for <video src>/fetch). */
+		const VIDEO_SERVE_URL = "/dsh-any-background/video";
+		/** Same-origin serve URL of the persisted wallpaper (native <img> loading). */
+		const WALLPAPER_SERVE_URL = "/dsh-any-background/wallpaper";
+		/** Raw-bytes upload endpoint for the wallpaper slot (no base64 inflation). */
+		const WALLPAPER_UPLOAD_URL = "/dsh-any-background/wallpaper/upload";
+		/** HTTP route new videos are POSTed to as raw bytes (see uploadVideo). */
+		const VIDEO_UPLOAD_URL = "/dsh-any-background/video/upload";
+		/** Same-origin serve URL of the persisted custom font (enough for @font-face). */
+		const FONT_SERVE_URL = "/dsh-any-background/font";
+		/** HTTP route custom fonts are POSTed to as raw bytes (see uploadFont). */
+		const FONT_UPLOAD_URL = "/dsh-any-background/font/upload";
+		const RPC_NS = "dshAnyBackground";
+		const rpcEndpoint = (method) => `${RPC_NS}/${method}`;
+		let rpcCallFn = null;
+		/** Serve URL of the persisted custom font, filled by loadPersisted. */
+		let fontServeUrl = null;
+		function initRpc(call) {
+			rpcCallFn = call;
+		}
+		async function rpcCall(method, payload) {
+			if (!rpcCallFn) return void 0;
+			try {
+				const res = await rpcCallFn(rpcEndpoint(method), payload);
+				if (res && res.ok === true) return res.value;
+				console.warn(`dsh-any-background: rpc "${method}" failed`, res?.error);
+				return;
+			} catch (e) {
+				console.warn(`dsh-any-background: rpc "${method}" threw`, e);
+				return;
+			}
+		}
+		const SAVE_DEBOUNCE_MS = 250;
+		let saveTimer;
+		/** Write the config and SURFACE a failed persist. The server answers
+		*  `ok:true` with `value:false` when the DISK write failed — the transport
+		*  succeeded, so `rpcCall` returns the boolean without a word and every caller
+		*  used to assume the save had landed. Retry once after a beat (the common
+		*  Windows cause is a transient EBUSY from an antivirus scan holding the
+		*  file), then say it in the log so a "settings reverted" report has a trail. */
+		let writeRetryQueued = false;
+		async function writeNow() {
+			if (await rpcCall("writeConfig", { config: cfg }) === true) {
+				writeRetryQueued = false;
+				return;
+			}
+			if (!writeRetryQueued) {
+				writeRetryQueued = true;
+				window.setTimeout(() => {
+					writeNow();
+				}, 1e3);
+				return;
+			}
+			writeRetryQueued = false;
+			console.warn("dsh-any-background: the host could not persist the config — recent settings may be lost on reload (see the host log for the write error)");
+		}
+		function saveConfig() {
+			if (saveTimer !== void 0) window.clearTimeout(saveTimer);
+			saveTimer = window.setTimeout(() => {
+				saveTimer = void 0;
+				writeNow();
+			}, SAVE_DEBOUNCE_MS);
+		}
+		function flushSave() {
+			if (saveTimer === void 0) return;
+			window.clearTimeout(saveTimer);
+			saveTimer = void 0;
+			writeNow();
+		}
+		/** Persist the current config immediately (import path — no debounce). */
+		function persistConfig() {
+			writeNow();
+		}
+		/** Load the persisted theme (config + wallpaper URL + video URL) from the node
+		*  half. Image and video both travel as serve URLs — never bytes — so this RPC
+		*  stays tiny. Resolves true when the server advanced a due wallpaper rotation
+		*  during the read — the restored wallpaper is then already the new pick.
+		*  `firstRun` means the server had no theme-config.json and just materialized
+		*  its defaults: the caller should persist the browser side's own defaults and
+		*  re-read once so every slider starts from a value that is really on disk. */
+		async function loadPersisted() {
+			const data = await rpcCall("read", {});
+			if (data && typeof data === "object") {
+				const d = data;
+				adoptHostInfo(d.host);
+				if (d.config) adoptConfig(d.config);
+				if (typeof d.wallpaperUrl === "string") setWpImageUrl(d.wallpaperUrl);
+				else if (d.wallpaperUrl === null) setWpImageUrl(null);
+				if (typeof d.videoUrl === "string") setWpVideoUrl(d.videoUrl, cfg.videoMime);
+				else if (d.videoUrl === null) setWpVideoUrl(null, null);
+				if (typeof d.fontUrl === "string") fontServeUrl = d.fontUrl;
+				else if (d.fontUrl === null) fontServeUrl = null;
+				if (cfg.backgroundType === "image") setWpUrl(rWpImage());
+				return {
+					rotated: d.rotated === true,
+					firstRun: d.firstRun === true
+				};
+			}
+			return {
+				rotated: false,
+				firstRun: false
+			};
+		}
+		/** Persist a wallpaper (null removes it); one-shot, no debounce. */
+		function persistWallpaper(dataUrl) {
+			rpcCall("setWallpaper", { dataUrl });
+		}
+		/** Persist a background video (null removes it); resolves true once on disk,
+		*  so callers only switch playback to the serve URL after acceptance. */
+		async function persistVideo(dataUrl) {
+			return await rpcCall("setVideo", { dataUrl }) === true;
+		}
+		/** Download a wallpaper from a network URL and persist it into the local slot
+		*  (the host replaces wallpaper.jpg). Returns the freshly stored serve URL on
+		*  success, or the host's failure message. */
+		async function setWallpaperFromUrl(url) {
+			if (!rpcCallFn) return {
+				ok: false,
+				error: "rpc not ready"
+			};
+			let res;
+			try {
+				res = await rpcCallFn(rpcEndpoint("setWallpaperUrl"), { url });
+			} catch (e) {
+				return {
+					ok: false,
+					error: e instanceof Error ? e.message : String(e)
+				};
+			}
+			if (!res) return {
+				ok: false,
+				error: "no response"
+			};
+			if (res.ok !== true) return {
+				ok: false,
+				error: res.error?.message ?? "request failed"
+			};
+			const v = res.value;
+			return v?.ok === true ? {
+				ok: true,
+				wallpaperUrl: v.wallpaperUrl ?? null
+			} : {
+				ok: false,
+				error: v?.error ?? "failed"
+			};
+		}
+		/** Download a background video from a network URL. The server streams it into
+		*  the video slot and returns the resolved MIME for playback via the serve URL. */
+		async function setVideoFromUrl(url) {
+			if (!rpcCallFn) return {
+				ok: false,
+				error: "rpc not ready"
+			};
+			let res;
+			try {
+				res = await rpcCallFn(rpcEndpoint("setVideoUrl"), { url });
+			} catch (e) {
+				return {
+					ok: false,
+					error: e instanceof Error ? e.message : String(e)
+				};
+			}
+			if (!res) return {
+				ok: false,
+				error: "no response"
+			};
+			if (res.ok !== true) return {
+				ok: false,
+				error: res.error?.message ?? "request failed"
+			};
+			const v = res.value;
+			return v?.ok === true ? {
+				ok: true,
+				mime: v.mime ?? "video/mp4"
+			} : {
+				ok: false,
+				error: v?.error ?? "failed"
+			};
+		}
+		/** Map a refused upload response onto an outcome. The body has to be read: the
+		*  node half names the reason there, and an oversized transfer answers
+		*  `413 { ok:false, error:'too large', limit:'100 MB' }`. Checking `res.ok`
+		*  alone threw that away, so an oversized upload surfaced as a bare failure —
+		*  or, on the wallpaper path, as nothing at all. */
+		async function refusedUpload(res) {
+			const body = await res.json().catch(() => null);
+			if (body?.error === "too large") return {
+				ok: false,
+				refusal: {
+					kind: "too-large",
+					status: res.status,
+					limit: typeof body.limit === "string" ? body.limit : void 0
+				}
+			};
+			return {
+				ok: false,
+				refusal: {
+					kind: "http",
+					status: res.status
+				}
+			};
+		}
+		/** Localized description of a refusal for the panel's toast. `fallbackKey` is
+		*  the caller's own "…upload failed" string, used for anything that is not a
+		*  size refusal. */
+		function uploadRefusalText(o, t, fallbackKey) {
+			if (o.refusal?.kind === "too-large") {
+				const limit = o.refusal.limit ?? "";
+				return t("uploadTooLarge").split("{limit}").join(limit);
+			}
+			if (o.refusal !== void 0) return `${t(fallbackKey)} (http ${o.refusal.status})`;
+			return t(fallbackKey);
+		}
+		/** Upload a video's raw bytes over HTTP (MIME in Content-Type, body untouched
+		*  — no base64 inflation that would blow the RPC body limit on large clips). */
+		async function uploadVideo(blob, mime) {
+			try {
+				const res = await fetch(VIDEO_UPLOAD_URL, {
+					method: "POST",
+					headers: { "Content-Type": mime || "application/octet-stream" },
+					body: blob
+				});
+				return res.ok ? { ok: true } : await refusedUpload(res);
+			} catch (e) {
+				console.warn("dsh-any-background: video upload failed", e);
+				return { ok: false };
+			}
+		}
+		/** Upload a wallpaper's raw bytes over HTTP — same streaming model as videos,
+		*  original pixels preserved, zero base64 round-trips. */
+		async function uploadWallpaper(blob) {
+			try {
+				const res = await fetch(WALLPAPER_UPLOAD_URL, {
+					method: "POST",
+					headers: { "Content-Type": blob.type || "image/jpeg" },
+					body: blob
+				});
+				return res.ok ? { ok: true } : await refusedUpload(res);
+			} catch (e) {
+				console.warn("dsh-any-background: wallpaper upload failed", e);
+				return { ok: false };
+			}
+		}
+		/** Upload a custom font's raw bytes over HTTP; resolves the sniffed MIME on
+		*  success, or a refusal the caller can report (an oversized font used to be
+		*  indistinguishable from a corrupt one). */
+		async function uploadFont(blob) {
+			try {
+				const res = await fetch(FONT_UPLOAD_URL, {
+					method: "POST",
+					headers: { "Content-Type": blob.type || "application/octet-stream" },
+					body: blob
+				});
+				if (!res.ok) return await refusedUpload(res);
+				const data = await res.json().catch(() => null);
+				return {
+					ok: true,
+					mime: typeof data?.mime === "string" ? data.mime : "font/ttf"
+				};
+			} catch (e) {
+				console.warn("dsh-any-background: font upload failed", e);
+				return { ok: false };
+			}
+		}
+		/** Remove the stored custom font (server deletes every variant + clears the
+		*  recorded MIME); resolves true once the slot is empty. */
+		async function removeFont() {
+			return await rpcCall("removeFont", {}) === true;
+		}
+		/** Serve URL of one rotation-pool image (the export path fetches its bytes). */
+		function rotationFileUrl(file) {
+			return `/dsh-any-background/rotation/file?f=${encodeURIComponent(file)}`;
+		}
+		/** Add an image (data URL + small thumbnail) to the server-side rotation pool. */
+		async function rotationAdd(dataUrl, thumb) {
+			if (!rpcCallFn) return {
+				ok: false,
+				error: "rpc not ready"
+			};
+			try {
+				const res = await rpcCallFn(rpcEndpoint("rotationAdd"), {
+					dataUrl,
+					thumb
+				});
+				if (res && res.ok === true) return res.value ?? {
+					ok: false,
+					error: "no value"
+				};
+				return {
+					ok: false,
+					error: res?.error?.message ?? "request failed"
+				};
+			} catch (e) {
+				return {
+					ok: false,
+					error: e instanceof Error ? e.message : String(e)
+				};
+			}
+		}
+		/** Remove a rotation item by index. Returns the updated items list. */
+		async function rotationRemove(index) {
+			if (!rpcCallFn) return {
+				ok: false,
+				error: "rpc not ready"
+			};
+			try {
+				const res = await rpcCallFn(rpcEndpoint("rotationRemove"), { index });
+				if (res && res.ok === true) return res.value ?? {
+					ok: false,
+					error: "no value"
+				};
+				return {
+					ok: false,
+					error: res?.error?.message ?? "request failed"
+				};
+			} catch (e) {
+				return {
+					ok: false,
+					error: e instanceof Error ? e.message : String(e)
+				};
+			}
+		}
+		/** Activate a rotation item: the server copies its bytes into the wallpaper
+		*  slot and returns the serve URL for immediate display. */
+		async function rotationActivate(index) {
+			if (!rpcCallFn) return {
+				ok: false,
+				error: "rpc not ready"
+			};
+			try {
+				const res = await rpcCallFn(rpcEndpoint("rotationSet"), { index });
+				if (res && res.ok === true) return res.value ?? {
+					ok: false,
+					error: "no value"
+				};
+				return {
+					ok: false,
+					error: res?.error?.message ?? "request failed"
+				};
+			} catch (e) {
+				return {
+					ok: false,
+					error: e instanceof Error ? e.message : String(e)
+				};
+			}
+		}
+		/** Replace the whole server-side rotation pool (theme-import path): the bytes
+		*  land under their exported file names, so the imported config's pool
+		*  metadata is live on this machine instead of pointing at files it does not
+		*  have. */
+		async function rotationRestore(items) {
+			if (!rpcCallFn) return {
+				ok: false,
+				error: "rpc not ready"
+			};
+			try {
+				const res = await rpcCallFn(rpcEndpoint("rotationRestore"), { items });
+				if (res && res.ok === true) return res.value ?? {
+					ok: false,
+					error: "no value"
+				};
+				return {
+					ok: false,
+					error: res?.error?.message ?? "request failed"
+				};
+			} catch (e) {
+				return {
+					ok: false,
+					error: e instanceof Error ? e.message : String(e)
+				};
+			}
+		}
+		//#endregion
+		//#region src/client/host-compat/capabilities.ts
+		/**
+		* The plugin's ONE vocabulary for host-dependent decisions.
+		*
+		* Everything downstream asks a QUESTION ("who owns the guide surface?", "which CSS
+		* arm applies?") and gets an answer from the current adapter. No consumer names a
+		* release. That is what keeps the per-version folders honest: when a newer line needs a
+		* new behaviour, a consumer changes by reading a new adapter field, not by growing
+		* another version comparison.
+		*
+		* @module
+		*/
+		function sidebarGuideOwner() {
+			if (!adapterResolved()) return "pending";
+			return rHostAdapter().surface.ownsSidebarGuideSurface ? "host" : "plugin";
+		}
+		/** The current adapter, for callers that need more than one field from it (and to
+		*  keep the snapshot identity stable across a single render pass). */
+		function hostAdapter() {
+			return rHostAdapter();
+		}
+		//#endregion
+		//#region src/client/dom-watch.ts
+		const listeners = {
+			body: /* @__PURE__ */ new Set(),
+			head: /* @__PURE__ */ new Set()
+		};
+		let observer = null;
+		/** Subscribe to mutations of one tree. Returns an unsubscribe. */
+		function watchDom(cb, target = "body") {
+			listeners[target].add(cb);
+			if (observer === null && typeof MutationObserver !== "undefined" && typeof document !== "undefined") {
+				observer = new MutationObserver((records) => {
+					for (const l of listeners.body) l(records);
+					if (listeners.head.size > 0) {
+						const head = records.filter((r) => r.target === document.head);
+						if (head.length > 0) for (const l of listeners.head) l(head);
+					}
+				});
+				observer.observe(document.body, {
+					childList: true,
+					subtree: true,
+					attributes: true,
+					attributeFilter: ["aria-expanded"]
+				});
+				observer.observe(document.head, { childList: true });
+			}
+			return () => {
+				listeners[target].delete(cb);
+				if (listeners.body.size + listeners.head.size === 0) {
+					observer?.disconnect();
+					observer = null;
+				}
+			};
+		}
+		//#endregion
+		//#region src/client/header-tag.ts
+		/**
+		* Header-surface tagging.
+		*
+		* WHY A RUNTIME TAG IS NEEDED
+		* The session-header dropdowns (open-in-app, session-log, Agent Team, the job
+		* list, the subagent lineage tree) render their popover through the Menu/tree
+		* primitives, which PORTAL the list to `document.body`. A portaled list is not a
+		* DOM descendant of the header — no ancestor selector can reach it — and the
+		* primitive emits no `id`/`aria-controls` back-link to its anchor either. Pure
+		* CSS class matching was the remaining option, but 0.1.7 broke the shapes this
+		* plugin relied on: open-in-app moved from in-place to `portal` (so the old
+		* `:not(_portal)` discriminator no longer selected it), and the session row menu
+		* became a dynamic `sidebar.workspaces.session.menu.item` slot whose rows are no
+		* longer guaranteed to include a destructive one.
+		*
+		* THE SIGNAL
+		* The slot renderer stamps every registered slot with `data-slot="<key>"`
+		* (ui-renderer `scoped-slots.tsx`). Those anchors live in the header subtree, so
+		* the plugin can detect when a header trigger is expanded — which keys identify
+		* the header is a per-release fact and comes from the host adapter, not from a
+		* hardcoded list here.
+		*
+		* WHY NOT GEOMETRY
+		* A tempting link is the inline position the primitive writes on a portaled list
+		* (`style="left: …; top: …"`). It was tried and REJECTED: an `align="end"` list
+		* is flush to the trigger's right edge while the trigger itself sits at the far
+		* right of the header, so the two boxes often do not overlap horizontally (in
+		* the reported DOM the list is at `left:1012` with the trigger near x=1400). Any
+		* purely geometric proximity test therefore misses real header menus.
+		*
+		* THE ACTUAL RULE (structural, no geometry, no timing)
+		* A header dropdown can only be open while its trigger reports
+		* `aria-expanded="true"`, and opening one is what mounts the popover. So a
+		* popover tag is maintained as: "there is at least one expanded header trigger,
+		* AND this popover is a header candidate" — see `isHeaderSurface` for the two
+		* shapes that qualify (portaled to `<body>`, or mounted inside one of the
+		* header's own slot anchors) and for what stays foreign. Popovers are only ever
+		* tagged/released on a change of that combined state, which makes the tag
+		* self-consistent and idempotent.
+		*
+		* The one hazard is a popover that is open for an unrelated reason (a composer
+		* menu, a hover card) *while* a header trigger stays expanded. Such a popover is
+		* not a candidate: it is neither portaled nor a descendant of a header anchor,
+		* and the composer's in-place lists keep belonging to the card group. In practice
+		* header dropdowns are transient (opening one closes the others), so this is a
+		* guard rather than the common path.
+		*
+		* THE SURFACE MARKER IS PART OF THE CANDIDATE SET (`0.2.1-alpha.3` and up).
+		* That release moved the background-job list onto the shared `MenuSurface`, whose
+		* root carries NO role — the `<ul>` inside it is now a paint-free `.menuBody`
+		* (`JobListAction.module.css` dropped its own `background`/`backdrop-filter`), and
+		* the fill plus the frost live on the surface's `.material` child. Keyed on roles
+		* alone the tagger went blind exactly when the paint moved one level up, and the
+		* job list kept the stock look. `data-menu-material` is the surface's own semantic
+		* marker (`MenuSurface.tsx`), so the tag rides it: the tokens land on the surface
+		* root, which is the nearest ancestor of `.material`, and inherit down into it.
+		* The pre-migration shape (a self-painting `<ul class*="_menu">`) stays matched by
+		* the header group's class-shape arm, so both eras are styled by one rule set.
+		*
+		* @module
+		*/
+		/** Marker attribute the stylesheet keys on. */
+		const HEADER_POPOVER_ATTR = "data-dsh-any-header-popover";
+		/** Portaled popovers a header trigger can own. */
+		const POPOVER_SELECTOR = "[role=\"menu\"], [role=\"tree\"], [role=\"dialog\"], [data-menu-material]";
+		/** Which session-header slot anchors to watch — supplied by the host adapter,
+		*  because the set is not the same on every release: 0.1.6-alpha.2 registers a
+		*  sixth (`.leading`) that neither the line before nor the line after has.
+		*  Memoised on the array identity, which the adapter keeps stable until the
+		*  release verdict lands. */
+		let slotAnchorCache = null;
+		function headerSlotAnchors() {
+			const keys = hostAdapter().surface.headerSlotKeys;
+			if (slotAnchorCache === null || slotAnchorCache.keys !== keys) slotAnchorCache = {
+				keys,
+				selector: keys.map((key) => `[data-slot="${key}"]`).join(",")
+			};
+			return slotAnchorCache.selector;
+		}
+		/** Whether any header slot anchor has an expanded trigger. */
+		function headerTriggerOpen() {
+			for (const anchor of document.querySelectorAll(headerSlotAnchors())) if (anchor.querySelector("[aria-expanded=\"true\"]") !== null) return true;
+			return false;
+		}
+		/** Whether this popover can belong to the header.
+		*
+		*  Two shapes, and the second one is the reason this is not just "portaled to body":
+		*  `session-log-export/HeaderAction.tsx` renders its `Menu` WITHOUT the `portal` prop,
+		*  so the card is mounted in place, inside `[data-slot="conversation.session.header
+		*  .utilities"]` — a DOM descendant of the row, exactly where a header trigger's own
+		*  popover belongs. Keyed on `parentElement === body` alone it was never claimable, and
+		*  the only thing that styled it at all was the header group's
+		*  `[role="menu"][class*="_denseList"]:not([class*="_portal"])` arm — which dies the
+		*  moment the host drops `dense` (or adds a header popover that is not a dense menu),
+		*  and leaves the surface following the card slider while it sits in the title row.
+		*
+		*  A popover that is neither portaled nor inside a header anchor stays foreign: that is
+		*  the composer's in-place lists (permission / command / model), which the card group
+		*  owns and this group must never reach. */
+		function isHeaderSurface(el) {
+			if (el.getAttribute("aria-modal") === "true") return false;
+			return el.parentElement === document.body || el.closest(headerSlotAnchors()) !== null;
+		}
+		let pending = null;
+		/** False once the effect is torn down, so a pass already queued on the microtask queue
+		*  cannot re-mark a popover after the teardown cleared it. */
+		let active = false;
+		/** Coalesce the observer's batches into ONE pass, but flush it on the microtask queue
+		*  rather than a animation frame.
+		*
+		*  The frame version was the bug, not the batching: `requestAnimationFrame` callbacks
+		*  do not run while a window is not rendering — a hidden tab, an occluded or minimized
+		*  desktop window, a background Electron surface — and a queued frame never fires, so
+		*  the tag never lands and the 「顶栏选项」 pair silently keeps whatever the card group
+		*  gave the panel. Observed live: with the page not painting, an open header menu stayed
+		*  `data-dsh-any-header-popover`-less indefinitely, and the same menu was tagged the
+		*  moment rAF was made to run. A `MutationObserver` callback is already delivered once
+		*  per batch at microtask time, so a microtask flush coalesces exactly as well and has no
+		*  dependency on the compositor at all — and it lands in the SAME frame the popover
+		*  mounts, which also removes the one-frame flash of card styling on open. */
+		function schedule() {
+			if (pending !== null || !active) return;
+			pending = Promise.resolve().then(() => {
+				pending = null;
+				if (active) refreshHeaderPopovers();
+			});
+		}
+		/** Recompute tags from the current open state. */
+		function refreshHeaderPopovers() {
+			const open = headerTriggerOpen();
+			const candidates = [...document.querySelectorAll(POPOVER_SELECTOR)].filter(isHeaderSurface);
+			if (!open) {
+				for (const el of document.querySelectorAll(`[${HEADER_POPOVER_ATTR}]`)) el.removeAttribute(HEADER_POPOVER_ATTR);
+				return;
+			}
+			for (const el of candidates) el.setAttribute(HEADER_POPOVER_ATTR, "");
+			for (const el of document.querySelectorAll(`[${HEADER_POPOVER_ATTR}]`)) if (!candidates.includes(el)) el.removeAttribute(HEADER_POPOVER_ATTR);
+		}
+		/** Start tagging. Returns a teardown that stops observing and clears markings. */
+		function startHeaderPopoverTagging() {
+			if (typeof MutationObserver === "undefined" || typeof document === "undefined") return () => {};
+			active = true;
+			refreshHeaderPopovers();
+			const dispose = watchDom(() => schedule());
+			return () => {
+				active = false;
+				dispose();
+				for (const el of document.querySelectorAll(`[${HEADER_POPOVER_ATTR}]`)) el.removeAttribute(HEADER_POPOVER_ATTR);
+			};
+		}
+		//#endregion
+		//#region src/client/utils/image.ts
+		/**
+		* Read a chosen image file as a data URL WITHOUT re-encoding: the original
+		* pixels are kept as-is (no canvas downscale / JPEG re-compression), so the
+		* wallpaper is stored and displayed at full fidelity. The tradeoff is a larger
+		* payload over the RPC channel and on disk for big images.
+		*/
+		function readImg(file, cb) {
+			const r = new FileReader();
+			r.onerror = () => cb(null);
+			r.onload = () => cb(r.result);
+			r.readAsDataURL(file);
+		}
+		/** Promised readImg variant for async flows. */
+		function readImgAsync(file) {
+			return new Promise((resolve) => readImg(file, resolve));
+		}
+		/** Blob → data URL (used when a local asset must be embedded, e.g. theme export). */
+		function blobToDataUrl(blob) {
+			return new Promise((resolve, reject) => {
+				const fr = new FileReader();
+				fr.onload = () => resolve(fr.result);
+				fr.onerror = () => reject(fr.error);
+				fr.readAsDataURL(blob);
+			});
+		}
+		const IMG_CACHE_MAX = 6;
+		const imgCache = /* @__PURE__ */ new Map();
+		/** Decode an image URL once and share the element across callers (LRU-capped). */
+		function loadImage(url) {
+			const hit = imgCache.get(url);
+			if (hit) {
+				imgCache.delete(url);
+				imgCache.set(url, hit);
+				return hit;
+			}
+			const p = new Promise((resolve) => {
+				const img = new Image();
+				img.onerror = () => resolve(null);
+				img.onload = () => resolve(img);
+				img.src = url;
+			});
+			imgCache.set(url, p);
+			while (imgCache.size > IMG_CACHE_MAX) {
+				const oldest = imgCache.keys().next().value;
+				if (oldest !== void 0) imgCache.delete(oldest);
+			}
+			return p;
+		}
+		/** Build a small JPEG thumbnail (rotation-pool picker preview). Resolves null
+		*  when the image cannot be decoded. */
+		function makeThumb(dataUrl, maxSide = 96) {
+			return new Promise((resolve) => {
+				const img = new Image();
+				img.onerror = () => resolve(null);
+				img.onload = () => {
+					try {
+						const iw = img.naturalWidth || img.width;
+						const ih = img.naturalHeight || img.height;
+						if (iw <= 0 || ih <= 0) {
+							resolve(null);
+							return;
+						}
+						const k = Math.min(1, maxSide / Math.max(iw, ih));
+						const c = document.createElement("canvas");
+						c.width = Math.max(1, Math.round(iw * k));
+						c.height = Math.max(1, Math.round(ih * k));
+						const g = c.getContext("2d");
+						if (!g) {
+							resolve(null);
+							return;
+						}
+						g.drawImage(img, 0, 0, c.width, c.height);
+						resolve(c.toDataURL("image/jpeg", .72));
+					} catch {
+						resolve(null);
+					}
+				};
+				img.src = dataUrl;
+			});
+		}
+		//#endregion
+		//#region src/client/utils/color.ts
+		function hsvToHsl(h, s, v) {
+			const l = v * (1 - s / 2);
+			return [
+				h,
+				l === 0 || l === 1 ? 0 : (v - l) / Math.min(l, 1 - l),
+				l
+			];
+		}
+		function hslToHsv(h, s, l) {
+			const v = l + s * Math.min(l, 1 - l);
+			return [
+				h,
+				v === 0 ? 0 : 2 * (1 - l / v),
+				v
+			];
+		}
+		/** Format an RGB triple as a lowercase hex string. Channels are rounded: some
+		*  callers feed float channels and a fractional byte would produce invalid
+		*  hex. */
+		function rgbToHex(rgb) {
+			return "#" + rgb.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("");
+		}
+		let tokensCacheKey = "";
+		let tokensCache = null;
+		/**
+		* Memoized token generation: the same (hue, sat, lit, scheme) input always
+		* yields the same token set, and applyWp / applyCustomTokens /
+		* applySettingsOverrides call this repeatedly (slider drags, viewport
+		* re-applies), so cache the last result and skip the 30+ hsl() string builds
+		* when nothing changed. The optional scheme forces the palette direction
+		* (light/dark) independently of the color's own lightness.
+		*/
+		function genTokens(hue, sat, lit, scheme) {
+			const key = `${hue}|${sat}|${lit}|${scheme ?? "auto"}`;
+			if (tokensCacheKey === key && tokensCache) return tokensCache;
+			tokensCacheKey = key;
+			tokensCache = buildTokens(hue, sat, lit, scheme);
+			return tokensCache;
+		}
+		function buildTokens(hue, sat, lit, scheme) {
+			const dark = scheme !== void 0 ? scheme === "dark" : lit < .55;
+			if (scheme !== void 0 && lit < .55 !== dark) lit = dark ? Math.min(.44, Math.max(.14, 1 - lit)) : Math.max(.6, Math.min(.88, 1 - lit));
+			const h = (d) => ((hue + d) % 360 + 360) % 360;
+			const s = (d) => Math.max(0, Math.min(1, sat + d));
+			const l = (d) => Math.max(0, Math.min(1, lit + d));
+			const hsl = (hh, ss, ll) => `hsl(${Math.round(hh)},${Math.round(ss * 100)}%,${Math.round(ll * 100)}%)`;
+			const rgba = (hh, ss, ll, a) => `hsla(${Math.round(hh)},${Math.round(ss * 100)}%,${Math.round(ll * 100)}%,${a})`;
+			if (dark) return {
+				colorScheme: "dark",
+				tokens: {
+					"--dsw-alias-bg-base": hsl(h(0), s(0), l(-.04)),
+					"--dsw-alias-bg-layer-1": hsl(h(0), s(0), l(.02)),
+					"--dsw-alias-bg-layer-2": hsl(h(0), s(0), l(.07)),
+					"--dsw-alias-bg-layer-3": hsl(h(0), s(-.05), l(.12)),
+					"--dsw-alias-bg-overlay": hsl(h(0), s(-.05), l(.12)),
+					"--dsw-alias-bg-module-platform": hsl(h(0), s(0), l(.05)),
+					"--dsw-alias-bg-multi-select": hsl(h(0), s(0), l(.1)),
+					"--dsw-alias-bg-skeleton": "rgba(255,255,255,0.08)",
+					"--dsw-alias-border-l1": rgba(h(0), s(-.1), l(.18), .12),
+					"--dsw-alias-border-l2": rgba(h(0), s(-.1), l(.22), .22),
+					"--dsw-alias-border-l3": "rgba(255,255,255,0.16)",
+					"--dsw-alias-border-l4": "rgba(255,255,255,0.2)",
+					"--dsw-alias-border-inverted": "rgba(255,255,255,0.06)",
+					"--dsw-alias-label-primary": hsl(0, 0, 1),
+					"--dsw-alias-label-secondary": "rgba(255,255,255,0.85)",
+					"--dsw-alias-label-tertiary": "rgba(255,255,255,0.7)",
+					"--dsw-alias-label-caption": "rgba(255,255,255,0.5)",
+					"--dsw-alias-label-dimmed": "rgba(255,255,255,0.35)",
+					"--dsw-alias-label-quaternary": "rgba(255,255,255,0.25)",
+					"--dsw-alias-label-primary-dimmed": "rgba(255,255,255,0.92)",
+					"--dsw-alias-label-primary-foreground": hsl(0, 0, 1),
+					"--dsw-alias-label-primary-inverted": hsl(h(0), s(.08), Math.min(l(.06), .16)),
+					"--dsw-alias-label-primary-bluish": hsl(0, 0, 1),
+					"--dsw-alias-brand-primary": hsl(h(0), s(.1), Math.max(l(.2), .5)),
+					"--dsw-alias-brand-text": l(.2) > .6 ? "#000" : "#fff",
+					"--dsw-alias-button-primary-fill": hsl(h(0), s(.1), Math.max(l(.2), .5)),
+					"--dsw-alias-button-primary-hover": hsl(h(0), s(.1), Math.max(l(.28), .58)),
+					"--dsw-alias-button-primary-dimmed": hsl(h(0), s(0), l(.07)),
+					"--dsw-alias-button-elevated-fill": hsl(h(0), s(0), l(.04)),
+					"--dsw-alias-button-floating-fill": hsl(h(0), s(0), l(.02)),
+					"--dsw-alias-button-floating-hover": hsl(h(0), s(0), l(.1)),
+					"--dsw-alias-button-tool-bar-fill": "rgba(255,255,255,0.08)",
+					"--dsw-alias-button-tool-bar-hover": "rgba(255,255,255,0.12)",
+					"--dsw-alias-button-ghost-active-fill": hsl(h(0), s(0), l(.06)),
+					"--dsw-alias-button-ghost-active-border": "rgba(255,255,255,0.16)",
+					"--dsw-alias-button-ghost-active-hover": hsl(h(0), s(0), l(.09)),
+					"--dsw-alias-button-info-fill": "#679efe",
+					"--dsw-alias-button-info-hover": "#4176e6",
+					"--dsw-alias-button-contrast-fill": hsl(0, 0, 1),
+					"--dsw-alias-interactive-bg-hover": rgba(h(0), s(0), Math.max(l(.15), .4), .12),
+					"--dsw-alias-interactive-bg-hover-solid": rgba(h(0), s(0), Math.max(l(.15), .4), .16),
+					"--dsw-alias-interactive-bg-hover-accent": "rgba(255,255,255,0.24)",
+					"--dsw-alias-interactive-bg-hover-danger": "rgba(242,90,90,0.15)",
+					"--dsw-alias-interactive-bg-active": rgba(h(0), s(0), Math.max(l(.15), .4), .2),
+					"--dsw-alias-markdown-code-block": hsl(h(0), s(0), l(-.06)),
+					"--dsw-alias-markdown-code-block-banner": hsl(h(0), s(0), l(-.02)),
+					"--dsw-alias-markdown-inline-code": hsl(h(0), s(0), l(.04)),
+					"--dsw-alias-markdown-placeholder": hsl(h(0), s(0), l(-.02)),
+					"--dsw-alias-markdown-tag": hsl(h(0), s(0), l(.05)),
+					"--dsw-alias-markdown-citation": hsl(h(0), s(0), l(.06)),
+					"--dsw-alias-markdown-code-segment-selected": hsl(h(0), s(0), l(.05)),
+					"--dsw-alias-markdown-code-segment-unselected": hsl(h(0), s(0), l(-.05)),
+					"--dsw-alias-state-error-primary": "#ff5c72",
+					"--dsw-alias-state-error-secondary": "#ff8aa0",
+					"--dsw-alias-state-success-primary": "#3ddc84",
+					"--dsw-alias-state-success-secondary": "#69eea4",
+					"--dsw-alias-state-success-tertiary": "#233c2c",
+					"--dsw-alias-state-warn-primary": "#ffb347",
+					"--dsw-alias-state-warn-secondary": "#ffc980",
+					"--dsw-alias-state-warn-tertiary": "#27241f",
+					"--dsw-alias-state-warn-label": "#dd8629",
+					"--dsw-alias-state-business-primary": "#679efe",
+					"--dsw-alias-state-business-tertiary": "#34415b",
+					"--dsw-specific-sidebar-fill": hsl(h(0), s(0), l(-.06)),
+					"--dsw-specific-sidebar-nav-item-active": hsl(h(0), s(0), l(.04)),
+					"--dsw-specific-sidebar-nav-item-hover": hsl(h(0), s(0), l(0)),
+					"--dsw-specific-input-major": hsl(h(0), s(0), l(.02)),
+					"--dsw-specific-menu": hsl(h(0), s(0), l(.08)),
+					"--dsw-specific-bubble": hsl(h(0), s(0), l(.03)),
+					"--dsw-specific-bubble-highlight": hsl(h(0), s(0), l(.08)),
+					"--dsw-specific-selector": hsl(h(0), s(0), l(.05)),
+					"--dsw-specific-login-input": hsl(h(0), s(0), l(.03)),
+					"--dsw-specific-tip": hsl(h(0), s(0), l(.05)),
+					"--dsw-alias-toast-bg": hsl(h(0), s(0), l(.08)),
+					"--dsw-alias-tooltip-bg": hsl(h(0), s(0), l(.08)),
+					"--dsw-alias-scrollbar-bg-l1": hsl(h(0), s(-.05), l(.12)),
+					"--dsw-alias-scrollbar-bg-l2": hsl(h(0), s(-.05), l(.16)),
+					"--dsw-alias-scrollbar-hover-l1": hsl(h(0), s(-.05), l(.22)),
+					"--dsw-alias-scrollbar-hover-l2": hsl(h(0), s(-.05), l(.22))
+				}
+			};
+			return {
+				colorScheme: "light",
+				tokens: {
+					"--dsw-alias-bg-base": hsl(h(0), s(-.08), l(.03)),
+					"--dsw-alias-bg-layer-1": hsl(h(0), s(-.12), l(.07)),
+					"--dsw-alias-bg-layer-2": hsl(h(0), s(-.1), l(-.03)),
+					"--dsw-alias-bg-layer-3": hsl(h(0), s(-.08), l(-.09)),
+					"--dsw-alias-bg-overlay": hsl(h(0), s(-.12), l(.08)),
+					"--dsw-alias-border-l1": rgba(h(0), s(-.15), l(-.35), .18),
+					"--dsw-alias-border-l2": rgba(h(0), s(-.15), l(-.35), .3),
+					"--dsw-alias-label-primary": hsl(0, 0, 0),
+					"--dsw-alias-label-secondary": "rgba(0,0,0,0.85)",
+					"--dsw-alias-label-tertiary": "rgba(0,0,0,0.7)",
+					"--dsw-alias-label-caption": "rgba(0,0,0,0.5)",
+					"--dsw-alias-label-dimmed": "rgba(0,0,0,0.35)",
+					"--dsw-alias-label-quaternary": "rgba(0,0,0,0.25)",
+					"--dsw-alias-brand-primary": hsl(h(0), s(.05), Math.min(l(-.18), .45)),
+					"--dsw-alias-brand-text": "#fff",
+					"--dsw-alias-button-primary-hover": hsl(h(0), s(.05), Math.min(l(-.12), .5)),
+					"--dsw-alias-button-primary-dimmed": hsl(h(0), s(-.1), l(-.03)),
+					"--dsw-alias-button-elevated-fill": hsl(h(0), s(-.1), l(.1)),
+					"--dsw-alias-button-floating-hover": hsl(h(0), s(-.1), l(.16)),
+					"--dsw-alias-interactive-bg-hover": rgba(h(0), s(0), l(-.3), .08),
+					"--dsw-alias-interactive-bg-active": rgba(h(0), s(0), l(-.3), .14),
+					"--dsw-alias-markdown-code-block": hsl(h(0), s(-.1), l(-.03)),
+					"--dsw-alias-markdown-inline-code": hsl(h(0), s(-.08), l(.04)),
+					"--dsw-specific-sidebar-fill": hsl(h(0), s(-.1), l(-.03)),
+					"--dsw-specific-sidebar-nav-item-active": hsl(h(0), s(-.08), l(.05)),
+					"--dsw-specific-sidebar-nav-item-hover": hsl(h(0), s(-.12), l(0)),
+					"--dsw-specific-input-major": hsl(h(0), s(-.12), l(.1)),
+					"--dsw-specific-menu": hsl(h(0), s(-.12), l(.15)),
+					"--dsw-alias-scrollbar-bg-l1": hsl(h(0), s(-.1), l(-.08)),
+					"--dsw-alias-scrollbar-bg-l2": hsl(h(0), s(-.08), l(-.12)),
+					"--dsw-alias-scrollbar-hover-l1": hsl(h(0), s(-.08), l(-.16)),
+					"--dsw-alias-scrollbar-hover-l2": hsl(h(0), s(-.08), l(-.16))
+				}
+			};
+		}
+		function toRgba(c, a) {
+			const hx = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(c.trim());
+			if (hx) {
+				let d = hx[1];
+				if (d.length === 3) d = d.split("").map((x) => x + x).join("");
+				const n = parseInt(d, 16);
+				return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`;
+			}
+			const rgb = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)$/i.exec(c.trim());
+			if (rgb) return `rgba(${rgb[1]},${rgb[2]},${rgb[3]},${a})`;
+			const hsl = /^hsla?\(\s*([\d.]+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%/i.exec(c.trim());
+			if (hsl) return `hsla(${hsl[1]},${hsl[2]}%,${hsl[3]}%,${a})`;
+			return c.trim();
+		}
+		function rgbToHsl(r, g, b) {
+			const rn = r / 255, gn = g / 255, bn = b / 255;
+			const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+			const l = (max + min) / 2;
+			if (max === min) return [
+				0,
+				0,
+				l
+			];
+			const d = max - min;
+			const s = l > .5 ? d / (2 - max - min) : d / (max + min);
+			let h;
+			if (max === rn) h = (gn - bn) / d % 6;
+			else if (max === gn) h = (bn - rn) / d + 2;
+			else h = (rn - gn) / d + 4;
+			h *= 60;
+			if (h < 0) h += 360;
+			return [
+				h,
+				s,
+				l
+			];
+		}
+		const EXTRACT_SIDE = 64;
+		function bucketsToHsl(b) {
+			return rgbToHsl(b.r / b.count, b.g / b.count, b.b / b.count);
+		}
+		function extractWallpaperPalette(dataUrl, bgState) {
+			return loadImage(dataUrl).then((img) => {
+				if (!img) return null;
+				try {
+					const iw = img.naturalWidth || img.width;
+					const ih = img.naturalHeight || img.height;
+					const bg = bgState;
+					let sx = 0, sy = 0, sw = iw, sh = ih;
+					if (bg.iw === iw && bg.ih === ih && bg.iw > 0) {
+						const fit = Math.min(window.innerWidth / iw, window.innerHeight / ih);
+						const w = iw * fit * bg.zoom;
+						const h = ih * fit * bg.zoom;
+						const px = bg.x * window.innerWidth - w / 2;
+						const py = bg.y * window.innerHeight - h / 2;
+						sx = Math.max(0, -px);
+						sy = Math.max(0, -py);
+						sw = Math.min(iw - sx, window.innerWidth - px - sx);
+						sh = Math.min(ih - sy, window.innerHeight - py - sy);
+						if (sw <= 0 || sh <= 0) {
+							sx = 0;
+							sy = 0;
+							sw = iw;
+							sh = ih;
+						}
+					}
+					const c = document.createElement("canvas");
+					c.width = EXTRACT_SIDE;
+					c.height = EXTRACT_SIDE;
+					const g = c.getContext("2d", { willReadFrequently: true });
+					g.drawImage(img, sx, sy, sw, sh, 0, 0, EXTRACT_SIDE, EXTRACT_SIDE);
+					const px = g.getImageData(0, 0, EXTRACT_SIDE, EXTRACT_SIDE).data;
+					const counts = /* @__PURE__ */ new Uint32Array(4096);
+					const sums = /* @__PURE__ */ new Float64Array(12288);
+					let totalLum = 0;
+					let sampled = 0;
+					for (let i = 0; i < px.length; i += 4) {
+						const r = px[i], gg = px[i + 1], b = px[i + 2];
+						const max = Math.max(r, gg, b), min = Math.min(r, gg, b);
+						const v = max / 255;
+						const s = max === 0 ? 0 : (max - min) / max;
+						totalLum += (.2126 * r + .7152 * gg + .0722 * b) / 255;
+						sampled++;
+						if (s < .08 || v < .12 || v > .97) continue;
+						const key = r >> 4 << 8 | gg >> 4 << 4 | b >> 4;
+						counts[key]++;
+						sums[key * 3] += r;
+						sums[key * 3 + 1] += gg;
+						sums[key * 3 + 2] += b;
+					}
+					const buckets = [];
+					for (let k = 0; k < 4096; k++) {
+						if (counts[k] === 0) continue;
+						buckets.push({
+							count: counts[k],
+							r: sums[k * 3],
+							g: sums[k * 3 + 1],
+							b: sums[k * 3 + 2],
+							s: (Math.max(sums[k * 3], sums[k * 3 + 1], sums[k * 3 + 2]) - Math.min(sums[k * 3], sums[k * 3 + 1], sums[k * 3 + 2])) / Math.max(sums[k * 3], sums[k * 3 + 1], sums[k * 3 + 2]) || 0
+						});
+					}
+					if (buckets.length === 0) return null;
+					buckets.sort((a, b) => b.count * (.5 + b.s) - a.count * (.5 + a.s));
+					const primary = bucketsToHsl(buckets[0]);
+					const primaryHue = primary[0];
+					let secondary = primary;
+					for (const b of buckets.slice(1)) {
+						const [h] = bucketsToHsl(b);
+						if (Math.abs((h - primaryHue + 540) % 360 - 180) > 30) {
+							secondary = bucketsToHsl(b);
+							break;
+						}
+					}
+					let tertiary = [
+						(primaryHue + 180) % 360,
+						Math.min(.7, primary[1]),
+						Math.min(.7, primary[2])
+					];
+					for (const b of buckets.slice(1)) {
+						const [h] = bucketsToHsl(b);
+						const sep = Math.abs((h - primaryHue + 540) % 360 - 180);
+						if (sep > 90 && sep < 150) {
+							tertiary = bucketsToHsl(b);
+							break;
+						}
+					}
+					const surface = [
+						primaryHue,
+						Math.min(.06, primary[1] * .3),
+						primary[2]
+					];
+					const luminance = sampled > 0 ? totalLum / sampled : primary[2];
+					primary[2] = luminance < .5 ? Math.min(.44, Math.max(.2, primary[2])) : Math.max(.6, Math.min(.82, primary[2]));
+					return {
+						primary: [
+							primary[0],
+							Math.min(.9, Math.max(.15, primary[1])),
+							primary[2]
+						],
+						secondary: [
+							secondary[0],
+							Math.min(.85, Math.max(.2, secondary[1])),
+							Math.min(.75, Math.max(.35, secondary[2]))
+						],
+						tertiary: [
+							tertiary[0],
+							Math.min(.8, Math.max(.2, tertiary[1])),
+							Math.min(.7, Math.max(.35, tertiary[2]))
+						],
+						surface,
+						luminance
+					};
+				} catch {
+					return null;
+				}
+			});
+		}
+		/** Backward-compatible single-color extraction: returns the primary HSL. */
+		async function extractWallpaperColor(dataUrl, bgState) {
+			const palette = await extractWallpaperPalette(dataUrl, bgState);
+			return palette ? palette.primary : null;
+		}
+		const ANALYZE_SIDE = 32;
+		/** Analyze a captured frame's average luminance. Resolves true when the frame
+		*  reads dark (use white fonts), false when light (use black fonts), or null
+		*  when the frame cannot be decoded. */
+		function analyzeFrameDark(dataUrl) {
+			return loadImage(dataUrl).then((img) => {
+				if (!img) return null;
+				try {
+					const c = document.createElement("canvas");
+					c.width = ANALYZE_SIDE;
+					c.height = ANALYZE_SIDE;
+					const g = c.getContext("2d", { willReadFrequently: true });
+					g.drawImage(img, 0, 0, ANALYZE_SIDE, ANALYZE_SIDE);
+					const px = g.getImageData(0, 0, ANALYZE_SIDE, ANALYZE_SIDE).data;
+					let lum = 0;
+					const count = px.length / 4;
+					for (let i = 0; i < px.length; i += 4) lum += .2126 * px[i] + .7152 * px[i + 1] + .0722 * px[i + 2];
+					return lum / count / 255 < .5;
+				} catch {
+					return null;
+				}
+			});
+		}
+		/** HSL (h 0-360, s/l 0-1) → RGB (0-255 integers). */
+		function hslToRgb(h, s, l) {
+			const c = (1 - Math.abs(2 * l - 1)) * s;
+			const hp = h / 60;
+			const x = c * (1 - Math.abs(hp % 2 - 1));
+			let r = 0, g = 0, b = 0;
+			if (hp < 1) {
+				r = c;
+				g = x;
+			} else if (hp < 2) {
+				r = x;
+				g = c;
+			} else if (hp < 3) {
+				g = c;
+				b = x;
+			} else if (hp < 4) {
+				g = x;
+				b = c;
+			} else if (hp < 5) {
+				r = x;
+				b = c;
+			} else {
+				r = c;
+				b = x;
+			}
+			const m = l - c / 2;
+			return [
+				Math.round((r + m) * 255),
+				Math.round((g + m) * 255),
+				Math.round((b + m) * 255)
+			];
+		}
+		//#endregion
+		//#region src/client/utils/bg-generators.ts
+		const RENDER_SCALE = .55;
+		const FRAME_MS = 1e3 / 30;
+		function newRaf(canvas, draw) {
+			canvas.dataset.dshAnyCanvas = "1";
+			let running = true;
+			let paused = false;
+			let rafId = 0;
+			let last = 0;
+			draw();
+			if (typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return {
+				stop: () => {
+					running = false;
+				},
+				pause: () => void 0,
+				resume: () => void 0
+			};
+			const loop = (ts) => {
+				if (!running || paused) return;
+				if (ts - last >= FRAME_MS) {
+					last = ts;
+					draw();
+				}
+				rafId = requestAnimationFrame(loop);
+			};
+			rafId = requestAnimationFrame(loop);
+			return {
+				stop: () => {
+					running = false;
+					cancelAnimationFrame(rafId);
+				},
+				pause: () => {
+					paused = true;
+					cancelAnimationFrame(rafId);
+				},
+				resume: () => {
+					if (!running || !paused) return;
+					paused = false;
+					last = 0;
+					rafId = requestAnimationFrame(loop);
+				}
+			};
+		}
+		function createCanvas() {
+			const c = document.createElement("canvas");
+			c.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;";
+			return c;
+		}
+		function liveSize() {
+			const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+			return {
+				w: Math.max(320, Math.ceil(window.innerWidth * dpr * RENDER_SCALE)),
+				h: Math.max(180, Math.ceil(window.innerHeight * dpr * RENDER_SCALE))
+			};
+		}
+		function fitLiveCanvas(c) {
+			const { w, h } = liveSize();
+			if (c.width !== w || c.height !== h) {
+				c.width = w;
+				c.height = h;
+			}
+		}
+		function createRng(seed) {
+			let s = seed > 0 ? seed : 1;
+			return () => {
+				s ^= s << 13;
+				s ^= s >>> 17;
+				s ^= s << 5;
+				return (s >>> 0) / 4294967295;
+			};
+		}
+		function createNoise(seed) {
+			const rng = createRng(seed);
+			const perm = [];
+			for (let i = 0; i < 256; i++) perm[i] = i;
+			for (let i = 255; i > 0; i--) {
+				const j = Math.floor(rng() * (i + 1));
+				const t = perm[i];
+				perm[i] = perm[j];
+				perm[j] = t;
+			}
+			for (let i = 0; i < 256; i++) perm[i + 256] = perm[i];
+			function fade(t) {
+				return t * t * t * (t * (t * 6 - 15) + 10);
+			}
+			function lerp(a, b, t) {
+				return a + (b - a) * t;
+			}
+			function grad(hash, x, y) {
+				const h = hash & 15;
+				const u = h < 8 ? x : y;
+				const v = h < 4 ? y : h === 12 || h === 14 ? x : 0;
+				return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+			}
+			return (x, y) => {
+				const X = Math.floor(x) & 255;
+				const Y = Math.floor(y) & 255;
+				x -= Math.floor(x);
+				y -= Math.floor(y);
+				const u = fade(x);
+				const v = fade(y);
+				const A = perm[X] + Y;
+				return lerp(lerp(grad(perm[A], x, y), grad(perm[A + 1], x - 1, y), u), lerp(grad(perm[A + 256], x, y - 1), grad(perm[A + 257], x - 1, y - 1), u), v);
+			};
+		}
+		function createMeshGradient(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const rng = createRng(params.seed);
+			const noise = createNoise(params.seed);
+			const dark = rng() < .5;
+			const baseHue = Math.round(rng() * 360);
+			const count = Math.round(7 + 9 * params.scale * params.intensity);
+			const blobs = [];
+			for (let i = 0; i < count; i++) blobs.push({
+				x: rng(),
+				y: rng(),
+				r: (.22 + rng() * .6) * params.scale,
+				hx: rng() * 4 - 2,
+				hy: rng() * 4 - 2,
+				speed: .05 + rng() * .1,
+				hue: (baseHue + (rng() < .5 ? 30 : 180) + rng() * 60) % 360,
+				sat: Math.round(45 + rng() * 50 * params.intensity),
+				lit: dark ? Math.round(18 + rng() * 35 * params.intensity) : Math.round(60 + rng() * 25 * params.intensity)
+			});
+			let t = 0;
+			const alpha = (.22 + .3 * params.intensity).toFixed(3);
+			const innerAlpha = (+alpha * .35).toFixed(3);
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#0a0b0e" : "#f5f7fa";
+				g.fillRect(0, 0, w, h);
+				for (const b of blobs) {
+					const phase = t * b.speed;
+					const cx = ((b.x + noise(b.hx + phase * .3, b.hy) * .25 + phase * .03) % 1 + 1) % 1 * w;
+					const cy = ((b.y + noise(b.hx, b.hy + phase * .3) * .25 + phase * .012) % 1 + 1) % 1 * h;
+					const r = b.r * Math.min(w, h) * (.8 + .4 * Math.sin(phase + b.hx));
+					const rad = g.createRadialGradient(cx, cy, 0, cx, cy, r);
+					rad.addColorStop(0, `hsla(${b.hue},${b.sat}%,${b.lit}%,${alpha})`);
+					rad.addColorStop(.55, `hsla(${b.hue},${Math.round(b.sat * .6)}%,${b.lit}%,${innerAlpha})`);
+					rad.addColorStop(1, "hsla(0,0%,0%,0)");
+					g.fillStyle = rad;
+					g.fillRect(0, 0, w, h);
+				}
+				t += .028;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .92)
+			};
+		}
+		function createShaderBg(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const gl = c.getContext("webgl", { alpha: false }) || c.getContext("experimental-webgl", { alpha: false });
+			if (!gl) return createMeshGradient({
+				type: "mesh",
+				seed: params.speed * 1e3,
+				scale: params.scale,
+				intensity: .6
+			}, c);
+			const program = createProgram(gl, `
+    attribute vec2 a_position;
+    void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+  `, shaderFragment(params.preset));
+			if (!program) return createMeshGradient({
+				type: "mesh",
+				seed: params.speed * 1e3,
+				scale: params.scale,
+				intensity: .6
+			}, c);
+			const posLoc = gl.getAttribLocation(program, "a_position");
+			const buf = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+				-1,
+				-1,
+				1,
+				-1,
+				-1,
+				1,
+				-1,
+				1,
+				1,
+				-1,
+				1,
+				1
+			]), gl.STATIC_DRAW);
+			gl.enableVertexAttribArray(posLoc);
+			gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+			gl.useProgram(program);
+			const uRes = gl.getUniformLocation(program, "u_resolution");
+			const uTime = gl.getUniformLocation(program, "u_time");
+			const uScale = gl.getUniformLocation(program, "u_scale");
+			const uSeed = gl.getUniformLocation(program, "u_seed");
+			const seed01 = (params.seed >>> 0) / 4294967295;
+			let t = 0;
+			const draw = () => {
+				fitLiveCanvas(c);
+				gl.viewport(0, 0, c.width, c.height);
+				gl.uniform2f(uRes, c.width, c.height);
+				gl.uniform1f(uTime, t);
+				gl.uniform1f(uScale, params.scale);
+				gl.uniform1f(uSeed, seed01);
+				gl.drawArrays(gl.TRIANGLES, 0, 6);
+				t += .32 * params.speed;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .95)
+			};
+		}
+		function createProgram(gl, vs, fs) {
+			const v = gl.createShader(gl.VERTEX_SHADER);
+			const f = gl.createShader(gl.FRAGMENT_SHADER);
+			if (!v || !f) return null;
+			gl.shaderSource(v, vs);
+			gl.compileShader(v);
+			gl.shaderSource(f, fs);
+			gl.compileShader(f);
+			if (!gl.getShaderParameter(v, gl.COMPILE_STATUS) || !gl.getShaderParameter(f, gl.COMPILE_STATUS)) {
+				gl.deleteShader(v);
+				gl.deleteShader(f);
+				return null;
+			}
+			const p = gl.createProgram();
+			if (!p) return null;
+			gl.attachShader(p, v);
+			gl.attachShader(p, f);
+			gl.linkProgram(p);
+			if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+				gl.deleteProgram(p);
+				return null;
+			}
+			return p;
+		}
+		function shaderFragment(preset) {
+			const common = `
+    precision mediump float;
+    uniform vec2 u_resolution;
+    uniform float u_time;
+    uniform float u_scale;
+    uniform float u_seed;
+
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+    vec3 hueRotate(vec3 rgb, float angle) {
+      float c = cos(angle), s = sin(angle);
+      mat3 m = mat3(
+        0.299 + 0.701*c + 0.168*s, 0.587 - 0.587*c + 0.330*s, 0.114 - 0.114*c - 0.497*s,
+        0.299 - 0.299*c - 0.328*s, 0.587 + 0.413*c + 0.035*s, 0.114 - 0.114*c + 0.292*s,
+        0.299 - 0.300*c + 1.250*s, 0.587 - 0.588*c - 1.050*s, 0.114 + 0.886*c - 0.203*s
+      );
+      return rgb * m;
+    }
+    float snoise(vec3 v) {
+      const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+      const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+      vec3 i = floor(v + dot(v, C.yyy));
+      vec3 x0 = v - i + dot(i, C.xxx);
+      vec3 g = step(x0.yzx, x0.xyz);
+      vec3 l = 1.0 - g;
+      vec3 i1 = min(g.xyz, l.zxy);
+      vec3 i2 = max(g.xyz, l.zxy);
+      vec3 x1 = x0 - i1 + C.xxx;
+      vec3 x2 = x0 - i2 + C.yyy;
+      vec3 x3 = x0 - D.yyy;
+      i = mod289(i);
+      vec4 p = permute(permute(permute(
+        i.z + vec4(0.0, i1.z, i2.z, 1.0))
+        + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+        + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+      float n_ = 0.142857142857;
+      vec3 ns = n_ * D.wyz - D.xzx;
+      vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+      vec4 x_ = floor(j * ns.z);
+      vec4 y_ = floor(j - 7.0 * x_);
+      vec4 x = x_ * ns.x + ns.yyyy;
+      vec4 y = y_ * ns.x + ns.yyyy;
+      vec4 h = 1.0 - abs(x) - abs(y);
+      vec4 b0 = vec4(x.xy, y.xy);
+      vec4 b1 = vec4(x.zw, y.zw);
+      vec4 s0 = floor(b0)*2.0 + 1.0;
+      vec4 s1 = floor(b1)*2.0 + 1.0;
+      vec4 sh = -step(h, vec4(0.0));
+      vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+      vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+      vec3 p0 = vec3(a0.xy, h.x);
+      vec3 p1 = vec3(a0.zw, h.y);
+      vec3 p2 = vec3(a1.xy, h.z);
+      vec3 p3 = vec3(a1.zw, h.w);
+      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+      p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+      m = m * m;
+      return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+    }
+    float fbm(vec3 p) {
+      float v = 0.0, a = 0.5;
+      for (int i = 0; i < 5; i++) {
+        v += a * snoise(p);
+        p *= 2.0; a *= 0.5;
+      }
+      return v;
+    }
+  `;
+			if (preset === "aurora") return common + `
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_resolution;
+        float t = u_time;
+        float n1 = fbm(vec3(uv * 2.5 * u_scale, t));
+        float n2 = fbm(vec3(uv * 4.0 * u_scale + 7.0, t * 1.4));
+        float n3 = fbm(vec3(uv * 1.2 * u_scale - 3.0, t * 0.7));
+        float bands = smoothstep(0.15, 0.85, 0.5 + 0.5 * sin((uv.y + n3 * 0.08) * 8.0 + n1 * 1.5));
+        vec3 c1 = vec3(0.03, 0.08, 0.14);
+        vec3 c2 = vec3(0.05, 0.28, 0.32);
+        vec3 c3 = vec3(0.18, 0.62, 0.42);
+        vec3 c4 = vec3(0.55, 0.22, 0.52);
+        vec3 c5 = vec3(0.85, 0.35, 0.25);
+        vec3 col = mix(c1, c2, bands);
+        col = mix(col, c3, smoothstep(0.25, 0.75, n1));
+        col = mix(col, c4, smoothstep(0.45, 0.85, n2) * 0.75);
+        col = mix(col, c5, smoothstep(0.7, 0.95, n2 + n1 * 0.3) * 0.45);
+        col = hueRotate(col, u_seed * 6.28318530718);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+			if (preset === "nebula") return common + `
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_resolution;
+        float t = u_time * 0.8;
+        float n = fbm(vec3(uv * 2.2 * u_scale, t));
+        float n2 = fbm(vec3(uv * 5.0 * u_scale - 4.0, t * 0.65));
+        float n3 = fbm(vec3(uv * 0.9 * u_scale + 2.0, t * 0.4));
+        vec3 c1 = vec3(0.02, 0.02, 0.08);
+        vec3 c2 = vec3(0.12, 0.04, 0.22);
+        vec3 c3 = vec3(0.32, 0.10, 0.35);
+        vec3 c4 = vec3(0.10, 0.18, 0.42);
+        vec3 c5 = vec3(0.55, 0.30, 0.55);
+        vec3 col = mix(c1, c2, smoothstep(-0.5, 0.6, n));
+        col = mix(col, c3, smoothstep(0.15, 0.8, n2) * 0.75);
+        col = mix(col, c4, smoothstep(0.35, 0.85, n + n3 * 0.3) * 0.55);
+        col = mix(col, c5, smoothstep(0.6, 0.95, n2) * 0.35);
+        col = hueRotate(col, u_seed * 6.28318530718);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+			if (preset === "starfield") return common + `
+      float hash21(vec2 p) {
+        p = fract(p * vec2(234.34, 435.345));
+        p += dot(p, p + 34.23);
+        return fract(p.x * p.y);
+      }
+      vec3 starLayer(vec2 uv, float t, float density) {
+        vec3 col = vec3(0.0);
+        vec2 grid = uv * density;
+        vec2 cell = floor(grid);
+        vec2 f = fract(grid) - 0.5;
+        float h = hash21(cell);
+        if (h > 0.8) {
+          vec2 offs = (vec2(hash21(cell + 1.3), hash21(cell + 2.7)) - 0.5) * 0.7;
+          float d = length(f - offs);
+          float tw = 0.35 + 0.65 * sin(t * (1.0 + h * 2.5) + h * 40.0);
+          col += vec3(0.85, 0.92, 1.0) * smoothstep(0.07, 0.0, d) * max(0.0, tw);
+        }
+        return col;
+      }
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_resolution;
+        vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution) / u_resolution.y;
+        float t = u_time * 0.5;
+        vec3 col = mix(vec3(0.012, 0.014, 0.035), vec3(0.035, 0.035, 0.08), uv.y);
+        // Faint drifting nebula veil behind the stars.
+        float n = fbm(vec3(p * 2.2 * u_scale, t * 0.05));
+        col += vec3(0.05, 0.045, 0.11) * smoothstep(0.05, 0.85, n);
+        vec3 stars = vec3(0.0);
+        stars += starLayer(p + vec2(t * 0.006, 0.0), t, 13.0 * u_scale);
+        stars += starLayer(p * 1.8 + vec2(t * 0.013, 3.0), t * 1.25, 27.0 * u_scale);
+        stars += starLayer(p * 3.1 + vec2(t * 0.021, 7.0), t * 0.85, 46.0 * u_scale);
+        col += stars;
+        col = hueRotate(col, u_seed * 6.28318530718);
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+			return common + `
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_resolution;
+      float t = u_time;
+      float n = fbm(vec3(uv * 3.5 * u_scale, t));
+      float n2 = fbm(vec3(uv * 9.0 * u_scale + 15.0, t * 1.6));
+      float n3 = fbm(vec3(uv * 1.5 * u_scale - 5.0, t * 0.5));
+      vec3 c1 = vec3(0.06, 0.06, 0.08);
+      vec3 c2 = vec3(0.16, 0.18, 0.22);
+      vec3 c3 = vec3(0.30, 0.32, 0.36);
+      vec3 c4 = vec3(0.46, 0.48, 0.52);
+      vec3 col = mix(c1, c2, 0.5 + 0.5 * n + n3 * 0.15);
+      col = mix(col, c3, smoothstep(0.3, 0.8, n2) * 0.45);
+      col = mix(col, c4, smoothstep(0.6, 0.95, n2) * 0.25);
+      col = hueRotate(col, u_seed * 6.28318530718);
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+		}
+		function createPatternBg(params, canvas) {
+			if (params.preset === "waves") return createWaves(params, canvas);
+			if (params.preset === "poly") return createLowPoly(params, canvas);
+			if (params.preset === "rain") return createRain(params, canvas);
+			if (params.preset === "contour") return createContour(params, canvas);
+			if (params.preset === "meta") return createMeta(params, canvas);
+			return createDots(params, canvas);
+		}
+		function createRain(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const rng = createRng(params.seed);
+			const dark = rng() < .5;
+			const hue = Math.round(rng() * 360);
+			const count = Math.round(30 + params.density * 150);
+			const drops = [];
+			for (let i = 0; i < count; i++) drops.push({
+				x: rng(),
+				y: rng(),
+				len: (.035 + rng() * .075) * (.7 + params.scale * .5),
+				speed: (.25 + rng() * .55) * (.6 + params.scale * .5),
+				sat: Math.round(30 + rng() * 40),
+				lit: dark ? Math.round(55 + rng() * 25) : Math.round(40 + rng() * 25),
+				alpha: .12 + rng() * .28,
+				width: .8 + rng() * 1.4
+			});
+			let t = 0;
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#07080c" : "#f4f6f9";
+				g.fillRect(0, 0, w, h);
+				for (const d of drops) {
+					const yy = ((d.y + t * d.speed) % 1 + 1) % 1;
+					const x = d.x * w;
+					const y0 = yy * h;
+					const y1 = y0 - d.len * h;
+					const grad = g.createLinearGradient(x, y0, x, y1);
+					grad.addColorStop(0, `hsla(${hue},${d.sat}%,${d.lit}%,${d.alpha.toFixed(2)})`);
+					grad.addColorStop(1, "hsla(0,0%,0%,0)");
+					g.strokeStyle = grad;
+					g.lineWidth = d.width;
+					g.beginPath();
+					g.moveTo(x, y0);
+					g.lineTo(x, y1);
+					g.stroke();
+				}
+				t += .016;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .94)
+			};
+		}
+		function createContour(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const noise = createNoise(params.seed);
+			const rng = createRng(params.seed + 1013);
+			const dark = rng() < .5;
+			const hue = Math.round(rng() * 360);
+			const layers = Math.round(16 + params.density * 46);
+			const freq = .0016 / params.scale;
+			const amp = .055 * params.scale;
+			let t = 0;
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#0a0b0e" : "#f6f7fa";
+				g.fillRect(0, 0, w, h);
+				const samples = Math.max(60, Math.floor(w / 8));
+				for (let i = 0; i <= layers; i++) {
+					const base = i / layers;
+					const shift = t * .05;
+					g.beginPath();
+					for (let s = 0; s <= samples; s++) {
+						const fx = s / samples;
+						const y = (base + (noise(fx * 60 * freq * 400, i * .22 + shift) - .5) * amp) * h;
+						if (s === 0) g.moveTo(0, y);
+						else g.lineTo(fx * w, y);
+					}
+					const lit = dark ? 20 + i / layers * 22 : 62 - i / layers * 18;
+					g.strokeStyle = `hsla(${(hue + i * 2) % 360},30%,${lit}%,${(.25 + .2 * (i / layers)).toFixed(2)})`;
+					g.lineWidth = 1;
+					g.stroke();
+				}
+				t += .032;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .94)
+			};
+		}
+		function createMeta(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const rng = createRng(params.seed);
+			const dark = rng() < .5;
+			const baseHue = Math.round(rng() * 360);
+			const count = Math.round(5 + params.density * 11);
+			const blobs = [];
+			for (let i = 0; i < count; i++) blobs.push({
+				x: .15 + rng() * .7,
+				y: .15 + rng() * .7,
+				r: (.09 + rng() * .14) * params.scale,
+				ax: .08 + rng() * .22,
+				ay: .08 + rng() * .22,
+				speed: .15 + rng() * .3,
+				phase: rng() * Math.PI * 2,
+				hue: (baseHue + rng() * 70) % 360
+			});
+			let t = 0;
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#08090d" : "#f5f6f9";
+				g.fillRect(0, 0, w, h);
+				g.globalCompositeOperation = dark ? "lighter" : "multiply";
+				for (const b of blobs) {
+					const cx = (b.x + Math.sin(t * b.speed + b.phase) * b.ax) * w;
+					const cy = (b.y + Math.cos(t * b.speed * .83 + b.phase * 1.7) * b.ay) * h;
+					const r = b.r * Math.min(w, h) * (.9 + .2 * Math.sin(t * b.speed + b.phase));
+					const rad = g.createRadialGradient(cx, cy, 0, cx, cy, r);
+					if (dark) {
+						rad.addColorStop(0, `hsla(${b.hue},65%,58%,0.55)`);
+						rad.addColorStop(.7, `hsla(${b.hue},60%,45%,0.18)`);
+						rad.addColorStop(1, "hsla(0,0%,0%,0)");
+					} else {
+						rad.addColorStop(0, `hsla(${b.hue},55%,70%,0.5)`);
+						rad.addColorStop(.7, `hsla(${b.hue},50%,80%,0.2)`);
+						rad.addColorStop(1, "hsla(0,0%,100%,0)");
+					}
+					g.fillStyle = rad;
+					g.beginPath();
+					g.arc(cx, cy, r, 0, Math.PI * 2);
+					g.fill();
+				}
+				g.globalCompositeOperation = "source-over";
+				t += .03;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .94)
+			};
+		}
+		function createDots(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const rng = createRng(params.seed);
+			const dark = rng() < .5;
+			const baseHue = Math.round(rng() * 360);
+			const spacing = Math.max(26, 150 * params.scale / (.25 + params.density));
+			const dots = [];
+			for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) dots.push({
+				cx: x / 7,
+				cy: y / 7,
+				r: spacing * .16 * params.scale * (.6 + rng() * .7),
+				hue: (baseHue + rng() * 80) % 360,
+				sat: Math.round(35 + rng() * 55),
+				lit: dark ? Math.round(30 + rng() * 35) : Math.round(55 + rng() * 30),
+				phase: rng() * Math.PI * 2,
+				speed: .5 + rng() * 1.2
+			});
+			let t = 0;
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#0a0b0d" : "#f6f7f9";
+				g.fillRect(0, 0, w, h);
+				for (const d of dots) {
+					const pulse = .75 + .35 * Math.sin(t * d.speed + d.phase);
+					const r = Math.max(1, d.r * pulse);
+					const x = d.cx * w + d.r * .3 * Math.sin(t * d.speed * .5 + d.phase);
+					const y = d.cy * h + d.r * .3 * Math.cos(t * d.speed * .7 + d.phase);
+					g.beginPath();
+					g.arc(x, y, r, 0, Math.PI * 2);
+					g.fillStyle = `hsla(${d.hue},${d.sat}%,${d.lit}%,${(.18 + .25 * pulse).toFixed(2)})`;
+					g.fill();
+				}
+				t += .032;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .94)
+			};
+		}
+		function createWaves(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const rng = createRng(params.seed);
+			const dark = rng() < .5;
+			const hue = Math.round(rng() * 360);
+			const layers = Math.round(5 + params.density * 8);
+			const waves = [];
+			for (let i = 0; i < layers; i++) waves.push({
+				yBase: .25 + i / layers * .55,
+				amp: (25 + rng() * 45) * params.scale,
+				freq: (.006 + rng() * .01) / params.scale,
+				phase: rng() * Math.PI * 2,
+				speed: (.3 + rng() * .7) * (rng() < .5 ? 1 : -1),
+				hue: (hue + i * 12) % 360,
+				sat: Math.round(40 + rng() * 45),
+				lit: dark ? Math.round(14 + i / layers * 32) : Math.round(72 - i / layers * 28),
+				alpha: .22 + rng() * .32
+			});
+			let t = 0;
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#07080a" : "#f8f9fb";
+				g.fillRect(0, 0, w, h);
+				for (const wave of waves) {
+					g.beginPath();
+					g.moveTo(0, h);
+					for (let x = 0; x <= w; x += Math.max(6, Math.floor(w / 180))) {
+						const y = h * wave.yBase + Math.sin(x * wave.freq + wave.phase + t * wave.speed) * wave.amp + Math.sin(x * wave.freq * 2.1 + wave.phase * 1.3 - t * wave.speed * 1.5) * wave.amp * .5;
+						g.lineTo(x, y);
+					}
+					g.lineTo(w, h);
+					g.closePath();
+					g.fillStyle = `hsla(${wave.hue},${wave.sat}%,${wave.lit}%,${wave.alpha.toFixed(2)})`;
+					g.fill();
+				}
+				t += .032;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .94)
+			};
+		}
+		function createLowPoly(params, canvas) {
+			const c = canvas ?? createCanvas();
+			fitLiveCanvas(c);
+			const g = c.getContext("2d", { alpha: false });
+			const rng = createRng(params.seed);
+			const dark = rng() < .5;
+			const hue = Math.round(rng() * 360);
+			const cols = Math.round(10 + params.density * 20);
+			const rows = Math.max(6, Math.round(cols * .65));
+			const points = [];
+			for (let y = 0; y <= rows; y++) {
+				const row = [];
+				for (let x = 0; x <= cols; x++) row.push({
+					x: x / cols,
+					y: y / rows,
+					dx: (rng() - .5) * .02,
+					dy: (rng() - .5) * .02,
+					speed: .3 + rng() * .5
+				});
+				points.push(row);
+			}
+			const cells = [];
+			for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) cells.push({
+				y,
+				x,
+				hue: (hue + rng() * 60) % 360,
+				sat: Math.round(35 + rng() * 40),
+				lit: dark ? Math.round(12 + rng() * 35) : Math.round(65 - rng() * 10),
+				phase: rng() * Math.PI * 2
+			});
+			let t = 0;
+			const px = points.map((row) => row.map(() => ({
+				x: 0,
+				y: 0
+			})));
+			const draw = () => {
+				fitLiveCanvas(c);
+				const w = c.width, h = c.height;
+				g.fillStyle = dark ? "#08090c" : "#f5f6f8";
+				g.fillRect(0, 0, w, h);
+				for (let y = 0; y <= rows; y++) {
+					const row = points[y];
+					const out = px[y];
+					for (let x = 0; x <= cols; x++) {
+						const p = row[x];
+						out[x].x = (p.x + Math.sin(t * p.speed + p.dx * 100) * p.dx) * w;
+						out[x].y = (p.y + Math.cos(t * p.speed + p.dy * 100) * p.dy) * h;
+					}
+				}
+				for (const cell of cells) {
+					const p1 = px[cell.y][cell.x], p2 = px[cell.y][cell.x + 1], p3 = px[cell.y + 1][cell.x], p4 = px[cell.y + 1][cell.x + 1];
+					const cx = (p1.x + p2.x + p3.x) / 3 / w;
+					const lit = Math.max(0, Math.min(100, cell.lit + Math.sin(t * .6 + cell.phase) * 6));
+					g.beginPath();
+					g.moveTo(p1.x, p1.y);
+					g.lineTo(p2.x, p2.y);
+					g.lineTo(p3.x, p3.y);
+					g.closePath();
+					g.fillStyle = `hsla(${cell.hue + cx * 40},${cell.sat}%,${lit}%,0.92)`;
+					g.fill();
+					g.beginPath();
+					g.moveTo(p2.x, p2.y);
+					g.lineTo(p4.x, p4.y);
+					g.lineTo(p3.x, p3.y);
+					g.closePath();
+					g.fillStyle = `hsla(${(cell.hue + cx * 40 + 12) % 360},${cell.sat}%,${Math.max(0, lit - 4)}%,0.92)`;
+					g.fill();
+				}
+				t += .03;
+			};
+			return {
+				canvas: c,
+				...newRaf(c, draw),
+				snapshot: () => c.toDataURL("image/jpeg", .94)
+			};
+		}
+		function createDynamicBackground(params, canvas) {
+			if (params.type === "mesh") return createMeshGradient(params, canvas);
+			if (params.type === "shader") return createShaderBg(params, canvas);
+			return createPatternBg(params, canvas);
+		}
+		function randomSeed$1() {
+			return Math.floor(Math.random() * 2147483647);
+		}
+		/** Build default params for a newly selected background type. */
+		function defaultParamsFor(type) {
+			if (type === "mesh") return {
+				type: "mesh",
+				seed: randomSeed$1(),
+				scale: 1.1,
+				intensity: .65
+			};
+			if (type === "shader") return {
+				type: "shader",
+				preset: "aurora",
+				speed: .35,
+				scale: 1,
+				seed: randomSeed$1()
+			};
+			return {
+				type: "pattern",
+				preset: "dots",
+				density: .5,
+				scale: 1,
+				seed: randomSeed$1()
+			};
+		}
+		//#endregion
+		//#region src/client/wallpaper.ts
+		let wpEl = null;
+		let videoEl = null;
+		let appliedTokenNames = [];
+		let wpController = null;
+		let snapshotListener = null;
+		let tokenStyleEl = null;
+		/** Pause the live generated background's animation loop (session-only). */
+		function pauseGeneratedBg() {
+			wpController?.pause?.();
+		}
+		/** Resume the live generated background's animation loop. */
+		function resumeGeneratedBg() {
+			wpController?.resume?.();
+		}
+		function clearDynamicBg() {
+			wpController?.stop();
+			wpController?.canvas.remove();
+			wpController = null;
+		}
+		/** Register a callback fired once a generated snapshot is ready (so the caller
+		*  can re-sync the settings preview / store). Returns an unsubscribe: HMR
+		*  re-runs apply and would otherwise leave the previous apply's closure as the
+		*  live listener (a stale this-session callback invoked by a lingering
+		*  controller). */
+		function onGeneratedSnapshot(cb) {
+			snapshotListener = cb;
+			return () => {
+				if (snapshotListener === cb) snapshotListener = null;
+			};
+		}
+		function ensureTokenStyle() {
+			if (tokenStyleEl?.isConnected) return tokenStyleEl;
+			tokenStyleEl = document.createElement("style");
+			tokenStyleEl.dataset.plugin = "dsh-any-background-tokens";
+			document.head.appendChild(tokenStyleEl);
+			return tokenStyleEl;
+		}
+		function clearCustomTokens() {
+			if (tokenStyleEl) tokenStyleEl.textContent = "";
+			for (const name of appliedTokenNames) document.body.style.removeProperty(name);
+			appliedTokenNames = [];
+		}
+		/** Drop every applied custom token and forget the token fingerprint, so a
+		*  later color-less profile (system theme) leaves no stale rule behind. */
+		function clearThemeTokens() {
+			clearCustomTokens();
+			baseTokenKey = "";
+			lastBgKey = "";
+			document.body.removeAttribute("data-ds-dark-theme");
+			document.body.style.removeProperty("color-scheme");
+		}
+		/** Label tokens flipped by the background brightness verdict. The faint tiers
+		*  (caption/dimmed) are deliberately NOT flipped: they back placeholder/hint
+		*  text, which must stay visibly weaker than real input even when the wallpaper
+		*  brightness flips the main label direction. Exported so the skin registration
+		*  (index) can flip fonts through the host theme service too. */
+		const LABEL_TOKENS = [
+			"--dsw-alias-label-primary",
+			"--dsw-alias-label-secondary",
+			"--dsw-alias-label-tertiary"
+		];
+		const OPACITY_TOKEN_GROUPS = [
+			{
+				part: "bg",
+				names: ["--dsw-alias-bg-base"]
+			},
+			{
+				part: "sidebar",
+				names: ["--dsw-specific-sidebar-fill"]
+			},
+			{
+				part: "card",
+				names: [
+					"--dsw-alias-bg-layer-1",
+					"--dsw-alias-bg-layer-2",
+					"--dsw-alias-bg-layer-3",
+					"--dsw-specific-menu"
+				]
+			},
+			{
+				part: "input",
+				names: ["--dsw-specific-input-major"]
+			}
+		];
+		const OPACITY_VARS = {
+			"--dsw-alias-bg-base": "--dsh-any-op-bg",
+			"--dsw-specific-sidebar-fill": "--dsh-any-op-sidebar",
+			"--dsw-alias-bg-layer-1": "--dsh-any-op-card-1",
+			"--dsw-alias-bg-layer-2": "--dsh-any-op-card-2",
+			"--dsw-alias-bg-layer-3": "--dsh-any-op-card-3",
+			"--dsw-specific-input-major": "--dsh-any-op-input",
+			"--dsw-specific-menu": "--dsh-any-op-menu"
+		};
+		/** Every host token this plugin re-emits on `body` at a slider's alpha. Exported
+		*  because it is also the answer to "what can another plugin collide with": anything
+		*  that fills from one of these names fades with our sliders whether or not its author
+		*  knew we existed — the whole of §2-V. `third-party.ts` scans installed plugin
+		*  stylesheets for exactly this list. */
+		const OWNED_TOKENS = Object.keys(OPACITY_VARS);
+		let baseTokenKey = "";
+		let pendingOps = null;
+		let tokensRaf = null;
+		function applyCustomTokens(ops) {
+			pendingOps = ops;
+			if (tokensRaf !== null) return;
+			tokensRaf = requestAnimationFrame(() => {
+				tokensRaf = null;
+				if (pendingOps === null) return;
+				const o = pendingOps;
+				pendingOps = null;
+				applyCustomTokensNow(o);
+			});
+		}
+		let lastBgKey = "";
+		/** Palette source for the token rule: the picked color; a forced scheme
+		*  without a picked color builds a neutral near-gray palette in that
+		*  direction; auto without a color keeps the host's own palette (null — only
+		*  the label direction gets asserted). The palette direction follows the
+		*  color's own lightness (rColorScheme), not the wallpaper verdict, so the
+		*  surfaces keep contrasting with the fonts. */
+		function paletteTokens() {
+			const scheme = rColorScheme();
+			if (rHasColor()) {
+				const [h, s, l] = rColor();
+				return genTokens(h, s, l, scheme).tokens;
+			}
+			if (rSchemeOverride() !== "auto") return genTokens(220, .04, scheme === "dark" ? .14 : .92, scheme).tokens;
+			return null;
+		}
+		/** Surface colors the opacity sliders fade when the plugin has NO palette of its own
+		*  (no picked color, no forced scheme), read live from the host's own resolved tokens —
+		*  the same trick applyPanelOverrides uses for the workbench panel. The sliders only
+		*  ever supply the alpha: the host still decides the colors, so a custom host skin
+		*  survives. Returns null when the host exposes none.
+		*
+		*  SAMPLED ON `<body>`, NOT `:root`: `design-platform.css` declares this whole token set
+		*  inside a `body { … }` block (light at :166, dark at :284), and a custom property is
+		*  inherited DOWNWARD only — read off the root element every one of them is the empty
+		*  string, this function answers null, `applyCustomTokensNow` takes its `surfaces ===
+		*  null` exit, and on an install with no picked color every interface-opacity slider does
+		*  nothing at all (the frame never gets cleared either, so the wallpaper stays hidden).
+		*  Measured against the host's own declarations: `:root` → all five tokens empty,
+		*  `body` → all five resolve.
+		*
+		*  …AND CACHED PER HOST GENERATION, with our own sheet switched off while reading: the
+		*  plugin re-scopes these same names on `body`
+		*  (`body{--dsw-specific-menu:var(--dsh-any-op-menu)!important}`), so a second read after
+		*  the first write returns the plugin's OWN substituted literal — the surfaces would
+		*  freeze at whatever color they first sampled instead of following the host. The
+		*  generation key is what can flip the host's palette without anything in this plugin
+		*  moving: its dark-mode marker, and the platform attribute (`[data-platform='darwin']`
+		*  re-declares `--dsw-specific-menu`). */
+		let hostSurfaceSample = null;
+		function readHostOpacityTokens() {
+			if (typeof getComputedStyle === "undefined" || typeof document === "undefined") return null;
+			const body = document.body;
+			if (body === null) return null;
+			const key = `${body.getAttribute("data-ds-dark-theme") ?? ""}|${document.documentElement.getAttribute("data-platform") ?? ""}`;
+			if (hostSurfaceSample !== null && hostSurfaceSample.key === key) return hostSurfaceSample.map;
+			const sheet = tokenStyleEl;
+			const wasDisabled = sheet === null ? false : sheet.disabled;
+			if (sheet !== null) sheet.disabled = true;
+			const cs = getComputedStyle(body);
+			const out = {};
+			let found = false;
+			for (const g of OPACITY_TOKEN_GROUPS) for (const name of g.names) {
+				const v = cs.getPropertyValue(name).trim();
+				if (v === "") continue;
+				out[name] = v;
+				found = true;
+			}
+			if (sheet !== null) sheet.disabled = wasDisabled;
+			hostSurfaceSample = {
+				key,
+				map: found ? out : null
+			};
+			return hostSurfaceSample.map;
+		}
+		function applyCustomTokensNow(ops) {
+			const hasColor = rHasColor();
+			const override = rSchemeOverride();
+			const [h, s, l] = rColor();
+			const scheme = rScheme();
+			const verdict = rBgDark();
+			const surfaces = paletteTokens() ?? readHostOpacityTokens();
+			const tokens = { ...surfaces };
+			if (override === "auto") {
+				const fontDark = hasColor ? rColorScheme() === "dark" : verdict;
+				if (fontDark !== null && fontDark !== void 0) {
+					const font = fontDark ? "#fff" : "#000";
+					for (const name of LABEL_TOKENS) tokens[name] = font;
+				}
+			}
+			try {
+				const forceDark = scheme === "dark";
+				const key = `${h}|${s}|${l}|${verdict}|${scheme}|${hasColor}|${hostAdapter().menus.fillTokens.join(",")}`;
+				if (key !== baseTokenKey) {
+					baseTokenKey = key;
+					if (forceDark) document.body.setAttribute("data-ds-dark-theme", "dsh-any-background");
+					else document.body.removeAttribute("data-ds-dark-theme");
+					const decls = [`color-scheme:${forceDark ? "dark" : "light"}`];
+					for (const [name, value] of Object.entries(tokens)) {
+						const opVar = OPACITY_VARS[name];
+						decls.push(`${name}:${opVar !== void 0 ? `var(${opVar})` : value}!important`);
+					}
+					if (tokens["--dsw-specific-menu"] !== void 0) {
+						const menuVar = OPACITY_VARS[MENU_FILL_TOKEN];
+						for (const name of hostAdapter().menus.fillTokens) {
+							if (name === "--dsw-specific-menu" || tokens[name] !== void 0) continue;
+							decls.push(`${name}:var(${menuVar})!important`);
+						}
+					}
+					ensureTokenStyle().textContent = `body{${decls.join(";")}}`;
+					for (const name of appliedTokenNames) document.body.style.removeProperty(name);
+					appliedTokenNames = Object.keys(tokens);
+				}
+				applyHeaderBar(surfaces);
+				applyNativeCaption(surfaces);
+				if (surfaces === null) {
+					if (!hasColor && override === "auto" && verdict === null) clearThemeTokens();
+					return;
+				}
+				const root = document.documentElement;
+				for (const g of OPACITY_TOKEN_GROUPS) for (const name of g.names) {
+					if (surfaces[name] === void 0) continue;
+					root.style.setProperty(OPACITY_VARS[name], toRgba(surfaces[name], ops[g.part]));
+				}
+				const menu = surfaces["--dsw-specific-menu"];
+				if (menu !== void 0) root.style.setProperty("--dsh-any-op-menu-cordis", toRgba(menu, ops.input));
+				const bgKey = `${baseTokenKey}|${ops.bg}`;
+				if (bgKey !== lastBgKey) {
+					lastBgKey = bgKey;
+					applyPartOpacities(ops);
+				}
+				applyExemptDefaults();
+				applyReaderLanes(surfaces);
+			} catch {}
+		}
+		const SETTINGS_PANEL_SEL = "[role=\"dialog\"][aria-modal=\"true\"][aria-labelledby][class*=\"_panel\"]";
+		const SETTINGS_STYLE_RULE = `${SETTINGS_PANEL_SEL}{background:var(--dsh-any-bg-settings-surface,var(--dsw-alias-bg-layer-2));backdrop-filter:var(--dsh-any-blur-settings,none);--dsw-alias-bg-layer-1:var(--dsh-any-bg-settings-layer-1);--dsw-alias-bg-layer-2:var(--dsh-any-bg-settings-layer-2);--dsw-alias-bg-layer-3:var(--dsh-any-bg-settings-layer-3)}${SETTINGS_PANEL_SEL} .dab-card{backdrop-filter:var(--dsh-any-blur-card-panels,none);-webkit-backdrop-filter:var(--dsh-any-blur-card-panels,none)}`;
+		const CARD_BLUR_VAR = "--dsh-any-blur-card-panels";
+		const POPOVER_MENU_SEL = `[role="menu"]:not([data-dockkit-tab-menu])`;
+		/** The `MenuSurface` root's own marker (`ui-primitives/MenuSurface.tsx`), present on
+		*  every release whose menus paint through that layer. It joins the card group because
+		*  the role set cannot reach all of them: `ModelSelect` renders its model pane as
+		*  `role="group"` (ModelSelect.tsx:486), so keyed on `[role="menu"]` alone that card
+		*  fades with the slider — its fill comes off `body` — and never frosts with it.
+		*  The dockkit exclusion has to be spelled again here: a tab menu IS a `MenuSurface`
+		*  now, and it stays owned by its own layer token, not by the menu one. */
+		const MENU_MATERIAL_SEL = `[data-menu-material]:not([data-dockkit-tab-menu])`;
+		const POPOVER_OTHER_SEL = "[role=\"listbox\"],body > [role=\"tree\"],body > [role=\"dialog\"]:not([aria-modal=\"true\"])";
+		/** The frost declaration this release's menus want, driven by the named plugin var.
+		*  Every menu-shaped surface group asks through here, so the card group, the header
+		*  group and the exemptions can never disagree about which layer to paint. */
+		function menuFrost(blurVar) {
+			return hostAdapter().menus.frostDecl(`var(${blurVar},none)`);
+		}
+		/** The frost token, asserted ALWAYS — and what that means for the slider's bottom end.
+		*
+		*  The host declares its own menu frost on `body` (`ui-theme/src/styles/gradient-shadow-text.css`
+		*  — `--dsw-menu-backdrop-filter: blur(40px) saturate(150%)`, no media query), and every menu
+		*  frosts from that INHERITED value, whether it filters itself (the background-job `<ul>`) or
+		*  hands the value to a `MenuSurface` `.material` child. An element's own declaration always
+		*  beats what it inherits, so writing the token with a `none` fallback does not "add no blur"
+		*  at slider 0 — it DELETES the host's frost.
+		*
+		*  0.3.7 answered that with a `<html>` class gate (`dab-card-frost` / `dab-header-frost`) that
+		*  only let the declaration through while the slider was non-zero, so 0 meant "leave the host
+		*  alone". That was the wrong trade and this is the report that says so: with the gate on, the
+		*  slider's LOW end is its HIGH end — 0 renders the host's 40 px frost and 1 renders 1 px — so
+		*  the control reads as dead in both directions, and 「把模糊关掉」 is simply not reachable
+		*  (measured in `dsh web` with 顶栏选项 at 0/0: the open-in-app panel still came out a soft,
+		*  opaque-looking card, because what it was showing was the host's blur, not the plugin's).
+		*  The token is therefore asserted at every value, `none` included: **0 means no frost**.
+		*  Nothing loses the host look by accident, because the part DEFAULTS are 30 px — a stock
+		*  install is frosted like the host's and only an explicit drag to 0 clears it. The same is
+		*  already true of every other blur slider in this plugin (0 = off), which is the interface
+		*  consistency the gate broke.
+		*
+		*  `none` stays correct for the exempt group as well: `applyExemptDefaults` pins those surfaces
+		*  at alpha 1 alongside the cleared frost, so they are opaque by design. */
+		/** Declare EVERY token this release's menus can paint their fill from with the same
+		*  value. One slider, one value, every layer reached — and a token the host does not
+		*  read is inert, so this is safe to emit on a line that only needs one.
+		*
+		*  Used for values that are guaranteed to resolve. Where the value is a `var()` the
+		*  caller must first confirm the variable it names is actually set: an undefined
+		*  custom property inside `background:var(…)` computes to the guaranteed-invalid
+		*  value and the surface goes fully transparent (see the notes on
+		*  `applyHeaderPopovers` and `applyExemptDefaults`). */
+		function menuFillDecls(value) {
+			return hostAdapter().menus.fillTokens.map((name) => `${name}:${value}`).join(";");
+		}
+		function popoverBlurRule() {
+			return `${POPOVER_MENU_SEL},${MENU_MATERIAL_SEL}{${menuFrost(CARD_BLUR_VAR)}}${POPOVER_OTHER_SEL}{${elementFrostDecl(`var(${CARD_BLUR_VAR},none)`)}}`;
+		}
+		const INPUT_FROST_CLASS = "dab-input-frost";
+		const TAKEOVER_FROST_CLASS = "dab-takeover-frost";
+		const TAKEOVER_POS_ATTR = "data-dab-pos-patched";
+		function inputBlurRule() {
+			return `.${INPUT_FROST_CLASS} [data-composer-card]{position:relative;isolation:isolate}.${INPUT_FROST_CLASS} [data-composer-card]::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;-webkit-backdrop-filter:var(--dsh-any-input-blur,none);backdrop-filter:var(--dsh-any-input-blur,none)}.${TAKEOVER_FROST_CLASS}{isolation:isolate}.${TAKEOVER_FROST_CLASS}::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;-webkit-backdrop-filter:var(--dsh-any-input-blur,none);backdrop-filter:var(--dsh-any-input-blur,none)}.${TAKEOVER_FROST_CLASS}:has([role="dialog"]){isolation:auto}[data-cordis-panel]{-webkit-backdrop-filter:var(--dsh-any-input-blur,none);backdrop-filter:var(--dsh-any-input-blur,none)}[data-cordis-panel]{${menuFillDecls("var(--dsh-any-op-menu-cordis)!important")}}`;
+		}
+		function applyInputBlur(px) {
+			const root = document.documentElement;
+			if (px > 0) root.classList.add(INPUT_FROST_CLASS);
+			else root.classList.remove(INPUT_FROST_CLASS);
+			if (px > 0) root.style.setProperty("--dsh-any-input-blur", `blur(${px}px)`);
+			else root.style.removeProperty("--dsh-any-input-blur");
+			applyTakeoverFrost(px);
+		}
+		/** Carry the input frost on the seat's takeover cards (approval / plan review /
+		*  question), the capsule's siblings — see `inputBlurRule` for the recipe and
+		*  why it is attached here rather than by a stylesheet selector.
+		*
+		*  The anchor probe is the `setBlur` guard: `position:relative` is written
+		*  inline ONLY where the host left the card `static`, and remembered with
+		*  `TAKEOVER_POS_ATTR` so clearing it is this function's job. A card a host or a
+		*  desktop shell positions itself is left exactly as it is — its own position
+		*  supplies the underlay's containing block — so no host box ever has its
+		*  position decided by this plugin's cascade (issue #24).
+		*
+		*  Idempotent and cheap in the steady state: cards already carrying the class
+		*  (or already clear of it) are skipped without a style read. */
+		function applyTakeoverFrost(px) {
+			const cards = document.querySelectorAll(COMPOSER_TAKEOVER_CARD);
+			if (px > 0) {
+				for (const card of cards) {
+					if (card.classList.contains(TAKEOVER_FROST_CLASS)) continue;
+					if (getComputedStyle(card).position === "static") {
+						card.style.position = "relative";
+						card.setAttribute(TAKEOVER_POS_ATTR, "1");
+					}
+					card.classList.add(TAKEOVER_FROST_CLASS);
+				}
+				return;
+			}
+			for (const card of cards) {
+				if (!card.classList.contains(TAKEOVER_FROST_CLASS)) continue;
+				card.classList.remove(TAKEOVER_FROST_CLASS);
+				if (card.getAttribute(TAKEOVER_POS_ATTR) === "1") {
+					card.style.removeProperty("position");
+					card.removeAttribute(TAKEOVER_POS_ATTR);
+				}
+			}
+		}
+		const MOBILE_HEADER_RULE = ".dsh-mobile-app-header{background:var(--dsh-any-op-bg,transparent)!important;backdrop-filter:var(--dsh-any-part-blur-global,none);-webkit-backdrop-filter:var(--dsh-any-part-blur-global,none)}";
+		const HEADER_BAR_CLASS = "dab-header-bar";
+		/** Added to the same row only while its blur is non-zero — see `HEADER_BAR_RULE`. */
+		const HEADER_BAR_FROST_CLASS = "dab-header-bar-frost";
+		const HEADER_BAR_ANCHOR = "[data-slot^=\"conversation.session.header\"]";
+		/** The session header bar, or null where this host has no such element.
+		*
+		*  A BLANK session is excluded. `ConversationHeader` marks that row
+		*  `headerBlank`, whose rule zeroes its min-height and drops its bottom rule, so
+		*  the host paints nothing there and only the row's padding plus the corner
+		*  control remain. Claiming it paints a bar over a row the host deliberately
+		*  leaves empty — the box that appeared on a fresh session (0.2.0-rc.2). Matched
+		*  by the CSS-module LOCAL name: the hash prefix is build-specific, the suffix is
+		*  not, and a host that never emits the marker keeps the old behaviour. */
+		function discoverHeaderBar() {
+			if (centerEl === null || !document.body.contains(centerEl)) return null;
+			const bar = centerEl.querySelector(HEADER_BAR_ANCHOR)?.closest("header");
+			if (!(bar instanceof HTMLElement)) return null;
+			if (bar.className.includes("headerBlank")) return null;
+			return bar;
+		}
+		let headerBarEl = null;
+		/** Exactly one owner: the row the current conversation mounted. A row that went
+		*  blank, or one the host replaced, must not keep a class — or a `position` — from an
+		*  earlier pass. `frost` decides whether the row also carries the underlay arm, and the
+		*  underlay's containing block is written inline only while it is needed. */
+		function releaseHeaderBar(bar) {
+			bar.classList.remove(HEADER_BAR_CLASS, HEADER_BAR_FROST_CLASS);
+			if (bar.getAttribute(TAKEOVER_POS_ATTR) === "1") {
+				bar.style.removeProperty("position");
+				bar.removeAttribute(TAKEOVER_POS_ATTR);
+			}
+		}
+		function claimHeaderBar(bar, frost) {
+			if (headerBarEl !== null && headerBarEl !== bar) releaseHeaderBar(headerBarEl);
+			if (bar === null) {
+				headerBarEl = null;
+				return;
+			}
+			headerBarEl = bar;
+			bar.classList.add(HEADER_BAR_CLASS);
+			if (!frost) {
+				bar.classList.remove(HEADER_BAR_FROST_CLASS);
+				return;
+			}
+			if (getComputedStyle(bar).position === "static") {
+				bar.style.position = "relative";
+				bar.setAttribute(TAKEOVER_POS_ATTR, "1");
+			}
+			bar.classList.add(HEADER_BAR_FROST_CLASS);
+		}
+		/** The bar's paint. The variables are written by `applyHeaderBar`; the class is
+		*  only ever added when they are, so a host the plugin is not theming keeps its
+		*  own header untouched.
+		*
+		*  WHY THE ROW NEEDS A `z-index`: the 「标题栏」 card frosts the row, and a
+		*  `backdrop-filter` other than `none` makes the element a STACKING CONTEXT — which the
+		*  row cannot avoid wanting, since the frost is the feature. The row is not an empty
+		*  strip: the host mounts its header chrome INTO it (`conversation.session.header
+		*  .actions|.utilities|.corner`), and that chrome raises its overlays from inside the
+		*  row:
+		*    · `ui-jobs/JobListAction.module.css` — `.root{position:relative}` +
+		*      `.menu{position:absolute; top:calc(100% + 5px); z-index:100}` on every release
+		*      through `0.2.1-alpha.1` (the `{open ? <ul style={{left: menuShift}}/> : null}`
+		*      the bug was captured from; `0.2.1-alpha.2` portaled it to `body`, which is why
+		*      that build hid the symptom rather than fixed it);
+		*    · `ui-schedule/TaskMenu.module.css` — the list root carries `role="menu"` and is
+		*      `position:absolute; top:calc(100% + 4px); z-index:100` whenever the primitive is
+		*      NOT in portal mode, and it sits in `…header.utilities` on every release in range.
+		*  Once the row is a stacking context those `z-index:100`s stop being page-level values:
+		*  they only order the overlays WITHIN the row, and the row itself then paints at its
+		*  own level — under the conversation body, the composer seat and `.root`'s background,
+		*  all of which follow it in the column. The menu was not demoted by the host; it was
+		*  confined by us, and confining it is what "the list is behind the chat" meant.
+		*
+		*  THE COMPENSATION IS THE ROW'S OWN `z-index`, not a release of the frost: a `:has()`
+		*  valve dropping the blur while an overlay is open was the first attempt, and it
+		*  visibly re-tints the whole title bar every time anyone opens a header menu — the
+		*  part's two sliders appear to change state on their own. Raising the row instead keeps
+		*  the frost steady and restores the order the host assumed. The value has to clear the
+		*  in-column chrome the row hangs over — `.seat` 9 (composer), the back-to-bottom control
+		*  8, the footer 7, `.tabs` 1 (all measured from `ConversationRoot.module.css`) — while
+		*  staying UNDER every page-level surface, because the centre column is not itself a
+		*  stacking context unless the background blur is on: portaled menus/tooltips are 100,
+		*  modal overlays 1000, stat and context panels 1100 (`Menu.module.css`, `Modal.module.css`,
+		*  `ContextMeter.module.css` — the last lives in `InputBar`, NOT in this row, so the row's
+		*  filter never had to be blamed for its anchoring). 10 sits in that gap: above 9, far
+		*  below 100, so a portaled list still covers the title row exactly as the host intends.
+		*
+		*  `z-index` needs no `position` here and none is written by the BASE rule: the row is
+		*  a flex ITEM of `ConversationRoot .root{display:flex;flex-direction:column}` on every
+		*  release in range, and z-index applies to flex items as they are. Writing
+		*  `position:relative` would also make the row a containing block — and deciding a host
+		*  box's positioning is the exact race this plugin lost once already (issue #24).
+		*
+		*  THE FROST DOES NOT SIT ON THE ROW. That was the first version of this rule, and it
+		*  cost the row's own children their backdrop: `backdrop-filter` makes an element a
+		*  BACKDROP ROOT as well as a stacking context, so an in-place header popover (the
+		*  session-log `…` menu, which `HeaderAction.tsx` renders without `portal`) could only
+		*  ever blur what the row itself paints — a flat tint — and the 「标题栏」 blur slider
+		*  read as dead on exactly the panel that hangs off the row. `isolation:isolate` is a
+		*  stacking context WITHOUT being a backdrop root, so the frost now rides a `::before`
+		*  underlay like it does on every other host part this plugin filters (`PART_BLUR_RULE`,
+		*  `inputBlurRule`), and the row's children sample the wallpaper again. The underlay
+		*  needs the row to be its containing block, which is why the frost arm adds
+		*  `position:relative` — INLINE, only when the host left the row `static`, and marked
+		*  `data-dab-pos-patched` so only this writer takes it back: the same guard
+		*  `setBlur` uses, for the same reason (a stylesheet `position` would cascade against
+		*  whatever the host or another plugin decides that box's position is). */
+		const HEADER_BAR_RULE = `.${HEADER_BAR_CLASS}{background:var(--dsh-any-op-header-bar,transparent)!important;z-index:10}.${HEADER_BAR_FROST_CLASS}{isolation:isolate}.${HEADER_BAR_FROST_CLASS}::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;-webkit-backdrop-filter:var(--dsh-any-blur-header-bar,none);backdrop-filter:var(--dsh-any-blur-header-bar,none)}`;
+		/** The 「标题栏」card's paint: the card's material at the card's opacity, empty
+		*  where the plugin is not theming. The conversation header row, the Windows
+		*  caption band, and — through the desktop preload's probe — the native
+		*  minimize/maximize/close block all read this one value. */
+		function headerBarPaint(src) {
+			const base = (src === void 0 ? paletteTokens() ?? readHostOpacityTokens() : src)?.["--dsw-alias-bg-base"];
+			return base === void 0 ? "" : toRgba(base, rHeaderBarOpacity());
+		}
+		/** Claim the bar and write its material + frost. `surfaces` arrives from the token
+		*  funnel, which already has the resolved source list; the settings sliders and the
+		*  parts pass call it without one and the sources are re-resolved here. */
+		function applyHeaderBar(surfaces) {
+			const src = surfaces === void 0 ? paletteTokens() ?? readHostOpacityTokens() : surfaces;
+			const root = document.documentElement;
+			discoverParts();
+			const bar = discoverHeaderBar();
+			const paint = headerBarPaint(src);
+			if (paint === "") {
+				claimHeaderBar(null, false);
+				root.style.removeProperty("--dsh-any-op-header-bar");
+				root.style.removeProperty("--dsh-any-blur-header-bar");
+				applyNativeCaption(surfaces);
+				return;
+			}
+			root.style.setProperty("--dsh-any-op-header-bar", paint);
+			const px = rBlurs().headerBar;
+			if (px > 0) root.style.setProperty("--dsh-any-blur-header-bar", `blur(${px}px)`);
+			else root.style.removeProperty("--dsh-any-blur-header-bar");
+			claimHeaderBar(bar, px > 0);
+			applyNativeCaption(surfaces);
+		}
+		const CAPTION_FRAME_CLASS = "dab-frame-caption";
+		const FLAT_CENTER_CLASS = "dab-center-flat";
+		const WCO_PROBE_SEL = "body > span[style*=\"--dsw-specific-sidebar-fill\"]";
+		/** Marks the sidebar's own caption controls — the toggle and, while collapsed,
+		*  the new-session button. Both are `position:fixed` and float over the band, so
+		*  they inherit the band's ink instead of the sidebar's. */
+		const CAPTION_INK_ATTR = "data-dab-caption-ink";
+		/** The strip's chrome ink, and its collapsed-state variant.
+		*
+		*  WHY THIS IS NOT SIMPLY THE LABEL INK: the plugin flips the label tokens against the
+		*  PICKED PALETTE (white on a dark pick), but the caption band is that palette at
+		*  the sidebar/header-bar opacity OVER the wallpaper. At a low opacity the strip
+		*  is mostly wallpaper, so white ink lands on a light band and the toggle
+		*  disappears (reported on the desktop build, on a 22%-opacity sidebar over a bright
+		*  wallpaper). The strip therefore derives its own ink from what it is actually
+		*  painted on: past ~85% opacity the surface dominates and the palette direction
+		*  is the truth; below it the wallpaper's brightness verdict decides.
+		*
+		*  WHY THAT DERIVATION IS NOT THE WHOLE ANSWER (issue #30): the same derivation makes
+		*  the native caption menubar (「应用 / 编辑」) black on a dark theme whose sidebar is
+		*  translucent over a bright wallpaper — the strip really is light there, so the strip
+		*  is right and the rest of the window is wrong, and the two reports of this same
+		*  situation asked for opposite outcomes. So the policy is the user's: 「标题栏文字」
+		*  picks the winner, and `auto` keeps the strip-following behaviour that fixed the
+		*  invisible toggle. `theme` returns null, which removes every ink declaration this
+		*  function feeds — the menubar and the sidebar's fixed controls then read the host's
+		*  own label tokens, exactly as they did before 0.3.8.
+		*
+		*  Returned as `{ ink, collapsedInk }` because the strip's material changes with
+		*  the sidebar: expanded it is the sidebar segment, collapsed it is the 「标题栏」
+		*  card's band. `null` means "no override" — either no verdict and no palette
+		*  direction, or the user asked for the theme's own ink. */
+		function captionInkPair() {
+			const mode = rCaptionInk();
+			if (mode === "theme") return null;
+			if (mode === "white") return {
+				ink: "#fff",
+				collapsedInk: "#fff"
+			};
+			if (mode === "black") return {
+				ink: "#000",
+				collapsedInk: "#000"
+			};
+			const verdict = rBgDark();
+			const inkIsWhite = rSchemeOverride() === "auto" ? rHasColor() ? rColorScheme() === "dark" : verdict : rScheme() === "dark";
+			if (inkIsWhite === null || inkIsWhite === void 0) return null;
+			const stripInk = (alpha) => {
+				return (verdict === null || verdict === void 0 || alpha >= .85 ? inkIsWhite : verdict) ? "#fff" : "#000";
+			};
+			return {
+				ink: stripInk(rOps().sidebar),
+				collapsedInk: stripInk(rHeaderBarOpacity())
+			};
+		}
+		/** The fixed caption controls of the sidebar root, re-inked (and released) as the
+		*  strip's material changes. Throttled: this runs on every caption re-apply, and
+		*  the header-bar slider drags through that path frame by frame. */
+		let captionInkEls = [];
+		let captionInkSidebar = null;
+		let captionScanAt = 0;
+		function releaseCaptionInk() {
+			for (const el of captionInkEls) {
+				el.style.removeProperty("--dsw-alias-label-secondary");
+				el.removeAttribute(CAPTION_INK_ATTR);
+			}
+			captionInkEls = [];
+		}
+		function applyCaptionInk(enabled) {
+			if (!enabled || sidebarEl === null) {
+				releaseCaptionInk();
+				return;
+			}
+			const now = typeof performance === "undefined" ? Date.now() : performance.now();
+			if (captionInkEls.some((el) => !el.isConnected) || sidebarEl !== captionInkSidebar || now - captionScanAt > 250) {
+				captionScanAt = now;
+				captionInkSidebar = sidebarEl;
+				releaseCaptionInk();
+				for (const btn of sidebarEl.querySelectorAll("button")) {
+					if (getComputedStyle(btn).position !== "fixed") continue;
+					captionInkEls.push(btn);
+				}
+			}
+			for (const el of captionInkEls) {
+				el.style.setProperty("--dsw-alias-label-secondary", "var(--dsh-any-caption-ink, #fff)");
+				el.setAttribute(CAPTION_INK_ATTR, "");
+			}
+		}
+		let wcoStyleEl = null;
+		function ensureWcoStyle() {
+			if (wcoStyleEl?.isConnected) return wcoStyleEl;
+			wcoStyleEl = document.createElement("style");
+			wcoStyleEl.dataset.plugin = "dsh-any-background-wco";
+			document.head.appendChild(wcoStyleEl);
+			return wcoStyleEl;
+		}
+		/** The band's opaque material, or '' when the plugin has no theme to assert. The
+		*  sampled sidebar fill is already opaque in both source paths (the plugin's
+		*  palette builds `hsl()`, the host's own token is a static colour) — it only
+		*  misses on a host that exposes neither, and then the neutral the plugin builds
+		*  for the effective scheme stands in so the band still tracks the label ink. */
+		function captionFill(src) {
+			const sampled = src?.["--dsw-specific-sidebar-fill"];
+			if (sampled !== void 0) return sampled;
+			if (paletteTokens() === null && rBgDark() === null) return "";
+			const dark = rScheme() === "dark";
+			return genTokens(220, .04, dark ? .14 : .92, dark ? "dark" : "light").tokens["--dsw-specific-sidebar-fill"] ?? "";
+		}
+		/** Write the caption rule and mark the frame it targets. The frame is the
+		*  plugin's own discovery (`discoverParts`), not a guessed hashed class name. The
+		*  probe selector is a verified shape: an inline style that mentions the sidebar
+		*  token on a body-level span is the desktop preload's caption probe and nothing
+		*  else, so no match means no desktop caption and the rule is inert.
+		*
+		*  THE BAND IS TWO REGIONS, NOT ONE. `AppFrame.module.css` paints the whole caption
+		*  with one box (`.frame::before`, `inset: 0 0 auto` at `--dsh-windows-titlebar-height`)
+		*  in `--dsw-specific-sidebar-fill` — the SIDEBAR's token — while the sidebar column
+		*  below it (`AppFrame.tsx`'s first grid track, `${cols.sidebar}px`) is the surface
+		*  that slider actually owns. The 标题栏 card took the band over in 0.3.6, which made
+		*  the strip above the sidebar follow the session title row instead of the sidebar. So
+		*  the band is now cut at the sidebar's own width:
+		*    · `::before` keeps the host's box (and its `-webkit-app-region: drag`) and is
+		*      CLIPPED to everything right of that width — `clip-path:inset(0 0 0 …)` clips
+		*      the paint AND the backdrop-filter's effect, so the region under the cut is
+		*      genuinely untouched rather than frosted twice.
+		*    · `::after` (a box `.frame` does not use on any release in range) paints exactly
+		*      that left segment from `--dsh-any-op-sidebar` — the same literal the sidebar
+		*      column is painted with — and frosts from the sidebar blur's root mirror, so the
+		*      column and the strip above it are one surface under one opacity + blur pair.
+		*      It is PAINT ONLY: `pointer-events:none`, and deliberately NO
+		*      `-webkit-app-region: drag`. Chromium collects app-region items in paint order,
+		*      and a drag annotation on a generated layer overrides the `no-drag` holes the
+		*      native caption menubar punched for itself (`preload-menu.ts` marks its host
+		*      `no-drag`), which left the top-left controls unclickable while the window still
+		*      dragged (issue #29). The host's own `.frame::before` keeps its drag region, so
+		*      the band remains movable.
+		*  `--dsh-windows-sidebar-width` is published INLINE ON THE FRAME by the host
+		*  (`AppFrame.tsx`, Windows builds only, `${cols.sidebar}px`) and both pseudo-elements
+		*  inherit it, so the split tracks a dragged or collapsed sidebar with no observer of
+		*  our own. Collapsed is `0px`: the `::after` box vanishes and `::before` un-clips, so
+		*  the band goes back to being entirely the 标题栏 card's.
+		*  The native button block still reads the probe as `transparent`, and it sits at the
+		*  window's right edge — inside the region that stays 标题栏-owned. */
+		function applyNativeCaption(surfaces) {
+			if (!document.documentElement.hasAttribute("data-windows-titlebar")) return;
+			const src = surfaces === void 0 ? paletteTokens() ?? readHostOpacityTokens() : surfaces;
+			const fill = captionFill(src);
+			const paint = headerBarPaint(src) || fill;
+			const width = "var(--dsh-windows-sidebar-width,0px)";
+			const css = fill === "" ? "" : `${WCO_PROBE_SEL}{--dsw-specific-sidebar-fill:transparent}[data-windows-titlebar] .${CAPTION_FRAME_CLASS}::before{background:var(--dsh-any-op-header-bar,${paint})!important;backdrop-filter:var(--dsh-any-blur-header-bar,none);-webkit-backdrop-filter:var(--dsh-any-blur-header-bar,none);clip-path:inset(0 0 0 ${width});-webkit-clip-path:inset(0 0 0 ${width})}[data-windows-titlebar] .${CAPTION_FRAME_CLASS}::after{content:"";position:absolute;top:0;left:0;pointer-events:none;z-index:-1;width:${width};height:var(--dsh-windows-titlebar-height,40px);background:var(--dsh-any-op-sidebar,${fill});backdrop-filter:var(--dsh-any-blur-sidebar-band,none);-webkit-backdrop-filter:var(--dsh-any-blur-sidebar-band,none)}[data-windows-titlebar]:has([role="dialog"][aria-modal="true"]) .${CAPTION_FRAME_CLASS}::before,[data-windows-titlebar]:has([role="dialog"][aria-modal="true"]) .${CAPTION_FRAME_CLASS}::after{box-shadow:inset 0 0 0 9999px var(--dsw-alias-bg-mask-1,rgba(0,0,0,.24))}` + (rCaptionInk() === "theme" ? "" : ":root:has([data-sidebar-collapsed=\"true\"]){--dsh-any-caption-ink:var(--dsh-any-caption-ink-collapsed,#fff)!important}[data-windows-titlebar] [data-windows-menu]{--dsw-alias-label-secondary:var(--dsh-any-caption-ink,#fff);--dsw-alias-label-primary:var(--dsh-any-caption-ink,#fff)}") + `[data-windows-titlebar] .${FLAT_CENTER_CLASS}{border-top-left-radius:0!important}`;
+			const el = ensureWcoStyle();
+			if (el.textContent !== css) el.textContent = css;
+			const ink = css === "" ? null : captionInkPair();
+			const root = document.documentElement;
+			if (ink === null) {
+				root.style.removeProperty("--dsh-any-caption-ink");
+				root.style.removeProperty("--dsh-any-caption-ink-collapsed");
+			} else {
+				root.style.setProperty("--dsh-any-caption-ink", ink.ink);
+				root.style.setProperty("--dsh-any-caption-ink-collapsed", ink.collapsedInk);
+			}
+			discoverParts();
+			applyCaptionInk(ink !== null);
+			if (frameEl === null) return;
+			if (css === "") {
+				frameEl.classList.remove(CAPTION_FRAME_CLASS);
+				centerEl?.classList.remove(FLAT_CENTER_CLASS);
+			} else {
+				frameEl.classList.add(CAPTION_FRAME_CLASS);
+				centerEl?.classList.add(FLAT_CENTER_CLASS);
+			}
+		}
+		/** Mirror of the sidebar-part blur on `:root`, for the caption segment above the
+		*  sidebar column. `--dsh-any-part-blur` is written INLINE on the column and the band
+		*  is a pseudo-element of the FRAME, one level up, so it can never inherit it. */
+		function applySidebarBandBlur(px) {
+			if (px > 0) document.documentElement.style.setProperty("--dsh-any-blur-sidebar-band", `blur(${px}px)`);
+			else document.documentElement.style.removeProperty("--dsh-any-blur-sidebar-band");
+		}
+		/** Mirror of the bg-part blur on :root. --dsh-any-part-blur is element-scoped
+		*  to the columns, so surfaces outside their subtree (the mobile header, or
+		*  third-party styles) can never inherit it. */
+		function applyBgBlurGlobal(px) {
+			if (px > 0) document.documentElement.style.setProperty("--dsh-any-part-blur-global", `blur(${px}px)`);
+			else document.documentElement.style.removeProperty("--dsh-any-part-blur-global");
+		}
+		const PANEL_TOKEN_RULE = `${PANEL_SURFACES}{--dsw-alias-bg-base:var(--dsh-any-panel-bg-base);--dsw-alias-bg-layer-1:var(--dsh-any-panel-layer-1);--dsw-alias-bg-layer-2:var(--dsh-any-panel-layer-2);--dsw-alias-bg-layer-3:var(--dsh-any-panel-layer-3)}`;
+		/** The header dropdown surfaces, spelled ONCE. Three rules consume this set (the
+		*  static blur rule, the dynamic token rule and the stroke group), and every one
+		*  of them drifting by a single attribute re-introduces the bug where a header
+		*  menu keeps the card slider's look instead of its own.
+		*
+		*  Strategy 1 is the runtime tag (`header-tag.ts`); strategies 2 are class-shape
+		*  fallbacks for the first paint before the tag observer runs. */
+		const HEADER_TAG_SELECTOR = `[${HEADER_POPOVER_ATTR}]`;
+		const HEADER_SURFACES = [
+			HEADER_TAG_SELECTOR,
+			"ul[class*=\"_menu\"],div[role=\"dialog\"][class*=\"_panel\"]:not([aria-modal=\"true\"])",
+			`[role="menu"][class*="_denseList"]:not([class*="_portal"])`,
+			"[role=\"tree\"][class*=\"_menu\"]"
+		];
+		/** SPECIFICITY IS LOAD-BEARING HERE. The card group's rule is
+		*  `[role="menu"]:not([data-dockkit-tab-menu])` — specificity (0,2,0) — so a bare
+		*  `[data-dsh-any-header-popover]` (0,1,0) LOSES to it no matter how late it
+		*  appears in the sheet. That is exactly how the tagged open-in-app menu kept
+		*  taking the card blur. `[role]` is a no-op presence test that raises only the
+		*  tagged arm to (0,2,0); the other three already qualify at (0,2,0)+. */
+		const HEADER_SURFACES_PADDED = [
+			`${HEADER_TAG_SELECTOR}[role]`,
+			`${HEADER_TAG_SELECTOR}[data-menu-material]`,
+			...HEADER_SURFACES.slice(1)
+		];
+		/** The header blur variable, and the rule that frosts the header's dropdown set.
+		*  The declaration comes from the same adapter answer as the card group's menu arm:
+		*  every surface in this set paints its skin from the host's own menu-blur token
+		*  (`SubagentHeaderLineage.module.css:120` uses a pseudo-element, the stat dialog and
+		*  goal bar use their own layer), so handing over the token reaches all of them on
+		*  both paint shapes, while filtering the element would install the ancestor
+		*  backdrop root each of those files documents avoiding. */
+		const HEADER_BLUR_VAR = "--dsh-any-blur-header";
+		function headerPopoverRule() {
+			return `${HEADER_SURFACES_PADDED.join(",")}{${menuFrost(HEADER_BLUR_VAR)}}`;
+		}
+		function exemptDefaultRule() {
+			return `[role="dialog"][aria-modal="true"]:not([aria-labelledby]){backdrop-filter:none;-webkit-backdrop-filter:none}[role="menu"]:has([class*="_danger"]){${hostAdapter().menus.frostDecl("none")};-webkit-text-stroke-width:0}`;
+		}
+		/** Selector the dynamic header token rule targets — the same set as the static
+		*  headerPopoverRule above, so the two can never drift apart. */
+		const HEADER_TOKEN_SELECTOR = HEADER_SURFACES_PADDED.join(",");
+		/** Header-popover surfaces: retint the menu token and (re)write the blur.
+		*  Mirrors applyProduced: the static rule above never changes, so a drag only
+		*  rewrites the blur variable and this one dynamic rule. */
+		function applyHeaderPopovers() {
+			const root = document.documentElement;
+			const px = rBlurs().header;
+			if (px > 0) root.style.setProperty(HEADER_BLUR_VAR, `blur(${px}px)`);
+			else root.style.removeProperty(HEADER_BLUR_VAR);
+			let opacity = rHeaderOpacity();
+			if (opacity < 0) opacity = 0;
+			if (opacity > 1) opacity = 1;
+			const menu = (paletteTokens() ?? readHostOpacityTokens())?.[MENU_FILL_TOKEN];
+			const el = ensureHeaderStyle();
+			const css = menu === void 0 ? "" : `${HEADER_TOKEN_SELECTOR}{${menuFillDecls(toRgba(menu, opacity))}}`;
+			if (el.textContent !== css) el.textContent = css;
+		}
+		let headerStyleEl = null;
+		function ensureHeaderStyle() {
+			if (headerStyleEl?.isConnected) return headerStyleEl;
+			headerStyleEl = document.createElement("style");
+			headerStyleEl.dataset.plugin = "dsh-any-background-header";
+			document.head.appendChild(headerStyleEl);
+			return headerStyleEl;
+		}
+		/** Pin the exempt groups (confirm dialogs and the session-row menu) so no
+		*  appearance slider moves them — while KEEPING the active theme color.
+		*
+		*  "Default" here means "not faded, not blurred", NOT "host-palette original":
+		*  an earlier version restored the :root host colors, which also stripped the
+		*  picked theme color and made the menu look un-themed. The correct source is
+		*  the same one every other slider uses (the plugin palette when there is one,
+		*  else the host's resolved tokens) with alpha pinned to 1 — so the surface
+		*  keeps whatever color the theme currently dictates and only loses the slider's
+		*  translucency and blur.
+		*
+		*  Emitted as REAL literals into a dedicated stylesheet, never as
+		*  `var(--x, var(--x))`: a self-referencing fallback is a CSS cycle that
+		*  computes to the guaranteed-invalid value and turns every consuming
+		*  `background:var(--dsw-alias-bg-layer-2)` fully transparent. Literals also
+		*  mean that when no color can be resolved we emit NO declaration at all, so
+		*  the surface keeps the re-scoped value rather than going transparent. */
+		function applyExemptDefaults() {
+			if (typeof document === "undefined") return;
+			const source = paletteTokens() ?? readHostOpacityTokens();
+			const el = ensureExemptStyle();
+			const decls = [];
+			const add = (token, value) => {
+				if (value === void 0 || value === "") return;
+				decls.push(`${token}:${toRgba(value, 1)}`);
+			};
+			add("--dsw-alias-bg-layer-1", source?.["--dsw-alias-bg-layer-1"]);
+			add("--dsw-alias-bg-layer-2", source?.["--dsw-alias-bg-layer-2"]);
+			add("--dsw-alias-bg-layer-3", source?.["--dsw-alias-bg-layer-3"]);
+			const menuColor = source?.[MENU_FILL_TOKEN];
+			for (const name of hostAdapter().menus.fillTokens) add(name, menuColor);
+			if (decls.length === 0) {
+				if (el.textContent !== "") el.textContent = "";
+				return;
+			}
+			const dialog = "[role=\"dialog\"][aria-modal=\"true\"]:not([aria-labelledby])";
+			const registry = "[data-install-registry]";
+			const body = decls.join(";");
+			const css = `${dialog},${dialog} *{${body}}[role="menu"]:has([class*="_danger"]){${body}}${registry},${registry} *{${body}}`;
+			if (el.textContent !== css) el.textContent = css;
+		}
+		let exemptStyleEl = null;
+		function ensureExemptStyle() {
+			if (exemptStyleEl?.isConnected) return exemptStyleEl;
+			exemptStyleEl = document.createElement("style");
+			exemptStyleEl.dataset.plugin = "dsh-any-background-exempt";
+			document.head.appendChild(exemptStyleEl);
+			return exemptStyleEl;
+		}
+		const READER_ROOT = "[data-dsh-better-display]:not([data-reader-glass])";
+		/** Plate density the lanes are pinned at: 「主界面」 at 20% — a band that reads as a
+		*  band while still letting the wallpaper through. */
+		const READER_LANE_ALPHA = .2;
+		/** Frost the lanes are pinned at (px) — the middle of the 0–60 blur range, i.e. the
+		*  plugin's own default, so the band looks like every other frosted surface here. */
+		const READER_LANE_BLUR_PX = 30;
+		/** The sticky wrapper holding the status lane and the closed-turn digest. It paints
+		*  NOTHING today (`Reader.module.css:27`), and `:556` forces both children
+		*  `position:static; z-index:auto` — so it is the one element whose box can simply BE
+		*  the band: one plate, one frost region, one pair of rounded corners. */
+		const READER_WRAP = `${READER_ROOT} [class*="_turnStickyLanes"]`;
+		/** The band's two height levers, both published by that plugin itself
+		*  (`StickyLane.tsx:11-13` writes the measured toolbar and status-lane heights onto
+		*  ancestors the wrapper inherits from), so the merged box tracks real text wrapping
+		*  instead of a hardcoded 40px. */
+		const READER_TOOLBAR_H = "var(--reader-toolbar-height,40px)";
+		const READER_BAND_TOP = `max(${READER_TOOLBAR_H},var(--reader-status-height,40px))`;
+		/** The two surfaces that paint a band, spelled once so the static and dynamic halves
+		*  cannot drift: the merged wrapper, and the live-fold summary cell — which cannot be
+		*  merged into it, because it sticks at `z-index:5` BELOW the wrapper's 6, so growing
+		*  the wrapper over that row would paint the wrapper's plate straight across the row's
+		*  own text (tried, measured, reverted). */
+		const READER_LANE_SEL = `${READER_WRAP},${READER_ROOT} [data-flow-summary]`;
+		/** Everything that used to paint its own plate and must stop now that the wrapper
+		*  does. Their plates are what made the stack read as separate bars: the status lane is
+		*  `width:calc(100% - var(--reader-control-width))` (`:546`) so it notched short of the
+		*  toolbar's width, and each `box-shadow` gap plate (`:555/:564/:565`) lands on a
+		*  neighbour and doubles the alpha there — a 14–16px darker strip per seam.
+		*
+		*  The toolbar lane hands its plate over only while a band exists to swallow it: a turn
+		*  with no process steps renders no wrapper at all, and there the strip would be left
+		*  with nothing behind its own button. It can be swallowed at all because its
+		*  `z-index:7` (`:538`) sits ABOVE the wrapper's 6 — its own text keeps painting over
+		*  the merged plate, which is exactly the arrangement the live-fold cell cannot use. */
+		const READER_SILENT = `${READER_WRAP}>*,${READER_ROOT}:has([class*="_turnStickyLanes"]) [data-reader-lane="toolbar"]`;
+		/** Static half — the merge, the frost, the shape. Every value is a literal or one of
+		*  that plugin's own published variables; nothing here reads a slider, which is what
+		*  makes the band immune to 调控.
+		*
+		*  It is TEXT in the dynamic sheet rather than a rule in `buildStaticStyles()`, and
+		*  that is the point: the static sheet is this plugin's contract with the HOST, and a
+		*  third-party accommodation must be able to vanish completely — paint, frost and the
+		*  merged box's geometry alike — when 「保护第三方表面」 is switched off. One sheet, one
+		*  owner, one thing to remove.
+		*
+		*  HOW THE BOX GROWS WITHOUT MOVING CONTENT: `padding-top` reaches up over the toolbar
+		*  strip and an equal negative `margin-top` cancels it, so the wrapper's margin box
+		*  keeps its height and every following sibling stays exactly where it was; `top` is
+		*  pulled up by the same amount so the STUCK position puts the wrapper's content back at
+		*  `max(toolbar, status)`. The lanes' text does not move a pixel — only the paint does.
+		*  Measured in the §4.2 mock with the pin on and off: the column's height and the first
+		*  paragraph's offset are identical, and the status row's `top` is unchanged.
+		*
+		*  The rounded bottom goes on whichever band is actually LAST: the live-fold cell sticks
+		*  40px below the wrapper (`:558`), so while the turn has one the wrapper is not the
+		*  bottom edge and rounding it would open a notch against the cell under it. A build
+		*  without `:has()` keeps both bands square; nothing else changes. */
+		const READER_LANE_RULE = `${READER_LANE_SEL}{background:var(--dsw-alias-bg-base);box-shadow:none;${elementFrostDecl(`blur(${READER_LANE_BLUR_PX}px)`)}}${READER_WRAP}{border-radius:0 0 14px 14px;padding-top:${READER_TOOLBAR_H};margin-top:calc(0px - ${READER_TOOLBAR_H});top:calc(${READER_BAND_TOP} - ${READER_TOOLBAR_H})}${READER_ROOT} [data-flow-summary]{border-radius:0 0 14px 14px}${READER_ROOT} [data-reader-turn]:has([data-flow-summary]) [class*="_turnStickyLanes"]{border-radius:0}${READER_SILENT}{background:transparent;box-shadow:none}`;
+		let readerStyleEl = null;
+		/** Emit the whole pin — geometry, frost and the plate literal — into one sheet, or
+		*  remove that sheet entirely. Two things switch it off: 「保护第三方表面」 being turned
+		*  off, and no color resolving yet (the palette and the host's own tokens are both
+		*  empty pre-boot), because a `var()` naming an unwritten property is the §2-E
+		*  guaranteed-invalid trap and its symptom here is the very bug being pinned. */
+		function applyReaderLanes(surfaces) {
+			if (typeof document === "undefined") return;
+			const base = rProtectThirdParty() ? (surfaces ?? paletteTokens() ?? readHostOpacityTokens())?.["--dsw-alias-bg-base"] : void 0;
+			if (base === void 0 || base === "") {
+				if (readerStyleEl !== null) {
+					readerStyleEl.remove();
+					readerStyleEl = null;
+				}
+				return;
+			}
+			if (readerStyleEl === null) {
+				readerStyleEl = document.createElement("style");
+				readerStyleEl.dataset.plugin = "dsh-any-background-reader";
+				document.head.appendChild(readerStyleEl);
+			}
+			const css = `${READER_LANE_RULE}${READER_LANE_SEL}{--dsw-alias-bg-base:${toRgba(base, READER_LANE_ALPHA)}}`;
+			if (readerStyleEl.textContent !== css) readerStyleEl.textContent = css;
+		}
+		const PRODUCED_RULE = `[data-code-block-content] pre,[data-code-block-banner],[data-composer-chip],[data-changed-files],[data-terminal],[data-read],[data-diff],[data-context-injection-body],[data-search],[data-web],[class*="_ioCard"],[data-inspect],[data-turn-trigger],[style*="--dsh-hover-preview-fade"],:not(pre)>code{-webkit-backdrop-filter:var(--dsh-any-blur-prod,none);backdrop-filter:var(--dsh-any-blur-prod,none)}[data-markdown-variant="compact"] :not(pre)>code{-webkit-backdrop-filter:none;backdrop-filter:none}${BETTER_SIDEBAR_PANEL}{-webkit-backdrop-filter:var(--dsh-any-blur-prod,none);backdrop-filter:var(--dsh-any-blur-prod,none)}${BETTER_SIDEBAR_PANEL}{--dsw-alias-bg-base:var(--dsh-any-prod-panel-bg-base);--dsw-alias-bg-layer-1:var(--dsh-any-prod-panel-layer-1);--dsw-alias-bg-layer-2:var(--dsh-any-prod-panel-layer-2);--dsw-alias-bg-layer-3:var(--dsh-any-prod-panel-layer-3)}@supports (background:color-mix(in srgb,red 50%,transparent)){.md-code-block{background:transparent!important}.md-code-block>div{background-color:transparent!important}.md-code-block [data-code-block-content] pre{background-color:color-mix(in srgb,var(--dsl-code-block-background,var(--dsw-alias-markdown-code-block,transparent)) var(--dsh-any-prod-pct,100%),transparent)!important}.md-code-block [data-code-block-banner]{background-color:color-mix(in srgb,var(--dsl-code-block-banner-background-color,var(--dsw-alias-markdown-code-block-banner,transparent)) var(--dsh-any-prod-pct,100%),transparent)!important}[data-code-block-banner]{background-color:color-mix(in srgb,var(--dsl-code-block-banner-background-color,var(--dsl-code-block-background,var(--dsw-alias-markdown-code-block,transparent))) var(--dsh-any-prod-pct,100%),transparent)!important}[data-code-block-content]{--shiki-background:color-mix(in srgb,var(--dsw-alias-markdown-code-block,var(--dsl-code-block-background,transparent)) var(--dsh-any-prod-pct,100%),transparent)}:not(pre)>code{background-color:color-mix(in srgb,var(--dsw-alias-markdown-inline-code,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-composer-chip]>*{background-color:color-mix(in srgb,var(--dsw-alias-interactive-bg-hover,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-terminal]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-terminal] button{background-color:transparent!important}[data-read],[data-diff]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-read]>div:first-child:not([data-code-block-banner]),[data-diff]>div:first-child:not([data-code-block-banner]){background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block-banner,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-context-injection-body]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-inspect]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-turn-trigger]{background-color:color-mix(in srgb,var(--dsw-alias-turn-trigger-bg,var(--dsw-alias-markdown-code-block,transparent)) var(--dsh-any-prod-pct,100%),transparent)!important}[data-turn-trigger]:hover{background-color:color-mix(in srgb,var(--dsw-alias-turn-trigger-bg-hover,var(--dsw-alias-interactive-bg-hover,transparent)) var(--dsh-any-prod-pct,100%),transparent)!important}[data-changed-files]{background-color:var(--dsh-any-prod-layer-1,var(--dsw-alias-bg-layer-1,transparent))!important}[data-changed-files]>button:first-child{background-color:color-mix(in srgb,var(--changes-fill,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-changed-files]>button:first-child:hover{background-color:color-mix(in srgb,var(--changes-hover,var(--changes-fill,transparent)) var(--dsh-any-prod-pct,100%),transparent)!important}[data-changed-files]>button:first-child>span:first-child{background-color:color-mix(in srgb,var(--changes-fill,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[style*="--dsh-hover-preview-fade"]{background-color:color-mix(in srgb,var(--dsw-hovercard-bg,#2c2c2e) var(--dsh-any-prod-pct,100%),transparent)!important}[style*="--dsh-hover-preview-fade"][class*="_preview"]{background-color:var(--dsh-any-prod-layer-1,var(--dsw-alias-bg-layer-1,transparent))!important}[data-search]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[data-web]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}[class*="_ioCard"]{background-color:color-mix(in srgb,var(--dsw-alias-markdown-code-block,transparent) var(--dsh-any-prod-pct,100%),transparent)!important}}`;
+		const STROKE_RULE = [
+			`${SETTINGS_PANEL_SEL}{-webkit-text-stroke:var(--dsh-any-stroke-settings-w,0px) var(--dsh-any-stroke-settings-c,transparent);paint-order:stroke fill}`,
+			"[role=\"menu\"]:not([data-dockkit-tab-menu]),[data-menu-material]:not([data-dockkit-tab-menu]),[role=\"listbox\"],body>[role=\"tree\"],body>[role=\"dialog\"]:not([aria-modal=\"true\"]){-webkit-text-stroke:var(--dsh-any-stroke-card-w,0px) var(--dsh-any-stroke-card-c,transparent);paint-order:stroke fill}",
+			`[data-composer-card],[data-cordis-panel],[data-composer-card] textarea,[data-composer-card] input,[data-composer-card] [contenteditable],[data-cordis-panel] input,[data-cordis-panel] textarea,${COMPOSER_TAKEOVER_CARD},${COMPOSER_TAKEOVER_EDITOR}{-webkit-text-stroke:var(--dsh-any-stroke-input-w,0px) var(--dsh-any-stroke-input-c,transparent);paint-order:stroke fill}`,
+			`.${HEADER_BAR_CLASS}{-webkit-text-stroke:var(--dsh-any-stroke-headerBar-w,0px) var(--dsh-any-stroke-headerBar-c,transparent);paint-order:stroke fill}`,
+			`[data-chat-flow]{-webkit-text-stroke:var(--dsh-any-stroke-chat-w,0px) var(--dsh-any-stroke-chat-c,transparent);paint-order:stroke fill}`,
+			`[data-conversation-composer-overlay]{-webkit-text-stroke:var(--dsh-any-stroke-trajectory-w,0px) var(--dsh-any-stroke-trajectory-c,transparent);paint-order:stroke fill}`,
+			`[data-code-block-content] pre,[data-code-block-content],[data-code-block-banner],[data-composer-chip],:not(pre)>code,[data-changed-files],[data-terminal],[data-read],[data-diff],[data-inspect],[data-turn-trigger],[data-context-injection-body],[data-search],[data-web],[class*="_ioCard"],[style*="--dsh-hover-preview-fade"],${BETTER_SIDEBAR_PANEL}{-webkit-text-stroke:var(--dsh-any-stroke-produced-w,0px) var(--dsh-any-stroke-produced-c,transparent);paint-order:stroke fill}`,
+			`${PANEL_SURFACES}{-webkit-text-stroke:var(--dsh-any-stroke-panel-w,0px) var(--dsh-any-stroke-panel-c,transparent);paint-order:stroke fill}`,
+			`${HEADER_SURFACES.join(",")}{-webkit-text-stroke:var(--dsh-any-stroke-header-w,0px) var(--dsh-any-stroke-header-c,transparent);paint-order:stroke fill}`,
+			"[data-chat-flow] [role=\"status\"],[data-chat-flow] [data-turn-process],[data-chat-flow] [data-text-shimmer],[data-chat-flow] [data-shimmer],[data-chat-flow] [style*=\"--dsh-text-shimmer-spread\"]{-webkit-text-stroke-width:0!important;paint-order:normal!important}",
+			`svg{-webkit-text-stroke-width:0!important;paint-order:normal!important}`,
+			`::placeholder{-webkit-text-stroke-width:0!important}`
+		].join("");
+		/** Groups whose stroke lands on the structurally-discovered columns (inline),
+		*  versus every group served by the static STROKE_RULE selectors. */
+		const STROKE_INLINE_GROUPS = ["bg", "sidebar"];
+		const STROKE_VAR_GROUPS = [
+			"card",
+			"settings",
+			"chat",
+			"trajectory",
+			"input",
+			"panel",
+			"produced",
+			"header",
+			"headerBar"
+		];
+		/** Resolve one group's stroke color key into a concrete CSS color.
+		*  'auto' contrasts the FONT direction (white fonts → black stroke and vice
+		*  versa — mirrors the label flip in applyCustomTokensNow); 'theme' follows
+		*  the live palette's brand primary (picked color → generated palette, else
+		*  the host's own resolved token). */
+		function strokeColor(s) {
+			switch (s.color) {
+				case "gray": return "#808080";
+				case "black": return "#000";
+				case "white": return "#fff";
+				case "custom": return s.customColor;
+				case "theme":
+					if (rHasColor() || rSchemeOverride() !== "auto") {
+						const [h, sa, l] = rColor();
+						return genTokens(h, sa, l, rColorScheme()).tokens["--dsw-alias-brand-primary"] ?? "#808080";
+					}
+					if (typeof getComputedStyle !== "undefined") {
+						const v = getComputedStyle(document.documentElement).getPropertyValue("--dsw-alias-brand-primary").trim();
+						if (v !== "") return v;
+					}
+					return "#808080";
+				default: {
+					let fontDark;
+					if (rHasColor()) fontDark = rColorScheme() === "dark";
+					else if (rSchemeOverride() !== "auto") fontDark = rScheme() === "dark";
+					else if (rBgDark() !== null) fontDark = rBgDark() === true;
+					else fontDark = false;
+					return fontDark ? "#000" : "#fff";
+				}
+			}
+		}
+		/** Write every group's stroke width/color variables + the two column strokes.
+		*  Called from applyWp so palette/verdict changes re-derive 'auto'/'theme'. */
+		/** Write (or clear) one column's inline text stroke. The stroke rides inline
+		*  styles and is fully removed at width 0 so nothing lingers after the slider
+		*  resets. */
+		function applyInlineStroke(el, s) {
+			if (s.width > 0) {
+				el.style.setProperty("-webkit-text-stroke", `${s.width}px ${strokeColor(s)}`);
+				el.style.setProperty("paint-order", "stroke fill");
+			} else {
+				el.style.removeProperty("-webkit-text-stroke");
+				el.style.removeProperty("paint-order");
+			}
+		}
+		function applyStrokes() {
+			const strokes = rStrokes();
+			const root = document.documentElement;
+			for (const g of STROKE_VAR_GROUPS) {
+				const s = strokes[g];
+				root.style.setProperty(`--dsh-any-stroke-${g}-w`, `${s.width}px`);
+				root.style.setProperty(`--dsh-any-stroke-${g}-c`, strokeColor(s));
+			}
+			discoverParts();
+			for (const g of STROKE_INLINE_GROUPS) {
+				const el = g === "bg" ? centerEl : sidebarEl;
+				if (el !== null) applyInlineStroke(el, strokes[g]);
+			}
+		}
+		/** Live per-group stroke update during slider drag (no full re-apply). */
+		function setPartStroke(part, s) {
+			if (STROKE_VAR_GROUPS.includes(part)) {
+				document.documentElement.style.setProperty(`--dsh-any-stroke-${part}-w`, `${s.width}px`);
+				document.documentElement.style.setProperty(`--dsh-any-stroke-${part}-c`, strokeColor(s));
+				return;
+			}
+			discoverParts();
+			const el = part === "bg" ? centerEl : sidebarEl;
+			if (el === null) return;
+			applyInlineStroke(el, s);
+		}
+		/** Teardown only: drop every stroke variable and column inline stroke. */
+		function removeStrokes() {
+			const root = document.documentElement;
+			for (const g of [...STROKE_VAR_GROUPS, ...STROKE_INLINE_GROUPS]) {
+				root.style.removeProperty(`--dsh-any-stroke-${g}-w`);
+				root.style.removeProperty(`--dsh-any-stroke-${g}-c`);
+			}
+			for (const el of [centerEl, sidebarEl]) {
+				if (el === null) continue;
+				el.style.removeProperty("-webkit-text-stroke");
+				el.style.removeProperty("paint-order");
+			}
+		}
+		const FONT_FAMILY = "DAnyFont";
+		let fontStyleEl = null;
+		function fontFormatForMime(mime) {
+			switch (mime) {
+				case "font/woff2": return "woff2";
+				case "font/woff": return "woff";
+				case "font/otf": return "opentype";
+				default: return "truetype";
+			}
+		}
+		/** Apply or clear the custom interface font. `url` is the serve URL (null =
+		*  nothing stored); `enabled` gates the token override without deleting the
+		*  file. The original host stack is re-read on every apply so a host skin
+		*  change is picked up, and stays as the fallback after 'DAnyFont'. */
+		function applyFontFace(url, enabled, mime) {
+			if (url === null || !enabled) {
+				fontStyleEl?.remove();
+				fontStyleEl = null;
+				return;
+			}
+			if (fontStyleEl === null || !fontStyleEl.isConnected) {
+				fontStyleEl = document.createElement("style");
+				fontStyleEl.dataset.plugin = "dsh-any-background-font";
+				document.head.appendChild(fontStyleEl);
+			}
+			let stack = "";
+			if (typeof getComputedStyle !== "undefined") stack = getComputedStyle(document.documentElement).getPropertyValue("--dsw-font-family").trim();
+			if (stack === "") stack = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif";
+			const fmt = fontFormatForMime(mime);
+			fontStyleEl.textContent = `@font-face{font-family:'${FONT_FAMILY}';src:url('${url}') format('${fmt}');font-display:swap}body{--dsw-font-family:'${FONT_FAMILY}',${stack}!important}input,textarea,select,button{font-family:var(--dsw-font-family)}`;
+		}
+		/** Teardown only: drop the @font-face + token override. */
+		function removeFontFace() {
+			fontStyleEl?.remove();
+			fontStyleEl = null;
+		}
+		/** The host's own defaults, read from the live `:root` so a custom host skin or
+		*  theme override wins. */
+		function readHostLayerTokens() {
+			if (typeof getComputedStyle === "undefined") return null;
+			const root = document.documentElement;
+			const cs = getComputedStyle(root);
+			const base = cs.getPropertyValue("--dsw-alias-bg-base").trim();
+			const layer1 = cs.getPropertyValue("--dsw-alias-bg-layer-1").trim();
+			const layer2 = cs.getPropertyValue("--dsw-alias-bg-layer-2").trim();
+			const layer3 = cs.getPropertyValue("--dsw-alias-bg-layer-3").trim();
+			if (!base && !layer1 && !layer2 && !layer3) return null;
+			return {
+				base,
+				layer1,
+				layer2,
+				layer3
+			};
+		}
+		/** The host's own right Sidebar (`PANEL_TOKEN_RULE`) reads this set. */
+		const PANEL_LAYER_VARS = {
+			base: "--dsh-any-panel-bg-base",
+			layer1: "--dsh-any-panel-layer-1",
+			layer2: "--dsh-any-panel-layer-2",
+			layer3: "--dsh-any-panel-layer-3"
+		};
+		/** The dsh-better-sidebar workbench (see `PRODUCED_RULE`) reads this set, so the
+		*  two panels can follow two different sliders. */
+		const PROD_PANEL_LAYER_VARS = {
+			base: "--dsh-any-prod-panel-bg-base",
+			layer1: "--dsh-any-prod-panel-layer-1",
+			layer2: "--dsh-any-prod-panel-layer-2",
+			layer3: "--dsh-any-prod-panel-layer-3"
+		};
+		/** The changed-files card root needs one token only — the RAW `--dsw-alias-bg-layer-1`
+		*  at the produced alpha. It cannot mix on the token itself the way the other
+		*  produced surfaces do, because that name is what the interface card slider
+		*  re-emits globally on `body` (OPACITY_TOKEN_GROUPS), so mixing on it would bind
+		*  one artifact card to two sliders. */
+		const PROD_LAYER_VARS = { layer1: "--dsh-any-prod-layer-1" };
+		const LAYER_KEYS = [
+			"base",
+			"layer1",
+			"layer2",
+			"layer3"
+		];
+		/** Re-emit the four layer colors at `op` alpha into `names`. The source is the
+		*  plugin palette when a picked color / forced scheme owns the theme, otherwise
+		*  the host's own resolved tokens — a slider only ever supplies the alpha, so the
+		*  colors keep following whichever theme or host skin is active.
+		*
+		*  Every pass writes SOMETHING: the re-scope rules live in the always-emitted
+		*  stylesheet, and a `var()` naming an unwritten variable makes the surface
+		*  guaranteed-invalid, which drops its background entirely rather than leaving it
+		*  on the host default. */
+		function writeLayerVars(names, op) {
+			const palette = paletteTokens();
+			const src = palette !== null ? {
+				base: palette["--dsw-alias-bg-base"],
+				layer1: palette["--dsw-alias-bg-layer-1"],
+				layer2: palette["--dsw-alias-bg-layer-2"],
+				layer3: palette["--dsw-alias-bg-layer-3"]
+			} : readHostLayerTokens() ?? {};
+			const root = document.documentElement;
+			if (LAYER_KEYS.every((k) => !src[k])) {
+				for (const k of LAYER_KEYS) if (names[k]) root.style.setProperty(names[k], "transparent");
+				return;
+			}
+			for (const k of LAYER_KEYS) {
+				const name = names[k];
+				const v = src[k];
+				if (name && v) root.style.setProperty(name, toRgba(v, op));
+			}
+		}
+		function applyPanelOverrides(op) {
+			writeLayerVars(PANEL_LAYER_VARS, op);
+		}
+		function applyPanelBlur(px) {
+			if (px > 0) document.documentElement.style.setProperty("--dsh-any-blur-panel", `blur(${px}px)`);
+			else document.documentElement.style.removeProperty("--dsh-any-blur-panel");
+		}
+		const PLACEHOLDER_RULE = `[data-composer-card] textarea::placeholder,[data-composer-card] input::placeholder,[data-composer-card] [contenteditable]::placeholder,[data-cordis-panel] input::placeholder,[data-cordis-panel] textarea::placeholder,${COMPOSER_TAKEOVER_EDITOR}::placeholder,.dab-input::placeholder,.dab-input textarea::placeholder,.dab-input input::placeholder{color:var(--dsh-any-placeholder,var(--dsw-alias-label-caption,#8a8f98))!important;font-style:italic;opacity:.85}`;
+		/** Re-scope one surface group's layer tokens onto plugin-owned variables so a
+		*  dedicated slider owns its alpha (the host has no per-surface opacity). The
+		*  settings group additionally retints its dialog surface variable. Always
+		*  written explicitly — including at 100% — so removing a slider's effect means
+		*  writing 1, not deleting the variable (the style rules below have no fallback
+		*  and would otherwise resolve the body tokens that applyCustomTokens rewrote
+		*  with the homepage card alpha). */
+		function applyLayerOverrides(prefix, op, surface) {
+			const [h, s, l] = rColor();
+			const tokens = genTokens(h, s, l, rColorScheme()).tokens;
+			if (surface) {
+				const surfaceColor = tokens["--dsw-alias-bg-layer-2"];
+				if (surfaceColor !== void 0) document.documentElement.style.setProperty(`${prefix}-surface`, toRgba(surfaceColor, op));
+			}
+			for (const layer of [
+				1,
+				2,
+				3
+			]) {
+				const c = tokens[`--dsw-alias-bg-layer-${layer}`];
+				if (c !== void 0) document.documentElement.style.setProperty(`${prefix}-layer-${layer}`, toRgba(c, op));
+			}
+		}
+		function applySettingsOverrides(op) {
+			applyLayerOverrides("--dsh-any-bg-settings", op, true);
+		}
+		const TRAJECTORY_STYLE_RULE = "[data-conversation-composer-overlay]{--dsw-alias-bg-layer-1:var(--dsh-any-traj-layer-1);--dsw-alias-bg-layer-2:var(--dsh-any-traj-layer-2);--dsw-alias-bg-layer-3:var(--dsh-any-traj-layer-3)}";
+		function applyTrajectoryOverrides(op) {
+			applyLayerOverrides("--dsh-any-traj", op, false);
+		}
+		/** Register a callback fired when a wallpaper-extracted theme color is
+		*  adopted by the auto-adaptation path, so the section can re-register the
+		*  host skin, sync the editor UI and persist the pick (wallpaper.ts cannot
+		*  do those itself — they live in the section). */
+		let colorAdoptedListener = null;
+		function onColorAdopted(cb) {
+			colorAdoptedListener = cb;
+			return () => {
+				if (colorAdoptedListener === cb) colorAdoptedListener = null;
+			};
+		}
+		/** Apply the theme color: use the saved pick directly, or fall back to
+		*  extracting a dominant color from the current wallpaper. */
+		function applyThemeColor() {
+			if (rHasColor()) {
+				applyWp();
+				return;
+			}
+			const url = rWp();
+			if (url) {
+				applyWp();
+				extractWallpaperColor(url, cfg.backgroundType === "video" ? rVideoBgState() : rBgState()).then((hsl) => {
+					if (hsl && rWp() === url) {
+						cfg.color = hsl;
+						colorAdoptedListener?.(hsl);
+						applyWp();
+					}
+				});
+			} else applyWp();
+		}
+		/** Switch the background source type. For generated types a new live canvas is
+		*  attached to the wallpaper layer and a snapshot is kept for the store/preview. */
+		function setBackgroundType(type) {
+			cfg.backgroundType = type;
+			if (type === "image") {
+				clearDynamicBg();
+				setBgDark(null);
+				setWpUrl(rWpImage());
+				applyThemeColor();
+				return;
+			}
+			if (type === "video") {
+				clearDynamicBg();
+				setBgDark(null);
+				setWpUrl(null);
+				applyThemeColor();
+				return;
+			}
+			if (!cfg.generatedBg || cfg.generatedBg.type !== type) cfg.generatedBg = defaultParamsFor(type);
+			applyGeneratedBg(cfg.generatedBg);
+		}
+		function randomSeed() {
+			return Math.floor(Math.random() * 2147483647);
+		}
+		/** Regenerate the current generated background with a new visual seed while
+		*  preserving the user's scale/intensity/speed/density/preset choices. */
+		function regenerateGeneratedBg() {
+			const params = cfg.generatedBg;
+			if (!params || cfg.backgroundType === "image" || cfg.backgroundType === "video") return;
+			cfg.generatedBg = {
+				...params,
+				seed: randomSeed()
+			};
+			applyGeneratedBg(cfg.generatedBg);
+		}
+		/** Update a generated background's parameters and re-render. */
+		function updateGeneratedBg(params) {
+			cfg.backgroundType = params.type;
+			cfg.generatedBg = params;
+			applyGeneratedBg(params);
+		}
+		function applyGeneratedBg(params) {
+			clearDynamicBg();
+			clearVideoEl();
+			ensureWpContainer();
+			wpController = createDynamicBackground(params);
+			if (wpEl) {
+				wpEl.style.backgroundImage = "none";
+				wpEl.appendChild(wpController.canvas);
+			}
+			requestAnimationFrame(() => {
+				const controller = wpController;
+				if (controller === null) return;
+				const frame = controller.snapshot();
+				if (wpController !== controller) return;
+				setWpUrl(frame);
+				applyWp();
+				snapshotListener?.();
+				setBgDark(null);
+				analyzeFrameDark(frame).then((dark) => {
+					if (dark === null || wpController !== controller) return;
+					applyVerdict(dark);
+					applyCustomTokens(rOps());
+				});
+			});
+		}
+		let frameEl = null;
+		let sidebarEl = null;
+		let centerEl = null;
+		let rightEl = null;
+		const PART_BLUR_CLASS = "dab-part-blur";
+		const PART_UNDERLAY_CLASS = "dab-part-underlay";
+		/** Paint-order lift for the frosted SIDEBAR column (issue #32).
+		*
+		*  The host's `Tooltip` bubble is an IN-PLACE `span[role="tooltip"]`: its sheet
+		*  (`dsh-web-frontend` `Tooltip.module.css`, read on 0.2.1-rc.3) reads
+		*  `position:fixed;z-index:100`, going to `z-index:1100` only under
+		*  `[data-portal]` — and the `portal` prop defaults to FALSE, which the
+		*  workspace browser's 添加工作区 trigger (`ui-workspace` `headerActions`) does
+		*  not pass. `position:fixed` keeps the bubble anchored to the viewport, but
+		*  its z-index only competes INSIDE the nearest stacking-context ancestor. The
+		*  frosted sidebar column IS that ancestor — `PART_BLUR_RULE`'s
+		*  `isolation:isolate` is what keeps the underlay's `z-index:-1` inside — so
+		*  the bubble, hanging below the icon row and past the column's right edge, is
+		*  painted as part of the sidebar's subtree, and the center column (a later
+		*  sibling, itself an isolated stacking context once 「主界面」模糊 is up)
+		*  paints its translucent fill + frost OVER the overhang: the tooltip's right
+		*  half comes out blurred and tinted. The trap is not the tooltip's alone —
+		*  every in-place float the sidebar hangs (the workspace pick flow anchors
+		*  there too) sits in the same local context.
+		*
+		*  Lifting the FROSTED sidebar column to `z-index:1` moves its whole paint
+		*  slot after the center column's. The two are grid siblings on separate
+		*  tracks — they never overlap geometrically, so the lift only matters to
+		*  floating layers that overhang a column edge, which is exactly the set that
+		*  must win. It stays below everything that has to beat it: the host's overlay
+		*  layer (`AppFrame.module.css` `.overlayLayer{z-index:20}`, byte-identical on
+		*  0.2.0-rc.1 and 0.2.1-rc.3), the settings modal (it escapes the center
+		*  column through the `isolation:auto` arm below and carries z-index 1000+),
+		*  and body-level portaled menus/tooltips (z-index 100 / 1100). Grid items
+		*  honor `z-index` without `position`, so this lands even on a column the
+		*  host leaves `static`.
+		*
+		*  The `:has([role="dialog"])` arm must pair `z-index:auto` with the
+		*  isolation arm: with the settings view open the sidebar column itself holds
+		*  a `[role="dialog"]` (counted live when the isolation arm was written), and
+		*  a column pinned at `z-index:1` would REMAIN a stacking context through that
+		*  arm — the dialog would keep its z-index local and paint under the overlay
+		*  layer instead of covering the page. Back at `auto` it escapes the column
+		*  exactly as it did before this class existed. */
+		const PART_LIFT_CLASS = "dab-part-blur-side";
+		/** The AppFrame's main-bg clear-out, as a class rather than an inline write.
+		*
+		* WHY NOT INLINE (measured on 0.1.7): the frame's own translucent
+		* `--dsw-alias-bg-base` is what hides the wallpaper, so `applyPartOpacities` has
+		* to clear it. Written as `frameEl.style.background = 'transparent'` the clear
+		* survived a settings change but not a sidebar open/close — the host owns that
+		* element's `style` too (it animates `grid-template-columns`), and while it
+		* re-asserts its own background the frame snaps back to an opaque
+		* `rgb(200,207,218)`: wallpaper gone, and every frost on top of it flattened,
+		* because a backdrop-filter with nothing behind it has nothing to blur. A class
+		* rule with `!important` sits outside the host's `style` writes entirely, so the
+		* clear cannot be re-clobbered and there is nothing to re-apply. */
+		const PART_FRAME_CLASS = "dab-frame-clear";
+		const FRAME_CLEAR_RULE = `.${PART_FRAME_CLASS}{background:transparent!important}`;
+		/** The sidebar column paints its fill ONCE, no matter how many nested elements
+		*  ask for it.
+		*
+		*  WHY THIS IS NOT COSMETICS: `--dsw-specific-sidebar-fill` is a theme token the
+		*  host ships OPAQUE (`design-platform.css`: light `--dsw-static-neutral-bluish-50`,
+		*  dark `-900`), and three elements stacked in the sidebar's region each declare
+		*  `background:var(--dsw-specific-sidebar-fill)` on top of one another —
+		*  `AppFrame.module.css` `.sidebarCol` (the grid track), `ui-sidebar/SidebarRoot.module.css:16`
+		*  `.root` (the shell it fills) and `ui-workspace/WorkspaceBrowser.module.css:335`
+		*  `.fade` (the tree's 24px bottom gradient). Over an opaque color that layering is
+		*  invisible; the moment this plugin's 「侧栏」 slider makes the token translucent
+		*  every copy adds its alpha again, so the region stops reading as one surface. On
+		*  the desktop build it is outright visible: the caption strip above the sidebar is
+		*  the plugin's own `::after`, painted with the SAME variable at the SAME alpha but
+		*  exactly once (`applyNativeCaption`), so the strip and the column under it come out
+		*  at two different densities and the sidebar looks split horizontally.
+		*
+		*  The column is the one that keeps the paint — it is the outermost box, it is the
+		*  box whose width the caption strip is cut to, and the host already treats it as the
+		*  owner on macOS, where `SidebarRoot.module.css:27` sets `.root{background:transparent}`
+		*  for exactly this reason ("the AppFrame column owns the translucent sidebar tint").
+		*  The host retires the gradient the same way for the same reason:
+		*  `WorkspaceBrowser.module.css:341` hides `.fade` on darwin because "the opaque fill
+		*  gradient would paint a solid smear instead of a fade" once the sidebar is
+		*  translucent over the window — which is the state this slider puts the sidebar in on
+		*  every platform. So the token is re-declared `transparent` for the column's
+		*  DESCENDANTS only: an element's own declaration beats what it inherits, and `body`'s
+		*  `!important` re-scope reaches these elements by inheritance only, so no `!important`
+		*  is needed here and none of the three consumers can win it back. The column itself
+		*  still resolves the faded value it inherits, which is why `*` is a descendant
+		*  combinator and not part of the column's own selector.
+		*
+		*  Bound by the CSS-Module class shape, same as `[class*="_ioCard"]`: the built
+		*  bundle names these `pI_x6G_sidebarCol` — prefix first, local name last, and the
+		*  pair is identical across `0.2.0-rc.1`, `0.2.1-alpha.3`, `0.2.1-rc.2` and
+		*  `0.2.1-rc.3` (`AppFrame.module.css` byte-identical rc.2→rc.3). A build
+		*  that renames the track simply stops matching, which is the untouched host look. */
+		const SIDEBAR_ONE_LAYER_RULE = "[class*=\"_sidebarCol\"] *{--dsw-specific-sidebar-fill:transparent}";
+		const PART_BLUR_RULE = `.${PART_BLUR_CLASS}{isolation:isolate}.${PART_BLUR_CLASS}:has([role="dialog"]){isolation:auto}.${PART_LIFT_CLASS}{z-index:1}.${PART_LIFT_CLASS}:has([role="dialog"]){z-index:auto}.${PART_UNDERLAY_CLASS}{position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;backdrop-filter:var(--dsh-any-part-blur,none);-webkit-backdrop-filter:var(--dsh-any-part-blur,none)}`;
+		let partBlurStyleEl = null;
+		function ensurePartBlurStyle() {
+			if (partBlurStyleEl?.isConnected) return;
+			partBlurStyleEl = document.createElement("style");
+			partBlurStyleEl.dataset.plugin = "dsh-any-background-parts";
+			partBlurStyleEl.textContent = PART_BLUR_RULE;
+			document.head.appendChild(partBlurStyleEl);
+		}
+		function discoverParts() {
+			const overlay = document.querySelector("[data-shell-overlay]");
+			if (overlay === null) return;
+			const frame = overlay.parentElement;
+			if (frame === null) return;
+			frameEl = frame;
+			let overlayIdx = -1;
+			let rightIdx = -1;
+			let right = null;
+			const children = frame.children;
+			for (let i = 0; i < children.length; i++) {
+				const child = children[i];
+				if (child === overlay) overlayIdx = i;
+				else if (child instanceof HTMLElement && child.dataset.rightbarCol !== void 0) {
+					right = child;
+					rightIdx = i;
+				}
+			}
+			rightEl = right;
+			if (right !== null) {
+				sidebarEl = children[rightIdx - 2] ?? null;
+				centerEl = children[rightIdx - 1] ?? null;
+			} else {
+				sidebarEl = children[overlayIdx - 3] ?? null;
+				centerEl = children[overlayIdx - 2] ?? null;
+			}
+		}
+		function setBlur(el, px, lift = false) {
+			if (el === null) return;
+			if (px === 0 && !el.classList.contains(PART_BLUR_CLASS) && !el.classList.contains(PART_LIFT_CLASS) && el.getAttribute("data-dab-pos-patched") !== "1") return;
+			const underlay = el.querySelector(`:scope > .${PART_UNDERLAY_CLASS}`);
+			if (px > 0) {
+				ensurePartBlurStyle();
+				if (!el.classList.contains(PART_BLUR_CLASS) && getComputedStyle(el).position === "static") {
+					el.style.position = "relative";
+					el.setAttribute("data-dab-pos-patched", "1");
+				}
+				el.classList.add(PART_BLUR_CLASS);
+				el.classList.toggle(PART_LIFT_CLASS, lift);
+				if (underlay === null) {
+					const node = document.createElement("div");
+					node.className = PART_UNDERLAY_CLASS;
+					el.prepend(node);
+				}
+				el.style.setProperty("--dsh-any-part-blur", `blur(${px}px)`);
+			} else {
+				el.classList.remove(PART_BLUR_CLASS);
+				el.classList.remove(PART_LIFT_CLASS);
+				el.style.removeProperty("--dsh-any-part-blur");
+				underlay?.remove();
+				if (el.getAttribute("data-dab-pos-patched") === "1") {
+					el.style.removeProperty("position");
+					el.removeAttribute("data-dab-pos-patched");
+				}
+			}
+		}
+		function applySettingsBlur(px) {
+			if (px > 0) document.documentElement.style.setProperty("--dsh-any-blur-settings", `blur(${px}px)`);
+			else document.documentElement.style.removeProperty("--dsh-any-blur-settings");
+		}
+		/** Apply the main-background opacity to the center column instead of
+		*  the frame. The frame's translucent bg-base sits UNDER the sidebar, so
+		*  reducing the main-bg opacity stacked a second alpha onto the sidebar; moving
+		*  the alpha onto the column keeps the sidebar owned by its own slider. The
+		*  rightbar (DSH 0.1.5-rc.1+) is intentionally NOT tinted here — it sits on
+		*  its own grid track, paints its own surfaces from its own tokens, and
+		*  inheriting the main-bg tint would blend it into the page and make the
+		*  right panel disappear. */
+		function applyPartOpacities(ops) {
+			const tokens = paletteTokens();
+			if (tokens === null) return;
+			discoverParts();
+			if (frameEl === null) return;
+			const base = tokens["--dsw-alias-bg-base"];
+			frameEl.classList.add(PART_FRAME_CLASS);
+			if (frameEl.style.background !== "") frameEl.style.removeProperty("background");
+			if (centerEl !== null) centerEl.style.background = base !== void 0 ? toRgba(base, ops.bg) : "transparent";
+			if (rightEl !== null) rightEl.style.background = "";
+		}
+		/** Blur of the option panels inside the settings dialog (.dab-card), owned by
+		*  the "dialog option panel" (card) blur slider. Written as a plugin-owned
+		*  variable consumed by SETTINGS_STYLE_RULE — deliberately NOT applied to the
+		*  homepage center column, which this slider must never touch. At 0 the variable is
+		*  removed and the menu rule's `none` fallback wins, which is what "no frost" means
+		*  on this slider (see the note above `popoverBlurRule`). */
+		function applyCardPanelsBlur(px) {
+			const root = document.documentElement;
+			if (px > 0) root.style.setProperty(CARD_BLUR_VAR, `blur(${px}px)`);
+			else root.style.removeProperty(CARD_BLUR_VAR);
+		}
+		/** Apply per-part interface blur to the AppFrame columns + settings panel. */
+		function applyPartBlurs(blurs) {
+			discoverParts();
+			setBlur(frameEl, 0);
+			setBlur(sidebarEl, blurs.sidebar, true);
+			setBlur(centerEl, blurs.bg);
+			setBlur(rightEl, 0);
+			applyBgBlurGlobal(blurs.bg);
+			applySidebarBandBlur(blurs.sidebar);
+			applyCardPanelsBlur(blurs.card);
+			applySettingsBlur(blurs.settings);
+			applyInputBlur(blurs.input);
+			applyPanelBlur(blurs.panel);
+			applyProduced();
+			applyHeaderPopovers();
+			applyHeaderBar();
+			applyNativeCaption();
+			applyViewCards();
+		}
+		/** Produced/artifact surfaces (conversation code blocks + their banner +
+		*  inline code chips + composer chips + the dsh-better-sidebar workbench):
+		*  re-write the root blur and the alpha percentage consumed by PRODUCED_RULE. The
+		*  percentage is an alpha for the surface's OWN host color — 1 (100%) reproduces
+		*  the untouched host look and lowering it fades exactly that color out — so no
+		*  palette sampling is involved and the surfaces keep following the active
+		*  theme/wallpaper color on their own. Two surfaces are the exception: the
+		*  workbench reads a whole set of layer tokens rather than one color, and the
+		*  changed-files card reads a token the card slider owns globally — both take their
+		*  alpha from `writeLayerVars` instead of mixing on the live token. */
+		function applyProduced() {
+			const px = rBlurs().produced;
+			const root = document.documentElement;
+			if (px > 0) root.style.setProperty("--dsh-any-blur-prod", `blur(${px}px)`);
+			else root.style.removeProperty("--dsh-any-blur-prod");
+			let opacity = rProducedOpacity();
+			if (opacity < 0) opacity = 0;
+			if (opacity > 1) opacity = 1;
+			root.style.setProperty("--dsh-any-prod-pct", `${Math.round(opacity * 100)}%`);
+			writeLayerVars(PROD_PANEL_LAYER_VARS, opacity);
+			writeLayerVars(PROD_LAYER_VARS, opacity);
+		}
+		/** Live per-part blur update during slider drag (no full re-apply). */
+		function setPartBlur(part, v) {
+			if (part === "settings") {
+				applySettingsBlur(v);
+				return;
+			}
+			if (part === "card") {
+				applyCardPanelsBlur(v);
+				return;
+			}
+			if (part === "input") {
+				applyInputBlur(v);
+				return;
+			}
+			if (part === "panel") {
+				applyPanelBlur(v);
+				return;
+			}
+			if (part === "produced") {
+				applyProduced();
+				return;
+			}
+			if (part === "header") {
+				applyHeaderPopovers();
+				return;
+			}
+			if (part === "headerBar") {
+				applyHeaderBar();
+				return;
+			}
+			if (part === "chat" || part === "trajectory") {
+				applyViewCards();
+				return;
+			}
+			discoverParts();
+			if (part === "bg") {
+				setBlur(centerEl, v);
+				applyBgBlurGlobal(v);
+				return;
+			}
+			setBlur(sidebarEl, v, true);
+			applySidebarBandBlur(v);
+		}
+		const VIEW_CARDS = [{
+			sel: "[data-chat-flow]",
+			mark: "data-dab-chat-card",
+			prev: "dabChatPrev",
+			opacity: rChatTextOpacity,
+			blur: () => rBlurs().chat,
+			fallback: true
+		}, {
+			sel: "[data-conversation-composer-overlay]",
+			mark: "data-dab-traj-card",
+			prev: "dabTrajPrev",
+			opacity: rTrajectoryOpacity,
+			blur: () => rBlurs().trajectory,
+			plain: true
+		}];
+		const viewTargets = VIEW_CARDS.map(() => null);
+		/** View specs whose real host marker has been seen at least once. Until a
+		*  marker is seen, its absence is ambiguous — "that view is not mounted" or
+		*  "this build has no such marker, keep running the generic fallback" — and the
+		*  pass has to keep probing. Once seen, absence can only mean the former, so the
+		*  pass may be skipped.
+		*
+		*  This matters because the two specs are two different MAIN VIEWS and only one
+		*  of them is mounted at a time (the host renders the main slot for the active
+		*  panel id, keyed by `entryKey` — see AppFrame's MainPanel). So "every surface
+		*  present" is never true during a normal session, and an all-or-nothing gate on
+		*  it silently never engages: that is exactly how the previous version of this
+		*  observer ended up running the full pass on every animation frame while
+		*  tokens streamed. */
+		const markerSeen = /* @__PURE__ */ new Set();
+		/** Resolve just the stable host markers for the view specs — one querySelector
+		*  each, no fallback heuristics. Cheap enough to run on every coalesced burst,
+		*  and enough to notice a view mounting/unmounting. */
+		function probeViewMarkers() {
+			const center = centerEl;
+			if (center === null || !document.body.contains(center)) return VIEW_CARDS.map(() => null);
+			return VIEW_CARDS.map((spec) => center.querySelector(spec.sel));
+		}
+		/** Whether the pass must run regardless of the value/identity signature. */
+		function needsPartsPass(markers) {
+			if (!columnsPresent()) return true;
+			if (markers.some((el, i) => el !== null && el !== viewTargets[i])) return true;
+			return VIEW_CARDS.some((spec, i) => spec.fallback === true && markers[i] === null && !markerSeen.has(i));
+		}
+		function isScrollableY(el) {
+			const oy = getComputedStyle(el).overflowY;
+			return oy === "auto" || oy === "scroll" || oy === "overlay";
+		}
+		/** Whether the subtree hosts the chat input (textarea / contenteditable /
+		*  textbox role) — used to keep the card off the input row. */
+		function containsChatEditor(el) {
+			return el.querySelector("textarea,[contenteditable=\"true\"],[contenteditable=\"\"],[contenteditable=\"plaintext-only\"],[role=\"textbox\"]") !== null;
+		}
+		/** Walk down from a coarse candidate toward the actual message column: stop
+		*  at a scroll container (the card surface must stay pinned to the scroll
+		*  port); while the chat input lives inside, descend into the tallest child that
+		*  does NOT contain it (the header row is short, the input row holds the
+		*  editor); otherwise peel wrappers dominated (>= 85%) by a single child so
+		*  tab bars / titles stay outside the card. */
+		function refineMessageColumn(start) {
+			let cur = start;
+			for (let depth = 0; depth < 10; depth++) {
+				if (isScrollableY(cur)) break;
+				const kids = Array.from(cur.children).filter((k) => k instanceof HTMLElement);
+				if (kids.length === 0) break;
+				const tallest = kids.reduce((a, b) => b.clientHeight > a.clientHeight ? b : a);
+				if (containsChatEditor(cur)) {
+					const candidates = kids.filter((k) => !containsChatEditor(k) && k.clientHeight >= cur.clientHeight * .4);
+					if (candidates.length === 0) break;
+					cur = candidates.reduce((a, b) => b.clientHeight > a.clientHeight ? b : a);
+					continue;
+				}
+				if (kids.length > 1 && tallest.clientHeight >= cur.clientHeight * .85) {
+					cur = tallest;
+					continue;
+				}
+				break;
+			}
+			return cur;
+		}
+		function discoverViewTarget(idx, spec) {
+			if (centerEl === null || !document.body.contains(centerEl)) {
+				viewTargets[idx] = null;
+				return null;
+			}
+			const marked = centerEl.querySelector(spec.sel);
+			const cached = viewTargets[idx];
+			if (marked !== null) {
+				markerSeen.add(idx);
+				if (cached !== null && cached !== marked) {
+					setBlur(cached, 0);
+					restoreCardHost(cached, spec.mark, spec.prev, spec.plain === true);
+				}
+				viewTargets[idx] = marked;
+				return marked;
+			}
+			if (cached !== null && centerEl.contains(cached)) return cached;
+			viewTargets[idx] = null;
+			if (spec.fallback !== true) return null;
+			if (centerEl.querySelector("[data-chat-flow],[data-conversation-scroll],[data-composer-seat],[data-conversation-composer-overlay]") === null) return null;
+			if (centerEl.querySelector("[data-conversation-scroll]") !== null) return null;
+			if (spec.opacity() <= 0 && spec.blur() <= 0) return null;
+			let best = null;
+			let bestArea = 0;
+			for (const el of Array.from(centerEl.querySelectorAll("*"))) {
+				if (!isScrollableY(el)) continue;
+				if (el.clientHeight < centerEl.clientHeight * .35) continue;
+				const area = el.clientWidth * el.clientHeight;
+				if (area > bestArea) {
+					bestArea = area;
+					best = el;
+				}
+			}
+			if (best === null) for (const el of Array.from(centerEl.children)) {
+				if (!(el instanceof HTMLElement)) continue;
+				if (el.clientHeight < centerEl.clientHeight * .5) continue;
+				if (el.clientHeight > (best?.clientHeight ?? 0)) best = el;
+			}
+			if (best !== null && best.closest("[role=\"dialog\"][aria-modal=\"true\"][aria-labelledby][class*=\"_panel\"]") !== null) best = null;
+			const refined = best !== null ? refineMessageColumn(best) : null;
+			viewTargets[idx] = refined;
+			return refined;
+		}
+		/** Stash the host's own inline values so teardown restores them exactly.
+		*  Plain views only get a background override, so only that is stashed. */
+		function stashCardPrev(el, prev, plain) {
+			const ds = el.dataset;
+			ds[prev + "Bg"] = el.style.getPropertyValue("background");
+			if (plain) return;
+			ds[prev + "BoxSizing"] = el.style.getPropertyValue("box-sizing");
+			ds[prev + "Border"] = el.style.getPropertyValue("border");
+			ds[prev + "Radius"] = el.style.getPropertyValue("border-radius");
+			ds[prev + "Padding"] = el.style.getPropertyValue("padding");
+		}
+		/** Undo the inline styling, restoring the host's previous inline values. */
+		function restoreCardHost(el, mark, prev, plain) {
+			if (!el.hasAttribute(mark)) return;
+			const ds = el.dataset;
+			const restore = (prop, v) => {
+				if (v !== void 0 && v !== "") el.style.setProperty(prop, v);
+				else el.style.removeProperty(prop);
+			};
+			restore("background", ds[prev + "Bg"]);
+			if (!plain) {
+				restore("box-sizing", ds[prev + "BoxSizing"]);
+				restore("border", ds[prev + "Border"]);
+				restore("border-radius", ds[prev + "Radius"]);
+				restore("padding", ds[prev + "Padding"]);
+				delete ds[prev + "BoxSizing"];
+				delete ds[prev + "Border"];
+				delete ds[prev + "Radius"];
+				delete ds[prev + "Padding"];
+			}
+			delete ds[prev + "Bg"];
+			el.removeAttribute(mark);
+		}
+		/** Teardown only: strip every view treatment and hand the hosts back untouched. */
+		function removeViewCards() {
+			VIEW_CARDS.forEach((spec, i) => {
+				const el = viewTargets[i];
+				if (el !== null) {
+					setBlur(el, 0);
+					restoreCardHost(el, spec.mark, spec.prev, spec.plain === true);
+				}
+				viewTargets[i] = null;
+			});
+		}
+		const TABLE_FIX_RULE = [
+			".md-table-wide {",
+			"  --dsh-table-spare: 0px !important;",
+			"  --dsh-table-lead: 0px !important;",
+			"  box-sizing: border-box !important;",
+			"  width: 100% !important;",
+			"  max-width: 100% !important;",
+			"  margin-left: 0 !important;",
+			"  padding-left: 0 !important;",
+			"  padding-bottom: 0 !important;",
+			"  overflow-x: auto !important;",
+			"}"
+		].join("\n");
+		let tableFixStyleEl = null;
+		/** Toggle the wide-table clamp according to the chat region's opacity & blur. */
+		function syncTableFix() {
+			if (!(rChatTextOpacity() > 0 || rBlurs().chat > 0)) {
+				if (tableFixStyleEl !== null) {
+					tableFixStyleEl.remove();
+					tableFixStyleEl = null;
+				}
+				return;
+			}
+			if (tableFixStyleEl === null) {
+				tableFixStyleEl = document.createElement("style");
+				tableFixStyleEl.dataset.plugin = "dsh-any-background-table-fix";
+				tableFixStyleEl.textContent = TABLE_FIX_RULE;
+			}
+			if (!tableFixStyleEl.isConnected) document.head.appendChild(tableFixStyleEl);
+		}
+		/** Re-derive the conversation view cards from the current config. Cheap
+		*  enough for live slider drags; the card structure is applied unconditionally
+		*  once the host exists so the layout never reflows when a slider leaves zero. */
+		function applyViewCards() {
+			discoverParts();
+			if (centerEl === null) return;
+			const [h, s, l] = rColor();
+			const surface = genTokens(h, s, l, rColorScheme()).tokens["--dsw-alias-bg-layer-1"];
+			VIEW_CARDS.forEach((spec, i) => {
+				const target = discoverViewTarget(i, spec);
+				if (target === null) return;
+				const plain = spec.plain === true;
+				const opacity = spec.opacity();
+				const blurPx = spec.blur();
+				if (!plain) {
+					if (!target.hasAttribute(spec.mark)) stashCardPrev(target, spec.prev, false);
+					const borderAlpha = opacity > 0 ? Math.min(1, opacity * 1.5) : blurPx > 0 ? .35 : 0;
+					target.style.background = surface !== void 0 ? toRgba(surface, opacity) : "transparent";
+					target.style.border = surface !== void 0 ? `1px solid ${toRgba(surface, borderAlpha)}` : "1px solid transparent";
+					target.style.borderRadius = "16px";
+					target.style.padding = "18px";
+					target.style.boxSizing = "border-box";
+				}
+				target.setAttribute(spec.mark, "1");
+				setBlur(target, blurPx);
+			});
+			syncTableFix();
+		}
+		let partsDispose = null;
+		let partsPending = null;
+		/** False once stopped, so a pass already queued on the microtask queue cannot
+		*  re-style anything after the teardown. */
+		let partsActive = false;
+		/** Signature of the last blur+opacity pass we actually wrote to the DOM. */
+		let appliedPartsKey = "";
+		/** The surfaces the last pass styled, compared BY IDENTITY: the host can swap
+		*  a view element for a fresh one while the slider values stay identical, and
+		*  the value signature alone would then skip the pass and leave the new view
+		*  unstyled until a slider moves. */
+		let appliedTargets = [];
+		/** The four frame columns are mounted and still attached. These are the frame's
+		*  own children (see the host's AppFrame: sidebar / center / rightbar carrying
+		*  `data-rightbar-col` / the overlay), so they exist as soon as the shell does —
+		*  unlike the per-view cards below, which come and go with the active view. */
+		function columnsPresent() {
+			return frameEl !== null && sidebarEl !== null && centerEl !== null && rightEl !== null && document.body.contains(frameEl) && document.body.contains(centerEl);
+		}
+		/** The composer seat's elected takeover card (approval / plan review / question)
+		*  when one is mounted. It is not a view, but it shares the view cards' problem:
+		*  the host mounts a fresh element when a takeover is elected, and the pass
+		*  signature alone would skip that pass — `applyTakeoverFrost` rides
+		*  `applyInputBlur` — leaving the new card bare until a slider moves. Scoped to
+		*  the center column exactly like the view markers, because this query runs on
+		*  every coalesced mutation burst, including token streaming. */
+		function probeTakeoverCard() {
+			if (centerEl === null || !document.body.contains(centerEl)) return null;
+			return centerEl.querySelector(COMPOSER_TAKEOVER_CARD);
+		}
+		/** Snapshot of every surface the pass would style, for the identity check. */
+		function targetsNow() {
+			return [
+				frameEl,
+				sidebarEl,
+				centerEl,
+				rightEl,
+				...viewTargets,
+				probeTakeoverCard()
+			];
+		}
+		/** Watch for the AppFrame mounting so persisted blurs land even when the shell
+		*  renders after this plugin's apply. */
+		function watchParts() {
+			if (partsDispose !== null || typeof MutationObserver === "undefined") return;
+			partsActive = true;
+			partsDispose = watchDom(() => {
+				if (partsPending !== null || !partsActive) return;
+				partsPending = Promise.resolve().then(() => {
+					partsPending = null;
+					if (!partsActive) return;
+					const blurs = rBlurs();
+					const ops = rOps();
+					const key = JSON.stringify([blurs, ops]);
+					if (!needsPartsPass(probeViewMarkers()) && key === appliedPartsKey && !targetsNow().some((el, i) => el !== appliedTargets[i])) return;
+					applyPartBlurs(blurs);
+					applyPartOpacities(ops);
+					appliedPartsKey = key;
+					appliedTargets = targetsNow();
+				});
+			});
+		}
+		function stopWatchingParts() {
+			partsDispose?.();
+			partsDispose = null;
+			partsActive = false;
+			partsPending = null;
+			appliedPartsKey = "";
+			appliedTargets = [];
+			markerSeen.clear();
+		}
+		let themeObserver = null;
+		let themeRaf = 0;
+		function reassertScheme() {
+			if (rScheme() === "dark") document.body.setAttribute("data-ds-dark-theme", "dsh-any-background");
+			else document.body.removeAttribute("data-ds-dark-theme");
+			applyCustomTokens(rOps());
+		}
+		/** Re-assert the plugin's forced scheme whenever the host strips it, so a
+		*  refresh / cold-load / set-change never flashes a light frame. Returns a
+		*  disposer for teardown. */
+		function watchThemeResets() {
+			if (themeObserver !== null || typeof MutationObserver === "undefined") return () => void 0;
+			themeObserver = new MutationObserver(() => {
+				if (document.body.getAttribute("data-ds-dark-theme") === "dsh-any-background") return;
+				if (!(rHasColor() || rBgDark() !== null || rSchemeOverride() !== "auto")) return;
+				if (themeRaf !== 0) return;
+				themeRaf = requestAnimationFrame(() => {
+					themeRaf = 0;
+					if (document.body.getAttribute("data-ds-dark-theme") === "dsh-any-background") return;
+					reassertScheme();
+				});
+			});
+			themeObserver.observe(document.body, {
+				attributes: true,
+				attributeFilter: ["data-ds-dark-theme"]
+			});
+			themeObserver.observe(document.documentElement, {
+				attributes: true,
+				attributeFilter: ["data-ds-dark-theme"]
+			});
+			return () => {
+				themeObserver?.disconnect();
+				themeObserver = null;
+			};
+		}
+		function ensureWpContainer() {
+			if (!wpEl || !document.body.contains(wpEl)) {
+				wpEl = document.createElement("div");
+				wpEl.style.cssText = "position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;";
+				document.body.prepend(wpEl);
+			}
+		}
+		function clearVideoEl() {
+			if (videoEl === null) return;
+			videoEl.pause();
+			videoEl.removeAttribute("src");
+			videoEl.load();
+			videoEl.remove();
+			videoEl = null;
+		}
+		/** Intrinsic-size cache for the center mode (native pixels of the current image). */
+		let imgNat = null;
+		function imageNatSize(url, cb) {
+			if (imgNat !== null && imgNat.url === url) {
+				cb(imgNat.w, imgNat.h);
+				return;
+			}
+			loadImage(url).then((img) => {
+				if (!img) {
+					cb(0, 0);
+					return;
+				}
+				imgNat = {
+					url,
+					w: img.naturalWidth,
+					h: img.naturalHeight
+				};
+				cb(img.naturalWidth, img.naturalHeight);
+			});
+		}
+		const DRAG_MAX_SIDE = 720;
+		let lowResUrl = null;
+		let lowResFor = "";
+		let dragLow = false;
+		function captureLowRes(url, cb) {
+			if (lowResFor === url) {
+				cb(lowResUrl);
+				return;
+			}
+			loadImage(url).then((img) => {
+				if (!img) {
+					cb(null);
+					return;
+				}
+				const k = Math.min(1, DRAG_MAX_SIDE / Math.max(img.naturalWidth, img.naturalHeight));
+				if (k >= 1) {
+					lowResFor = url;
+					lowResUrl = null;
+					cb(null);
+					return;
+				}
+				const c = document.createElement("canvas");
+				c.width = Math.max(1, Math.round(img.naturalWidth * k));
+				c.height = Math.max(1, Math.round(img.naturalHeight * k));
+				const g = c.getContext("2d");
+				if (!g) {
+					lowResFor = url;
+					lowResUrl = null;
+					cb(null);
+					return;
+				}
+				g.drawImage(img, 0, 0, c.width, c.height);
+				const low = c.toDataURL("image/jpeg", .85);
+				lowResFor = url;
+				lowResUrl = low;
+				cb(low);
+			});
+		}
+		function setDragLow(on) {
+			if (cfg.backgroundType !== "image" || on === dragLow || !wpEl) return;
+			const full = rWpImage();
+			if (!full) return;
+			if (on) {
+				dragLow = true;
+				captureLowRes(full, (low) => {
+					if (!dragLow || !wpEl || low === null) return;
+					if (wpEl.style.backgroundImage !== `url("${low}")`) wpEl.style.backgroundImage = `url("${low}")`;
+				});
+			} else {
+				dragLow = false;
+				if (wpEl.style.backgroundImage !== `url("${full}")`) wpEl.style.backgroundImage = `url("${full}")`;
+			}
+		}
+		/** While any range slider in the app is being dragged, run the wallpaper at
+		*  reduced resolution; restore on release. Returns a disposer for teardown. */
+		function watchWallpaperDragQuality() {
+			const isRange = (t) => t instanceof HTMLInputElement && t.type === "range";
+			const down = (e) => {
+				if (isRange(e.target)) setDragLow(true);
+			};
+			const up = () => {
+				if (dragLow) setDragLow(false);
+			};
+			window.addEventListener("pointerdown", down, true);
+			window.addEventListener("pointerup", up, true);
+			window.addEventListener("pointercancel", up, true);
+			return () => {
+				window.removeEventListener("pointerdown", down, true);
+				window.removeEventListener("pointerup", up, true);
+				window.removeEventListener("pointercancel", up, true);
+				if (dragLow) setDragLow(false);
+			};
+		}
+		let wpVerdict = null;
+		let verdictListener = null;
+		let verdictGen = 0;
+		/** Register a callback fired when the background brightness verdict CHANGES
+		*  (a new wallpaper was analyzed, a generated bg regenerated), so the skin can
+		*  be re-registered through the host theme service. */
+		function onVerdictApplied(cb) {
+			verdictListener = cb;
+			return () => {
+				if (verdictListener === cb) verdictListener = null;
+			};
+		}
+		function applyVerdict(dark) {
+			if (rBgDark() === dark) return;
+			setBgDark(dark);
+			if (dark !== null) verdictListener?.();
+		}
+		function updateWpVerdict(url) {
+			const gen = ++verdictGen;
+			if (url === null) {
+				applyVerdict(null);
+				return;
+			}
+			if (wpVerdict !== null && wpVerdict.url === url) {
+				applyVerdict(wpVerdict.dark);
+				return;
+			}
+			analyzeFrameDark(url).then((dark) => {
+				if (dark === null || gen !== verdictGen) return;
+				wpVerdict = {
+					url,
+					dark
+				};
+				applyVerdict(dark);
+				applyCustomTokens(rOps());
+			});
+		}
+		function applyImageWp(url) {
+			clearDynamicBg();
+			clearVideoEl();
+			ensureWpContainer();
+			const bg = rBgState();
+			const mode = rBgMode();
+			const next = `url("${url}")`;
+			if (wpEl.style.backgroundImage !== next) wpEl.style.backgroundImage = next;
+			if (mode === "fit") {
+				wpEl.style.backgroundRepeat = "no-repeat";
+				if (bg.iw > 0) {
+					const fit = Math.min(window.innerWidth / bg.iw, window.innerHeight / bg.ih);
+					const w = bg.iw * fit * bg.zoom;
+					const h = bg.ih * fit * bg.zoom;
+					wpEl.style.backgroundSize = `${w}px ${h}px`;
+					wpEl.style.backgroundPosition = `${bg.x * window.innerWidth - w / 2}px ${bg.y * window.innerHeight - h / 2}px`;
+				} else {
+					wpEl.style.backgroundSize = "contain";
+					wpEl.style.backgroundPosition = "center";
+				}
+			} else if (mode === "fill") {
+				wpEl.style.backgroundRepeat = "no-repeat";
+				wpEl.style.backgroundSize = "cover";
+				wpEl.style.backgroundPosition = "center";
+			} else if (mode === "stretch") {
+				wpEl.style.backgroundRepeat = "no-repeat";
+				wpEl.style.backgroundSize = "100% 100%";
+				wpEl.style.backgroundPosition = "center";
+			} else if (mode === "tile") {
+				wpEl.style.backgroundRepeat = "repeat";
+				wpEl.style.backgroundSize = "auto";
+				wpEl.style.backgroundPosition = "0px 0px";
+			} else {
+				wpEl.style.backgroundRepeat = "no-repeat";
+				wpEl.style.backgroundSize = "contain";
+				wpEl.style.backgroundPosition = "center";
+				imageNatSize(url, (w, h) => {
+					if (!wpEl || wpEl.style.backgroundImage !== next || rBgMode() !== "center") return;
+					if (w > 0 && h > 0) {
+						wpEl.style.backgroundSize = `${w}px ${h}px`;
+						wpEl.style.backgroundPosition = "center";
+					}
+				});
+			}
+			captureLowRes(url, () => void 0);
+			applyWpEffects();
+			updateWpVerdict(url);
+		}
+		/** Video wallpaper: a muted looping <video> inside the wallpaper layer.
+		*  Placement modes map onto object-fit (tile has no video equivalent and
+		*  falls back to cover). */
+		function applyVideoWp(url) {
+			clearDynamicBg();
+			ensureWpContainer();
+			if (wpEl.style.backgroundImage !== "none") wpEl.style.backgroundImage = "none";
+			if (videoEl === null || !videoEl.isConnected) {
+				videoEl = document.createElement("video");
+				videoEl.muted = true;
+				videoEl.loop = true;
+				videoEl.autoplay = true;
+				videoEl.playsInline = true;
+				videoEl.preload = "auto";
+				videoEl.setAttribute("playsinline", "");
+				videoEl.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-position:center;";
+				wpEl.appendChild(videoEl);
+				videoEl.setAttribute("src", url);
+				videoEl.play().catch(() => void 0);
+			} else if (videoEl.getAttribute("src") !== url) {
+				videoEl.setAttribute("src", url);
+				videoEl.play().catch(() => void 0);
+			}
+			const mode = rBgMode();
+			const bg = rVideoBgState();
+			if (mode === "fit" && bg.iw > 0) {
+				const fit = Math.min(window.innerWidth / bg.iw, window.innerHeight / bg.ih);
+				const w = bg.iw * fit * bg.zoom;
+				const h = bg.ih * fit * bg.zoom;
+				videoEl.style.cssText = `position:absolute;left:${bg.x * window.innerWidth - w / 2}px;top:${bg.y * window.innerHeight - h / 2}px;width:${w}px;height:${h}px;object-fit:fill;`;
+			} else {
+				videoEl.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-position:center;";
+				videoEl.style.objectFit = mode === "stretch" ? "fill" : mode === "fill" || mode === "tile" ? "cover" : "contain";
+			}
+			applyWpEffects();
+			updateWpVerdict(rWp());
+		}
+		function applyWpEffects() {
+			if (!wpEl) return;
+			const blur = rBl();
+			wpEl.style.filter = blur > 0 ? `blur(${blur}px)` : "none";
+			wpEl.style.opacity = String(rWop());
+		}
+		function applyWp() {
+			const url = rWp();
+			if (cfg.backgroundType === "video") {
+				const vurl = rWpVideo();
+				if (vurl) applyVideoWp(vurl);
+				else {
+					clearDynamicBg();
+					clearVideoEl();
+					wpEl?.remove();
+					wpEl = null;
+					wpVerdict = null;
+					setBgDark(null);
+				}
+			} else if (cfg.backgroundType !== "image" && cfg.generatedBg) {
+				clearVideoEl();
+				if (!wpController) {
+					applyGeneratedBg(cfg.generatedBg);
+					return;
+				}
+				ensureWpContainer();
+				if (wpController.canvas.parentElement !== wpEl) wpEl.appendChild(wpController.canvas);
+				applyWpEffects();
+			} else if (url) applyImageWp(url);
+			else {
+				clearDynamicBg();
+				clearVideoEl();
+				wpEl?.remove();
+				wpEl = null;
+				wpVerdict = null;
+				setBgDark(null);
+			}
+			applyCustomTokens(rOps());
+			if (rHasColor()) {
+				applySettingsOverrides(rSop());
+				applyTrajectoryOverrides(rTrajectoryOpacity());
+			}
+			applyPanelOverrides(rPanelOpacity());
+			applyExemptDefaults();
+			applyReaderLanes();
+			applyPartBlurs(rBlurs());
+			applyStrokes();
+		}
+		function teardownWp() {
+			clearDynamicBg();
+			clearVideoEl();
+			disposeVideoObjectUrl();
+			setBgDark(null);
+			wpVerdict = null;
+			wpEl?.remove();
+			wpEl = null;
+			clearCustomTokens();
+			tokenStyleEl?.remove();
+			tokenStyleEl = null;
+			removeViewCards();
+			document.body.removeAttribute("data-ds-dark-theme");
+			document.body.style.removeProperty("color-scheme");
+			document.documentElement.style.removeProperty("--dsh-any-bg-settings-surface");
+			document.documentElement.style.removeProperty("--dsh-any-bg-settings-layer-1");
+			document.documentElement.style.removeProperty("--dsh-any-bg-settings-layer-2");
+			document.documentElement.style.removeProperty("--dsh-any-bg-settings-layer-3");
+			document.documentElement.style.removeProperty("--dsh-any-traj-layer-1");
+			document.documentElement.style.removeProperty("--dsh-any-traj-layer-2");
+			document.documentElement.style.removeProperty("--dsh-any-traj-layer-3");
+			document.documentElement.style.removeProperty("--dsh-any-bg-settings-card-surface");
+			document.documentElement.style.removeProperty("--dsh-any-blur-settings");
+			document.documentElement.style.removeProperty("--dsh-any-blur-card-panels");
+			document.documentElement.style.removeProperty("--dsh-any-input-blur");
+			document.documentElement.style.removeProperty("--dsh-any-part-blur-global");
+			for (const set of [
+				PANEL_LAYER_VARS,
+				PROD_PANEL_LAYER_VARS,
+				PROD_LAYER_VARS
+			]) for (const k of LAYER_KEYS) {
+				const name = set[k];
+				if (name) document.documentElement.style.removeProperty(name);
+			}
+			document.documentElement.classList.remove(INPUT_FROST_CLASS);
+			applyTakeoverFrost(0);
+			document.documentElement.style.removeProperty("--dsh-any-op-header-bar");
+			document.documentElement.style.removeProperty("--dsh-any-blur-header-bar");
+			document.documentElement.style.removeProperty("--dsh-any-blur-sidebar-band");
+			document.documentElement.style.removeProperty("--dsh-any-caption-ink");
+			document.documentElement.style.removeProperty("--dsh-any-caption-ink-collapsed");
+			releaseCaptionInk();
+			document.querySelectorAll(`.${HEADER_BAR_CLASS}`).forEach((el) => releaseHeaderBar(el));
+			headerBarEl = null;
+			frameEl?.classList.remove(CAPTION_FRAME_CLASS);
+			document.querySelectorAll(`.${FLAT_CENTER_CLASS}`).forEach((el) => el.classList.remove(FLAT_CENTER_CLASS));
+			wcoStyleEl?.remove();
+			wcoStyleEl = null;
+			document.documentElement.style.removeProperty("--dsh-any-blur-panel");
+			document.documentElement.style.removeProperty("--dsh-any-blur-prod");
+			document.documentElement.style.removeProperty("--dsh-any-prod-pct");
+			document.documentElement.style.removeProperty("--dsh-any-blur-header");
+			headerStyleEl?.remove();
+			headerStyleEl = null;
+			exemptStyleEl?.remove();
+			exemptStyleEl = null;
+			readerStyleEl?.remove();
+			readerStyleEl = null;
+			for (const v of Object.values(OPACITY_VARS)) document.documentElement.style.removeProperty(v);
+			baseTokenKey = "";
+			lastBgKey = "";
+			if (tokensRaf !== null) {
+				cancelAnimationFrame(tokensRaf);
+				tokensRaf = null;
+			}
+			pendingOps = null;
+			tableFixStyleEl?.remove();
+			tableFixStyleEl = null;
+			partBlurStyleEl?.remove();
+			partBlurStyleEl = null;
+			removeStrokes();
+			removeFontFace();
+			imgNat = null;
+			lowResUrl = null;
+			lowResFor = "";
+			dragLow = false;
+			setBlur(frameEl, 0);
+			setBlur(sidebarEl, 0);
+			setBlur(centerEl, 0);
+			setBlur(rightEl, 0);
+			if (frameEl !== null) frameEl.classList.remove(PART_FRAME_CLASS);
+			if (centerEl !== null) centerEl.style.removeProperty("background");
+			if (rightEl !== null) rightEl.style.removeProperty("background");
+			stopWatchingParts();
+		}
+		/** Live wallpaper-opacity updates during slider drag (no full re-apply). */
+		function setWpOpacity(v) {
+			if (wpEl) wpEl.style.opacity = String(v);
+		}
+		/** Live wallpaper-blur updates during slider drag (no full re-apply). */
+		function setWpBlur(v) {
+			if (wpEl) wpEl.style.filter = v > 0 ? `blur(${v}px)` : "none";
+		}
+		//#endregion
+		//#region src/client/host-compat/styles.ts
+		/**
+		* Assembly of the plugin's one static stylesheet.
+		*
+		* Until now the sheet was a single template literal in the client entry with
+		* thirteen constants bolted together in whatever order they were added. That
+		* order is load-bearing and was documented in three separate comment blocks in
+		* `wallpaper.ts` — so it is encoded here instead, in one list, with the reason
+		* next to each entry.
+		*
+		* What the release can change lives in the slots marked below: the panel group
+		* (which element carries the frost), the plugin-manager page (whether this release
+		* ships that page at all), and the menu groups (which token a menu's fill comes
+		* from and whose job its frost is). Everything outside a slot is host-agnostic by
+		* construction — it targets attributes every release in range emits.
+		*
+		* The sheet is rebuilt when the release verdict lands. It has to be: `apply` runs
+		* synchronously while the verdict is a Node round-trip, so the FIRST sheet is
+		* always the unresolved, DOM-arbitrated one. That is the correct interim state,
+		* and swapping in the resolved arm a moment later is what removes the `:has()`
+		* dependency from hosts we do know the answer for.
+		*
+		* @module
+		*/
+		/** The plugin's own dark-mode value on the body attribute the host sets. Scoping
+		*  the gradient to it avoids matching the host's own theme attribute. */
+		const DARK_GRADIENT = "body[data-ds-dark-theme=\"dsh-any-background\"]::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.03) 0%,transparent 60%)}";
+		/**
+		* The order contract. Later entries override earlier ones at equal specificity,
+		* which several groups rely on:
+		*   · headerPopoverRule() after popoverBlurRule() — a surface moving from the card
+		*     group to the header group must win, not merely be listed twice.
+		*   · PRODUCED_RULE / STROKE_RULE after the blur groups — they shield their
+		*     surfaces from an inherited slider.
+		*   · exemptDefaultRule() last of the token groups — an exemption has to land
+		*     after whatever it exempts.
+		*   · PLACEHOLDER_RULE genuinely last — `::placeholder` resets must survive every
+		*     group above.
+		*
+		* Three of these are FUNCTIONS, not constants, and they are version slots like
+		* `panel.blur`: which declaration frosts a menu, and which token a menu's fill
+		* comes from, is the current adapter's answer (`adapter.menus`). They stay in
+		* place rather than moving next to the other slots because the contract above is
+		* about position — a slot is only safe if it does not have to relocate.
+		*/
+		function buildStaticStyles() {
+			const adapter = rHostAdapter();
+			const panel = adapter.panelFragments();
+			return DARK_GRADIENT + FRAME_CLEAR_RULE + SIDEBAR_ONE_LAYER_RULE + SETTINGS_STYLE_RULE + popoverBlurRule() + TRAJECTORY_STYLE_RULE + inputBlurRule() + MOBILE_HEADER_RULE + HEADER_BAR_RULE + PANEL_TOKEN_RULE + panel.promotion + panel.blur + adapter.pluginPageRule + PRODUCED_RULE + STROKE_RULE + headerPopoverRule() + exemptDefaultRule() + PLACEHOLDER_RULE;
+		}
+		/** Append the plugin's stylesheet and keep it matched to the host.
+		*  Returns a teardown for the plugin's effect scope. */
+		function mountStaticStyles() {
+			const el = document.createElement("style");
+			el.dataset.plugin = "dsh-any-background";
+			el.textContent = buildStaticStyles();
+			document.head.appendChild(el);
+			let last = el.textContent;
+			const unsubscribe = subscribeHostInfo(() => {
+				const next = buildStaticStyles();
+				if (next !== last) {
+					last = next;
+					el.textContent = next;
+				}
+			});
+			return () => {
+				unsubscribe();
+				el.parentNode?.removeChild(el);
+			};
+		}
+		//#endregion
+		//#region src/client/utils/video.ts
+		/**
+		* Video-background helpers: capturing a single frame as a JPEG snapshot.
+		* The snapshot stands in for everything that only understands still images:
+		* the settings preview, theme-color extraction and the eyedropper. Uploads
+		* stream the raw file over the binary upload route (see rpc.uploadVideo) —
+		* a data-URL detour would inflate the bytes and trip the RPC body limit.
+		*/
+		function grabFrame(v) {
+			const w = v.videoWidth, h = v.videoHeight;
+			if (w <= 0 || h <= 0) return null;
+			const canvas = document.createElement("canvas");
+			canvas.width = w;
+			canvas.height = h;
+			const ctx = canvas.getContext("2d");
+			if (!ctx) return null;
+			ctx.drawImage(v, 0, 0, w, h);
+			try {
+				return canvas.toDataURL("image/jpeg", .85);
+			} catch {
+				return null;
+			}
+		}
+		/**
+		* Capture one representative frame from a video data URL as a JPEG data URL.
+		* Seeks to ~10% of the duration (first frame is often black) and waits for
+		* the seek to land; resolves null when the video cannot be decoded. A timeout
+		* keeps a broken file from hanging the upload flow.
+		*/
+		function captureVideoSnapshot(url) {
+			return new Promise((resolve) => {
+				const v = document.createElement("video");
+				let settled = false;
+				const done = (r) => {
+					if (settled) return;
+					settled = true;
+					window.clearTimeout(timer);
+					v.removeAttribute("src");
+					v.load();
+					resolve(r);
+				};
+				const timer = window.setTimeout(() => done(grabFrame(v)), 6e3);
+				v.muted = true;
+				v.preload = "auto";
+				v.playsInline = true;
+				v.onerror = () => done(null);
+				v.onloadeddata = () => {
+					const target = isFinite(v.duration) && v.duration > .6 ? Math.min(v.duration * .1, 2) : 0;
+					if (target <= 0) {
+						done(grabFrame(v));
+						return;
+					}
+					v.onseeked = () => done(grabFrame(v));
+					try {
+						v.currentTime = target;
+					} catch {
+						done(grabFrame(v));
+					}
+				};
+				v.src = url;
+			});
+		}
+		const UI_CSS = `
+/* The section is rendered INLINE inside the host settings dialog's content
+ * column: the host provides the modal chrome (backdrop, centering, closing).
+ * These classes style only the embedded shell; transient fixed layers (toast,
+ * color picker, background editor) escape through Portals on <html>. */
+.dab-root{position:relative;box-sizing:border-box;color:var(--dsw-alias-label-primary);animation:dab-fade-in .35s ease both;container-type:inline-size;display:flex;flex-direction:column;align-items:center;width:100%;min-width:0;--dab-mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,"Courier New",monospace}
+/* The root needs its OWN border-box, not just the descendants' below: the
+ * sidebar surface puts 12px of padding on it, and with the default content-box
+ * that padding landed OUTSIDE the width:100%, so the page came out 24px wider
+ * than the pane and the host clipped both edges off. */
+.dab-root *,.dab-root *::before,.dab-root *::after{box-sizing:border-box}
+.dab-root button{font-family:inherit}
+
+/* ── shell: nav rail + page body ─────────────────────────────────────────── */
+.dab-shell{display:grid;grid-template-columns:158px minmax(0,1fr);gap:26px;align-items:start;padding-bottom:8px;width:100%;max-width:980px;margin:0 auto}
+.dab-nav{position:sticky;top:0;display:flex;flex-direction:column;gap:18px}
+.dab-brand{display:flex;align-items:center;gap:10px;padding:2px 6px}
+.dab-brand-tile{width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;color:var(--dsw-alias-brand-text);background:var(--dsw-alias-brand-primary);box-shadow:0 4px 14px -4px var(--dsw-alias-brand-primary)}
+.dab-brand-name{font-size:13px;font-weight:650;letter-spacing:.01em;line-height:1.25}
+.dab-brand-tag{font-size:9px;letter-spacing:.16em;font-weight:600;color:var(--dsw-alias-label-quaternary,var(--dsw-alias-label-tertiary));text-transform:uppercase}
+.dab-nav-list{position:relative;display:flex;flex-direction:column;gap:4px}
+.dab-nav-ind{position:absolute;left:0;right:0;top:0;height:38px;border-radius:11px;background:var(--dsw-alias-bg-layer-2);border:1px solid var(--dsw-alias-border-l2);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 13%,transparent);border-color:color-mix(in srgb,var(--dsw-alias-brand-primary) 25%,transparent);transition:transform .38s cubic-bezier(.22,1,.36,1)}
+.dab-nav-item{position:relative;z-index:1;display:flex;align-items:center;gap:10px;height:38px;padding:0 12px;border:0;background:none;border-radius:11px;color:var(--dsw-alias-label-tertiary);font-size:13px;cursor:pointer;text-align:left;transition:color .22s ease}
+.dab-nav-item:hover{color:var(--dsw-alias-label-primary)}
+.dab-nav-item.is-active{color:var(--dsw-alias-brand-primary);font-weight:600}
+.dab-nav-item svg{flex:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.dab-nav-item:hover svg{transform:scale(1.14) rotate(-5deg)}
+
+/* ── page chrome ─────────────────────────────────────────────────────────── */
+.dab-page{animation:dab-page-in .4s cubic-bezier(.22,1,.36,1) both;min-width:0;display:flex;flex-direction:column;gap:13px}
+.dab-head{margin:2px 0 5px}
+.dab-overline{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--dsw-alias-brand-primary);opacity:.9}
+.dab-h1{margin:4px 0 0;font-size:21px;font-weight:700;letter-spacing:-.01em}
+.dab-desc{margin:6px 0 0;font-size:12.5px;line-height:1.55;color:var(--dsw-alias-label-tertiary);max-width:56ch}
+.dab-card{background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l2);border-radius:16px;padding:18px}
+.dab-card-hover{transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.dab-card-hover:hover{transform:translateY(-2px);box-shadow:0 10px 28px -12px rgba(0,0,0,.28)}
+.dab-rise{animation:dab-rise-in .55s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--d,0) * 62ms)}
+
+/* ── accent hero (color orb) ─────────────────────────────────────────────── */
+.dab-hero-accent{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.dab-orb-wrap{position:relative;width:118px;height:118px;flex:none}
+.dab-orb{position:absolute;inset:11px;border-radius:50%;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.5),rgba(255,255,255,0) 44%),var(--c,#888);box-shadow:0 16px 36px -10px var(--c-soft,transparent),inset 0 -10px 20px rgba(0,0,0,.16);animation:dab-orb-in .7s cubic-bezier(.22,1,.36,1) both}
+.dab-orb-ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 30%,var(--c,#888) 46%,transparent 62%,transparent 76%,var(--c,#888) 90%,transparent 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 2.5px));animation:dab-spin 7s linear infinite;opacity:.9}
+.dab-hex-caption{font-size:11px;color:var(--dsw-alias-label-tertiary);letter-spacing:.04em}
+.dab-hex{font-family:var(--dab-mono);font-size:24px;font-weight:600;letter-spacing:.02em;line-height:1.2;margin-top:2px}
+.dab-hsl-row{display:flex;gap:16px;margin-top:7px;font-family:var(--dab-mono);font-size:11px;color:var(--dsw-alias-label-tertiary)}
+.dab-hsl-row b{font-weight:600;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary))}
+
+/* ── swatches ────────────────────────────────────────────────────────────── */
+.dab-swatch-title{font-size:12px;font-weight:600;margin-bottom:10px;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary))}
+.dab-swatches{display:flex;flex-wrap:wrap;gap:9px}
+.dab-swatch{width:25px;height:25px;border-radius:50%;border:0;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease}
+.dab-swatch:hover{transform:scale(1.2)}
+.dab-swatch.is-on{box-shadow:0 0 0 2px var(--dsw-alias-bg-layer-1),0 0 0 4px var(--dsw-alias-brand-primary)}
+
+/* ── wheel card ──────────────────────────────────────────────────────────── */
+.dab-wheel-card{position:relative;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:24px 18px}
+.dab-wheel-glow{position:absolute;width:230px;height:230px;border-radius:50%;filter:blur(48px);opacity:.2;background:var(--c,#888);pointer-events:none;transition:background .4s ease}
+/* flex:none is load bearing, not cosmetic: the pointer maths reads client
+ * coordinates straight off this element's box, so any shrink below the 220px
+ * drawing surface would desynchronise the ring from the cursor. */
+.dab-wheel{position:relative;flex:none;cursor:crosshair;border-radius:50%;box-shadow:0 12px 32px -14px rgba(0,0,0,.4)}
+.dab-hint{font-size:11.5px;line-height:1.55;color:var(--dsw-alias-label-tertiary);padding:0 4px}
+
+/* ── precise color inputs ────────────────────────────────────────────────── */
+.dab-inputs{display:flex;flex-direction:column;gap:10px;min-width:172px}
+.dab-field{display:flex;align-items:center;gap:8px}
+.dab-field-label{width:14px;text-align:center;font-family:var(--dab-mono);font-size:11px;font-weight:600;color:var(--dsw-alias-label-tertiary)}
+.dab-num{flex:1;min-width:0;height:30px;padding:0 10px;border-radius:9px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:var(--dab-mono);font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s}
+.dab-num:focus{border-color:var(--dsw-alias-brand-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-brand-primary) 18%,transparent)}
+.dab-num::-webkit-outer-spin-button,.dab-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.dab-num{-moz-appearance:textfield;appearance:textfield}
+.dab-urlinput{flex:1;min-width:180px;height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-size:12.5px;outline:none;transition:border-color .2s}
+.dab-urlinput::placeholder{color:var(--dsw-alias-label-quaternary)}
+.dab-urlinput:focus{border-color:var(--dsw-alias-brand-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-brand-primary) 18%,transparent)}
+.dab-urlrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px;animation:dab-list-in .3s cubic-bezier(.22,1,.36,1) both}
+.dab-swatch-lg{height:38px;border-radius:10px;border:1px solid var(--dsw-alias-border-l2);box-shadow:inset 0 0 14px rgba(0,0,0,.1);transition:transform .3s ease}
+.dab-swatch-lg:hover{transform:scale(1.02)}
+
+/* ── buttons & chips ─────────────────────────────────────────────────────── */
+.dab-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 14px;border-radius:10px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-button-elevated-fill);color:var(--dsw-alias-label-primary);font-size:12.5px;font-weight:550;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,opacity .18s ease,background .18s ease}
+.dab-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 5px 14px -6px rgba(0,0,0,.32)}
+.dab-btn:active:not(:disabled){transform:translateY(0) scale(.97);box-shadow:none}
+.dab-btn:disabled{opacity:.5;cursor:not-allowed}
+.dab-btn-primary{background:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-text);border-color:transparent}
+.dab-btn-danger{color:var(--dsw-alias-state-error-primary)}
+.dab-btn-danger-solid{background:var(--dsw-alias-state-error-primary);color:#fff;border-color:transparent}
+.dab-btn-danger-solid:hover:not(:disabled){background:color-mix(in srgb,var(--dsw-alias-state-error-primary) 85%,#000)}
+.dab-btn-ghost{background:transparent;border-color:transparent;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary))}
+.dab-btn-ghost:hover:not(:disabled){background:var(--dsw-alias-bg-layer-2);box-shadow:none}
+/* Soft solid button: subtle layer background instead of transparent ghost. */
+.dab-btn-soft{background:var(--dsw-alias-bg-layer-2);border-color:var(--dsw-alias-border-l2);color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary))}
+.dab-btn-soft:hover:not(:disabled){background:var(--dsw-alias-bg-layer-3,var(--dsw-alias-bg-layer-2));color:var(--dsw-alias-label-primary)}
+/* White background with error-red text (inverse of danger-solid). */
+.dab-btn-danger-inverted{background:#fff;color:var(--dsw-alias-state-error-primary);border-color:transparent}
+.dab-btn-danger-inverted:hover:not(:disabled){background:#f3f4f6}
+.dab-btn:focus-visible,.dab-nav-item:focus-visible,.dab-seg-item:focus-visible,.dab-swatch:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:2px}
+.dab-chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.dab-chip{height:30px;padding:0 14px;border-radius:99px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary));font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background-color .22s ease,border-color .22s ease,color .22s ease}
+.dab-chip:hover{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-label-primary)}
+.dab-chip.is-active{background:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-text);border-color:transparent}
+
+/* ── sliders ─────────────────────────────────────────────────────────────── */
+.dab-slider-block{display:flex;flex-direction:column;gap:6px}
+.dab-slider-block + .dab-slider-block{margin-top:13px}
+.dab-slider-label{font-size:12px;font-weight:550;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary))}
+.dab-slider-val{font-family:var(--dab-mono);font-size:11px;color:var(--dsw-alias-label-tertiary);min-width:44px;text-align:right}
+.dab-slider{-webkit-appearance:none;appearance:none;flex:1;min-width:0;height:4px;border-radius:99px;outline:none;cursor:pointer;margin:5px 0;background:linear-gradient(to right,var(--dsw-alias-brand-primary) calc(var(--pct,50) * 1%),var(--dsw-alias-border-l2) calc(var(--pct,50) * 1%));transition:height .15s ease}
+.dab-slider:hover{height:5px}
+.dab-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:15px;height:15px;border-radius:50%;background:var(--dsw-alias-button-elevated-fill,#fff);border:2px solid var(--dsw-alias-brand-primary);box-shadow:0 1px 5px rgba(0,0,0,.28);transition:transform .16s cubic-bezier(.34,1.56,.64,1)}
+.dab-slider:hover::-webkit-slider-thumb,.dab-slider:focus-visible::-webkit-slider-thumb{transform:scale(1.22)}
+.dab-slider:active::-webkit-slider-thumb{transform:scale(1.34)}
+.dab-slider::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--dsw-alias-button-elevated-fill,#fff);border:2px solid var(--dsw-alias-brand-primary)}
+
+/* ── interface part cards ────────────────────────────────────────────────── */
+.dab-grid-parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:13px}
+.dab-part-head{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.dab-part-ico{width:32px;height:32px;flex:none;border-radius:10px;display:grid;place-items:center;color:var(--dsw-alias-brand-primary);background:var(--dsw-alias-bg-layer-2);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 12%,transparent)}
+.dab-part-name{font-size:13.5px;font-weight:600}
+.dab-part-badge{margin-left:auto;font-family:var(--dab-mono);font-size:11px;color:var(--dsw-alias-label-tertiary);background:var(--dsw-alias-bg-layer-2);border-radius:99px;padding:3px 9px}
+
+/* ── segmented control ───────────────────────────────────────────────────── */
+.dab-seg{position:relative;display:inline-flex;padding:3px;background:var(--dsw-alias-bg-layer-2);border:1px solid var(--dsw-alias-border-l2);border-radius:11px}
+.dab-seg-thumb{position:absolute;top:3px;bottom:3px;left:3px;width:var(--w,96px);border-radius:8px;background:var(--dsw-alias-button-elevated-fill);box-shadow:0 2px 8px -2px rgba(0,0,0,.28);transition:transform .32s cubic-bezier(.22,1,.36,1)}
+.dab-seg-item{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;width:var(--w,96px);height:30px;border:0;background:none;border-radius:8px;color:var(--dsw-alias-label-tertiary);font-size:12.5px;cursor:pointer;transition:color .25s ease}
+.dab-seg-item.is-active{color:var(--dsw-alias-label-primary);font-weight:600}
+
+/* ── toggle switch ───────────────────────────────────────────────────────── */
+.dab-toggle{position:relative;width:42px;height:24px;flex:none;border-radius:99px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-2);cursor:pointer;padding:0;transition:background .28s ease,border-color .28s ease}
+.dab-toggle-knob{position:absolute;top:2.5px;left:2.5px;width:17px;height:17px;border-radius:50%;background:var(--dsw-alias-label-secondary,#999);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .28s cubic-bezier(.22,1,.36,1),background .28s ease}
+.dab-toggle.is-on{background:var(--dsw-alias-brand-primary);border-color:var(--dsw-alias-brand-primary)}
+.dab-toggle.is-on .dab-toggle-knob{transform:translateX(18px);background:#fff}
+
+/* ── custom font card ────────────────────────────────────────────────────── */
+.dab-font-title{display:flex;align-items:center;gap:11px}
+.dab-font-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.dab-font-name{font-family:var(--dab-mono);font-size:13.5px;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary));background:var(--dsw-alias-bg-layer-2);border-radius:99px;padding:5px 11px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dab-font-name.is-empty{color:var(--dsw-alias-label-tertiary)}
+.dab-font-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+/* The font card's labels read one step larger than the rest of the panel —
+   they carry most of the explanation on this page. Scoped to the card so the
+   same .dab-hint / .dab-btn elsewhere keep their size. */
+.dab-font-actions .dab-btn{font-size:14.5px}
+.dab-font-card .dab-hint{font-size:13.5px}
+
+/* ── text-stroke color dots ──────────────────────────────────────────────── */
+.dab-stroke-dots{display:flex;align-items:center;gap:9px;margin-top:14px}
+.dab-stroke-dot-wrap{position:relative;width:18px;height:18px;flex:none}
+.dab-stroke-dot{width:18px;height:18px;padding:0;border-radius:50%;border:1.5px solid var(--dsw-alias-border-l2);background-clip:padding-box;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s ease}
+.dab-stroke-dot:hover{transform:scale(1.16)}
+/* 'auto' has no fixed value — half light / half dark reads as "derived". */
+.dab-stroke-dot-auto{background:conic-gradient(from -90deg,#fff 0 50%,#000 50% 100%)}
+.dab-stroke-dot.is-active{box-shadow:0 0 0 2px var(--dsw-alias-bg-layer-1),0 0 0 3.5px var(--dsw-alias-brand-primary);border-color:transparent}
+/* The native color picker sits invisible on top of the custom swatch. */
+.dab-stroke-dot-input{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:50%;background:none;opacity:0;cursor:pointer}
+
+/* ── background preview hero ─────────────────────────────────────────────── */
+.dab-hero{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/9;background:var(--dsw-alias-bg-layer-2);border:1px solid var(--dsw-alias-border-l2)}
+.dab-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.dab-hero:hover .dab-hero-img{transform:scale(1.03)}
+.dab-hero-empty{position:absolute;inset:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--dsw-alias-label-tertiary);font-size:12.5px;border:1.5px dashed var(--dsw-alias-border-l2);border-radius:12px;cursor:pointer;background:transparent;transition:border-color .25s,color .25s,background .25s;width:auto;height:auto}
+.dab-hero-empty:hover{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary)}
+.dab-hero-empty.is-over{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 8%,transparent)}
+.dab-hero-badge{position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 11px;border-radius:99px;background:rgba(0,0,0,.45);color:#fff;font-size:11px;backdrop-filter:blur(6px);pointer-events:none}
+.dab-hero-veil{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 12px;display:flex;align-items:flex-end;justify-content:flex-end;gap:8px;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0));opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease}
+.dab-hero:hover .dab-hero-veil{opacity:1;transform:none}
+.dab-hero-veil .dab-btn{background:rgba(255,255,255,.94);color:#14161a;border-color:transparent;height:30px;font-size:12px}
+.dab-hero-veil .dab-btn-danger{color:#dc2626}
+
+/* ── generated background type cards ─────────────────────────────────────── */
+.dab-types{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.dab-type{position:relative;border:1.5px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);border-radius:14px;padding:10px;cursor:pointer;text-align:left;font:inherit;transition:border-color .25s,transform .25s,box-shadow .25s;animation:dab-type-in .42s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0) * 60ms)}
+.dab-type:hover{transform:translateY(-2px)}
+.dab-type.is-active{border-color:var(--dsw-alias-brand-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-brand-primary) 18%,transparent)}
+.dab-type-thumb{height:62px;border-radius:9px;overflow:hidden;position:relative}
+.dab-type-name{margin-top:9px;font-size:12.5px;font-weight:600;color:var(--dsw-alias-label-primary)}
+.dab-type-desc{margin-top:2px;font-size:11px;color:var(--dsw-alias-label-tertiary);line-height:1.4}
+.dab-type-check{position:absolute;top:16px;right:16px;width:20px;height:20px;border-radius:50%;background:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-text);display:grid;place-items:center;opacity:0;transform:scale(.4);transition:opacity .25s,transform .25s cubic-bezier(.34,1.56,.64,1)}
+.dab-type.is-active .dab-type-check{opacity:1;transform:none}
+.dab-thumb-mesh{background:radial-gradient(circle at 22% 30%,#f472b6,transparent 42%),radial-gradient(circle at 80% 22%,#38bdf8,transparent 46%),radial-gradient(circle at 52% 84%,#fbbf24,transparent 52%),#1e293b}
+.dab-thumb-shader{background:linear-gradient(120deg,#0ea5e9,#8b5cf6,#d946ef,#0ea5e9);background-size:300% 300%;animation:dab-flow 6s linear infinite}
+.dab-thumb-pattern{background-image:radial-gradient(circle,rgba(255,255,255,.92) 1.2px,transparent 1.4px);background-size:10px 10px;background-color:#334155}
+
+/* ── seed row ────────────────────────────────────────────────────────────── */
+.dab-seed{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:12px;background:var(--dsw-alias-bg-layer-2);margin-top:14px}
+.dab-seed-ico{color:var(--dsw-alias-brand-primary);display:grid;place-items:center}
+.dab-seed-txt{flex:1;min-width:0}
+.dab-seed-title{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:6px}
+.dab-seed-desc{font-size:11px;color:var(--dsw-alias-label-tertiary);margin-top:2px}
+.dab-spin{animation:dab-rotate .7s cubic-bezier(.3,.7,.3,1) 1}
+
+/* ── profile page ────────────────────────────────────────────────────────── */
+.dab-profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:13px}
+.dab-profile-ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;margin-bottom:13px;color:var(--dsw-alias-brand-primary);background:var(--dsw-alias-bg-layer-2);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 12%,transparent)}
+.dab-profile-title{font-size:14px;font-weight:650}
+.dab-profile-desc{font-size:12px;color:var(--dsw-alias-label-tertiary);line-height:1.55;margin:5px 0 15px}
+.dab-footer{margin-top:6px;padding:14px 4px 0;border-top:1px solid var(--dsw-alias-border-l2);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--dsw-alias-label-tertiary)}
+.dab-footer-mono{font-family:var(--dab-mono);letter-spacing:.02em}
+
+/* ── presets / profiles / schedule / rotation ────────────────────────────── */
+.dab-row-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dab-preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:10px}
+.dab-preset{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px;border:1.5px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-1);border-radius:13px;cursor:pointer;font:inherit;text-align:left;transition:border-color .25s,transform .25s,box-shadow .25s;animation:dab-row-in .34s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0) * 45ms)}
+.dab-preset:hover{transform:translateY(-2px);border-color:var(--dsw-alias-brand-primary);box-shadow:0 8px 22px -12px rgba(0,0,0,.3)}
+.dab-preset-dot{width:22px;height:22px;border-radius:50%;margin-bottom:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 4px 10px -4px rgba(0,0,0,.35);background:var(--dsw-alias-bg-layer-2);display:grid;place-items:center;color:var(--dsw-alias-label-tertiary)}
+.dab-preset-name{font-size:12.5px;font-weight:600;color:var(--dsw-alias-label-primary)}
+.dab-preset-desc{font-size:10.5px;line-height:1.45;color:var(--dsw-alias-label-tertiary)}
+.dab-profile-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;animation:dab-list-in .38s cubic-bezier(.22,1,.36,1) both}
+.dab-profile-row{display:flex;align-items:center;gap:11px;padding:9px 12px;border:1px solid var(--dsw-alias-border-l2);border-radius:12px;background:var(--dsw-alias-bg-layer-2);animation:dab-row-in .34s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0) * 45ms);transition:border-color .22s ease,background .22s ease}
+.dab-profile-row:hover{border-color:color-mix(in srgb,var(--dsw-alias-brand-primary) 28%,transparent);background:color-mix(in srgb,var(--dsw-alias-label-primary) 4%,var(--dsw-alias-bg-layer-2))}
+.dab-profile-row.is-active{border-color:color-mix(in srgb,var(--dsw-alias-brand-primary) 45%,transparent);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 7%,var(--dsw-alias-bg-layer-2))}
+.dab-profile-dot{width:22px;height:22px;flex:none;border-radius:50%;background:var(--dsw-alias-bg-layer-1);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);display:grid;place-items:center;color:var(--dsw-alias-label-tertiary)}
+.dab-profile-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.dab-profile-name{font-size:12.5px;font-weight:600;color:var(--dsw-alias-label-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dab-profile-sub{font-family:var(--dab-mono);font-size:10px;color:var(--dsw-alias-label-tertiary)}
+.dab-btn-confirm{background:var(--dsw-alias-state-error-primary)!important;color:#fff!important;border-color:transparent!important}
+.dab-select{height:32px;padding:0 10px;border-radius:9px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-size:12px;outline:none;cursor:pointer;max-width:180px}
+.dab-select:focus{border-color:var(--dsw-alias-brand-primary)}
+.dab-timeinput{height:32px;padding:0 8px;border-radius:9px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);font-family:var(--dab-mono);font-size:12px;outline:none}
+.dab-timeinput:focus{border-color:var(--dsw-alias-brand-primary)}
+/* Collapsible panel: animates grid-template-rows 0fr→1fr so the schedule
+   block unfolds to its content height instead of popping in. visibility
+   flips after the fold finishes (and instantly on open) so hidden inputs
+   are never focusable. */
+.dab-schedule-wrap{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .42s cubic-bezier(.22,1,.36,1),visibility 0s linear .42s}
+.dab-schedule-wrap.is-open{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .42s cubic-bezier(.22,1,.36,1)}
+.dab-schedule-clip{overflow:hidden;min-height:0;opacity:0;transition:opacity .28s ease}
+.dab-schedule-wrap.is-open .dab-schedule-clip{opacity:1;transition:opacity .32s ease .1s}
+.dab-schedule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;padding-top:12px}
+.dab-schedule-cell{min-width:0;animation:dab-row-in .34s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--i,0) * 60ms)}
+.dab-time-row{display:flex;flex-direction:column;gap:9px}
+.dab-time-label{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary))}
+.dab-time-label svg{color:var(--dsw-alias-brand-primary);flex:none}
+.dab-time-label .dab-select,.dab-time-label .dab-timeinput{flex:1;min-width:0}
+.dab-thumbstrip{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}
+.dab-thumb{position:relative;width:64px;height:44px;border-radius:9px;overflow:hidden;border:1.5px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-2);display:grid;place-items:center;color:var(--dsw-alias-label-tertiary);animation:dab-list-in .3s cubic-bezier(.22,1,.36,1) both}
+.dab-thumb.is-current{border-color:var(--dsw-alias-brand-primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--dsw-alias-brand-primary) 25%,transparent)}
+.dab-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dab-thumb-x{position:absolute;top:2px;right:2px;width:16px;height:16px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;display:grid;place-items:center;opacity:0;transition:opacity .18s ease,background .18s ease;padding:0}
+.dab-thumb:hover .dab-thumb-x{opacity:1}
+.dab-thumb-x:hover{background:var(--dsw-alias-state-error-primary)}
+.dab-thumb-add{border-style:dashed;cursor:pointer;background:transparent;color:var(--dsw-alias-label-tertiary);font:inherit;transition:border-color .22s ease,color .22s ease}
+.dab-thumb-add:hover{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-primary)}
+.dab-chip-sep{width:1px;height:18px;background:var(--dsw-alias-border-l2);margin:0 4px;flex:none}
+
+/* ── toast ───────────────────────────────────────────────────────────────── */
+.dab-toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:99px;background:var(--dsw-alias-bg-layer-3,var(--dsw-alias-bg-layer-2));border:1px solid var(--dsw-alias-border-l2);box-shadow:0 10px 30px -8px rgba(0,0,0,.38);font-size:12.5px;z-index:10001;animation:dab-toast-in .32s cubic-bezier(.22,1,.36,1) both}
+.dab-toast-ok{color:var(--dsw-alias-brand-primary);display:grid;place-items:center}
+.dab-toast-err{color:var(--dsw-alias-state-error-primary);display:grid;place-items:center}
+
+/* ── modals (editor / eyedropper / crash) ────────────────────────────────── */
+/* Pin to the viewport explicitly with vw/vh so ancestor padding/margins on
+ * body cannot shift or clip the overlay; keep it above host sidebar chrome.
+ * pointer-events:auto re-enables interaction: these overlays render inside a
+ * Portal root that is pointer-events:none so it never blocks the page alone. */
+.dab-overlay{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:999999;background:rgba(8,10,14,.62);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;animation:dab-fade-in .25s ease both;pointer-events:auto}
+.dab-overlay-title{color:#fff;font-size:15px;font-weight:600}
+.dab-overlay-hint{color:rgba(255,255,255,.62);font-size:12px}
+.dab-modal-card{animation:dab-zoom-in .3s cubic-bezier(.22,1,.36,1) both;max-width:calc(100vw - 40px);max-height:calc(100vh - 120px);overflow:auto}
+.dab-overlay .dab-btn{background:rgba(255,255,255,.94);color:#14161a;border-color:transparent}
+.dab-overlay .dab-btn-primary{background:var(--dsw-alias-brand-primary);color:var(--dsw-alias-brand-text)}
+.dab-crash{display:flex;flex-direction:column;gap:10px;align-items:center;padding:28px 18px;border:1px solid var(--dsw-alias-border-l2);border-radius:16px}
+.dab-crash-title{font-size:15px;font-weight:650}
+.dab-crash-desc{font-size:12px;color:var(--dsw-alias-label-tertiary);text-align:center;line-height:1.5}
+/* The crash cause: readable, scrollable, and clipped to a few lines so a long
+ * stack cannot push the reset button off the panel. */
+.dab-crash-detail{margin:0;max-width:min(520px,80vw);max-height:132px;overflow:auto;padding:8px 10px;border-radius:8px;background:var(--dsw-alias-bg-layer-2);border:1px solid var(--dsw-alias-border-l2);font-family:var(--dab-mono);font-size:10.5px;line-height:1.5;color:var(--dsw-alias-label-secondary,var(--dsw-alias-label-tertiary));text-align:left;white-space:pre-wrap;word-break:break-word}
+
+/* ── keyframes ───────────────────────────────────────────────────────────── */
+@keyframes dab-fade-in{from{opacity:0}to{opacity:1}}
+@keyframes dab-page-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes dab-rise-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes dab-list-in{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+@keyframes dab-row-in{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes dab-type-in{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes dab-orb-in{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@keyframes dab-spin{to{transform:rotate(360deg)}}
+@keyframes dab-rotate{to{transform:rotate(360deg)}}
+@keyframes dab-toast-in{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes dab-zoom-in{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+@keyframes dab-flow{to{background-position:300% 50%}}
+
+/* ── sidebar surface (a dsh-better-sidebar page) ─────────────────────────────
+ * Same shell, hosted in a panel that is handed a full-height column (the host's
+ * native tab body is height:100%) and whose width the user drags freely. So only
+ * THREE things are fixed here, all of them structural:
+ *   1. the shell fills the height and the page body owns the scroll
+ *      (flex:1 + min-height:0), so the panel stays one scrollable column instead
+ *      of pushing the whole tab into a scrollbar;
+ *   2. the nav is a rail ABOVE the page rather than beside it — a side rail would
+ *      spend 150px of a panel that is narrow by nature, and this way the page
+ *      keeps the full width for its own grids;
+ *   3. long tokens (paths, hex, URLs) may wrap instead of widening the panel.
+ *
+ * Everything else — grid columns, paddings, type scale, whether the cards lift on
+ * hover — is width-driven through the container queries below, which measure this
+ * shell (the .dab-root container, which declares container-type:inline-size) and
+ * not the viewport. A narrow sidebar compacts; a wide one falls back to the
+ * dialog's own spacing and multi-column grids, because at that point it *is* a
+ * dialog-sized surface. */
+[data-dab-surface="sidebar"].dab-root{height:100%;min-height:0;padding:12px 12px 0}
+[data-dab-surface="sidebar"] .dab-shell{display:flex;flex-direction:column;align-items:stretch;gap:11px;height:100%;min-height:0;max-width:none;padding-bottom:0}
+[data-dab-surface="sidebar"] .dab-nav{gap:0}
+[data-dab-surface="sidebar"] .dab-nav-list{flex-direction:row;gap:2px;overflow-x:auto;overflow-y:hidden;padding-bottom:1px}
+[data-dab-surface="sidebar"] .dab-nav-list::-webkit-scrollbar{display:none}
+[data-dab-surface="sidebar"] .dab-nav-ind{display:none}
+[data-dab-surface="sidebar"] .dab-nav-item{flex:none;height:32px;gap:7px;padding:0 10px;font-size:12px}
+[data-dab-surface="sidebar"] .dab-nav-item.is-active{background:var(--dsw-alias-bg-layer-2)}
+[data-dab-surface="sidebar"] .dab-page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:16px;scrollbar-width:thin}
+/* Last-resort safety for text that cannot wrap (paths, hex, URLs). */
+[data-dab-surface="sidebar"] .dab-hint,[data-dab-surface="sidebar"] .dab-part-name{overflow-wrap:anywhere}
+/* The panel's width is whatever the user dragged it to, so let the part cards
+ * fill as many columns as actually fit instead of hard-coding one. 170px is the
+ * narrowest a part card stays readable once its header can wrap (see the head
+ * rules below), which puts the second column at roughly a 380px panel — the
+ * default right-sidebar width. */
+[data-dab-surface="sidebar"] .dab-grid-parts{grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:12px}
+[data-dab-surface="sidebar"] .dab-types{grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))}
+[data-dab-surface="sidebar"] .dab-card{padding:12px}
+[data-dab-surface="sidebar"] .dab-part-head{gap:8px;margin-bottom:10px}
+[data-dab-surface="sidebar"] .dab-part-ico{width:26px;height:26px;border-radius:8px}
+[data-dab-surface="sidebar"] .dab-part-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px}
+[data-dab-surface="sidebar"] .dab-part-badge{padding:2px 7px;font-size:10px}
+
+/* Narrow panel: tighten the chrome so the content still has room. */
+@container (max-width:539px){
+  [data-dab-surface="sidebar"] .dab-page{gap:11px}
+  [data-dab-surface="sidebar"] .dab-h1{font-size:17px}
+  [data-dab-surface="sidebar"] .dab-desc{font-size:12px}
+  [data-dab-surface="sidebar"] .dab-orb-wrap{width:96px;height:96px}
+  [data-dab-surface="sidebar"] .dab-wheel-card{padding:14px 10px;gap:16px}
+  [data-dab-surface="sidebar"] .dab-wheel-glow{width:170px;height:170px}
+  /* Lift-on-hover is a dialog affordance; in a cramped scrolling panel it only
+   * adds jitter under the cursor. */
+  [data-dab-surface="sidebar"] .dab-card-hover:hover{transform:none;box-shadow:none}
+}
+/* Roomy panel: behave like the dialog again — its spacing, its type scale, and
+ * multi-column grids (a smaller track minimum than the dialog, because the page
+ * here is a few hundred px narrower than a dialog's content column). */
+@container (min-width:540px){
+  [data-dab-surface="sidebar"] .dab-shell{gap:16px}
+  [data-dab-surface="sidebar"] .dab-page{gap:13px}
+  [data-dab-surface="sidebar"] .dab-nav-item{height:34px;font-size:12.5px;padding:0 12px}
+  /* The shared ≤620px rule flattens the type cards to one column, which is right
+   * for a narrow phone-width dialog but wasteful in a roomy panel. */
+  [data-dab-surface="sidebar"] .dab-types{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+}
+
+/* ── responsive & motion preferences ─────────────────────────────────────── */
+@container (max-width:620px){
+  .dab-shell{grid-template-columns:1fr;gap:14px}
+  .dab-nav{position:static;flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .dab-nav-list{flex-direction:row;overflow-x:auto;scrollbar-width:none}
+  .dab-nav-list::-webkit-scrollbar{display:none}
+  .dab-nav-ind{display:none}
+  .dab-nav-item{flex:none;padding:0 10px}
+  .dab-nav-item.is-active{background:var(--dsw-alias-bg-layer-2)}
+  .dab-types{grid-template-columns:1fr}
+}
+@container (min-width:621px){
+  .dab-shell{grid-template-columns:158px minmax(0,1fr);gap:26px}
+}
+/* Phone: on a handset the settings dialog's content column shrinks to roughly
+ * the viewport, and the dialog-sized chrome (18px cards, 21px headings, a 118px
+ * orb, 24px paddings) stops fitting — cards end up wider than the column or the
+ * color row wraps into three cramped pieces. These are the same tightenings the
+ * sidebar surface applies at its own narrow widths, so a phone settings dialog
+ * and a narrow sidebar panel end up looking the same. */
+@container (max-width:480px){
+  .dab-shell{gap:10px}
+  .dab-page{gap:10px}
+  .dab-head{margin:0 0 2px}
+  .dab-h1{font-size:18px}
+  .dab-desc{font-size:12px}
+  .dab-card{padding:14px;border-radius:14px}
+  .dab-hero-accent{gap:16px}
+  .dab-orb-wrap{width:92px;height:92px}
+  .dab-wheel-card{padding:14px 10px;gap:16px}
+  .dab-wheel-glow{width:180px;height:180px}
+  /* Three fixed type-card columns need ~400px; two adaptive ones fit 320px. */
+  .dab-types{grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))}
+  .dab-grid-parts{gap:11px}
+  .dab-part-head{margin-bottom:10px}
+  .dab-slider-block + .dab-slider-block{margin-top:10px}
+  .dab-footer{padding-top:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .dab-root *,.dab-root *::before,.dab-root *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+`;
+		const CSS_ID = "dab-ui-css";
+		/** Inject the design-system stylesheet once per document (HMR-safe). */
+		function ensureUiCss() {
+			if (typeof document === "undefined") return;
+			let el = document.getElementById(CSS_ID);
+			if (!el) {
+				el = document.createElement("style");
+				el.id = CSS_ID;
+				el.dataset.plugin = "dsh-any-background-ui-css";
+				document.head.appendChild(el);
+			}
+			if (el.textContent !== UI_CSS) el.textContent = UI_CSS;
+		}
+		//#endregion
+		//#region src/client/components/icons.tsx
+		/** Sun glyph, migrated from @deepseek-ai/dsh-client-ui-primitives IconLightOutline16. */
+		const SUN_PATHS = "<path d=\"M11.3496 8C11.3496 6.14985 9.85015 4.65039 8 4.65039C6.14985 4.65039 4.65039 6.14985 4.65039 8C4.65039 9.85015 6.14985 11.3496 8 11.3496C9.85015 11.3496 11.3496 9.85015 11.3496 8ZM12.6504 8C12.6504 10.5681 10.5681 12.6504 8 12.6504C5.43188 12.6504 3.34961 10.5681 3.34961 8C3.34961 5.43188 5.43188 3.34961 8 3.34961C10.5681 3.34961 12.6504 5.43188 12.6504 8Z\" fill=\"currentColor\"/><path d=\"M8.65039 0.5V2.5H7.34961V0.5H8.65039Z\" fill=\"currentColor\"/><path d=\"M8.65039 13.5V15.5H7.34961V13.5H8.65039Z\" fill=\"currentColor\"/><path d=\"M3.15808 2.24035L4.57229 3.65456L3.6525 4.57435L2.23829 3.16014L3.15808 2.24035Z\" fill=\"currentColor\"/><path d=\"M12.3505 11.4327L13.7647 12.8469L12.8449 13.7667L11.4307 12.3525L12.3505 11.4327Z\" fill=\"currentColor\"/><path d=\"M2.24537 12.8469L3.65958 11.4327L4.57937 12.3525L3.16516 13.7667L2.24537 12.8469Z\" fill=\"currentColor\"/><path d=\"M11.4377 3.65455L12.852 2.24033L13.7718 3.16012L12.3575 4.57434L11.4377 3.65455Z\" fill=\"currentColor\"/><path d=\"M0.5 7.35461H2.5V8.6554H0.5L0.5 7.35461Z\" fill=\"currentColor\"/><path d=\"M13.5 7.35461H15.5V8.6554H13.5V8.6554Z\" fill=\"currentColor\"/>";
+		function SunIcon({ size = 16, className }) {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("svg", {
+				width: size,
+				height: size,
+				className,
+				viewBox: "0 0 16 16",
+				fill: "none",
+				xmlns: "http://www.w3.org/2000/svg",
+				dangerouslySetInnerHTML: { __html: SUN_PATHS }
+			});
+		}
+		function Glyph({ children, size = 16, className }) {
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("svg", {
+				width: size,
+				height: size,
+				className,
+				viewBox: "0 0 16 16",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: 1.5,
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": "true",
+				children
+			});
+		}
+		const DropletIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 1.9c2.4 2.8 4.3 5 4.3 7.1a4.3 4.3 0 1 1-8.6 0C3.7 6.9 5.6 4.7 8 1.9z" })
+		});
+		const LayersIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 2.2 13.2 5 8 7.8 2.8 5 8 2.2z" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.8 8.2 8 11l5.2-2.8" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.8 11.2 8 14l5.2-2.8" })
+			]
+		});
+		const PhotoIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+					x: "2",
+					y: "3.2",
+					width: "12",
+					height: "9.6",
+					rx: "2"
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+					cx: "5.7",
+					cy: "6.3",
+					r: "0.9"
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M14 10.4l-2.8-2.8-4.8 4.8" })
+			]
+		});
+		const VideoIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+				x: "1.5",
+				y: "4.2",
+				width: "8.8",
+				height: "7.6",
+				rx: "2"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M10.3 6.9l4.2-2.4v7l-4.2-2.4" })]
+		});
+		const TextIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M3 4.2h10M3 8h10M3 11.8h6.5" })
+		});
+		const TrajectoryIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.5 3.2h11M2.5 6.6h11M2.5 10h11" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+					cx: "4.4",
+					cy: "3.2",
+					r: "1.1"
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+					cx: "8",
+					cy: "6.6",
+					r: "1.1"
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+					cx: "11.4",
+					cy: "10",
+					r: "1.1"
+				})
+			]
+		});
+		/** Bottom workbench panel (dsh-better-sidebar): a window with a docked strip. */
+		const PanelIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.4 2.7h11.2v10.6H2.4z" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.4 10.1h11.2" })]
+		});
+		const SlidersIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.5 4.5h4.9M11.6 4.5h1.9M2.5 11.5h1.9M8.6 11.5h4.9" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+					cx: "9.5",
+					cy: "4.5",
+					r: "1.7"
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+					cx: "5.5",
+					cy: "11.5",
+					r: "1.7"
+				})
+			]
+		});
+		const SparkleIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M7.2 1.8l1.2 3.1 3.1 1.2-3.1 1.2-1.2 3.1-1.2-3.1L2.9 6.1 6 4.9l1.2-3.1z" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M12 10.5l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5.5-1.2z" })]
+		});
+		const RefreshIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M13.2 8A5.2 5.2 0 1 1 11.5 4.2" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M13.4 1.8v2.9h-2.9" })]
+		});
+		const DownloadIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 2.2v8" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M4.6 7l3.4 3.4L11.4 7" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.8 13.8h10.4" })
+			]
+		});
+		const UploadIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 10.4V2.6" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M4.6 5.8L8 2.4l3.4 3.4" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.8 13.8h10.4" })
+			]
+		});
+		const LinkIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M6.6 9.4 9.4 6.6" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M5.9 11.1l-1.4 1.4a2.6 2.6 0 0 1-3.7-3.7L3.5 6.8" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M10.1 4.9l1.4-1.4a2.6 2.6 0 0 1 3.7 3.7l-2.1 2.1" })
+			]
+		});
+		const LockIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+				x: "3.6",
+				y: "7.2",
+				width: "8.8",
+				height: "6",
+				rx: "1.4"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M5.6 7.2V5.4a2.4 2.4 0 0 1 4.8 0v1.8" })]
+		});
+		const TrashIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.8 4.4h10.4" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M6.4 4.4V2.9h3.2v1.5" }),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M4.4 4.4l.5 8.6h6.2l.5-8.6" })
+			]
+		});
+		const EditIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M9.5 4l2.5 2.5" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M3 13l.8-3L10 3.8 12.2 6 6 12.2 3 13z" })]
+		});
+		const PipetteIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+				cx: "8",
+				cy: "8",
+				r: "4.2"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 1.6v2.6M8 11.8v2.6M1.6 8h2.6M11.8 8h2.6" })]
+		});
+		const CheckIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M3.2 8.6l3 3L12.8 5" })
+		});
+		const AlertIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 2.6l5.4 9.8H2.6L8 2.6z" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 6.8v2.4M8 11.4v.01" })]
+		});
+		const CanvasIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+				x: "2.2",
+				y: "2.2",
+				width: "11.6",
+				height: "11.6",
+				rx: "2"
+			})
+		});
+		const SidebarIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+				x: "2.2",
+				y: "2.2",
+				width: "11.6",
+				height: "11.6",
+				rx: "2"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M6.6 2.2v11.6" })]
+		});
+		const ChatIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M13.4 4.4v4.4a2 2 0 0 1-2 2H6.2l-3.6 3V4.4a2 2 0 0 1 2-2h6.8a2 2 0 0 1 2 2z" })
+		});
+		const GearIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+				cx: "8",
+				cy: "8",
+				r: "2.1"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 1.7v1.8M8 12.5v1.8M1.7 8h1.8M12.5 8h1.8M3.6 3.6l1.3 1.3M11.1 11.1l1.3 1.3M12.4 3.6l-1.3 1.3M4.9 11.1l-1.3 1.3" })]
+		});
+		const InputIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+				x: "2.2",
+				y: "4",
+				width: "11.6",
+				height: "8",
+				rx: "2"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 6.6v2M7 8h2" })]
+		});
+		/** Session header bar: a window with its title band above the content. */
+		const HeaderBarIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("rect", {
+				x: "2.2",
+				y: "2.2",
+				width: "11.6",
+				height: "11.6",
+				rx: "2"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M2.2 5.6h11.6" })]
+		});
+		const PlusIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 3v10M3 8h10" })
+		});
+		const MoonIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z" })
+		});
+		const ClockIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("circle", {
+				cx: "8",
+				cy: "8",
+				r: "5.8"
+			}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M8 4.8V8l2.2 1.6" })]
+		});
+		const XIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M4 4l8 8M12 4l-8 8" })
+		});
+		/** Letterform glyph: a stroked capital A (the font/type page + nav entry). */
+		const FontIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(Glyph, {
+			size,
+			className,
+			children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M4 12.2 8 3.8l4 8.4" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M5.6 9.6h4.8" })]
+		});
+		const PlayIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M5.2 3.4l7.4 4.6-7.4 4.6V3.4z" })
+		});
+		const PauseIcon = ({ size, className }) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Glyph, {
+			size,
+			className,
+			children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("path", { d: "M5.4 3.4v9.2M10.6 3.4v9.2" })
+		});
+		//#endregion
+		//#region src/client/components/ErrorBoundary.tsx
+		/**
+		* Catches render errors from the theme section subtree (wheel, sliders, editor)
+		* so a single bad state can never take down the whole settings panel. Shows a
+		* compact fallback with a reset button; the reset re-renders the section with
+		* the current saved config, which is enough to recover from most transient
+		* failures (corrupt transient UI state, stale image decode, etc.).
+		*/
+		var ErrorBoundary = class extends react.Component {
+			state = { error: null };
+			static getDerivedStateFromError(error) {
+				return { error };
+			}
+			componentDidCatch(error, info) {
+				console.error("dsh-any-background: section render crashed", error, info.componentStack);
+			}
+			reset = () => {
+				this.setState({ error: null });
+				this.props.onReset?.();
+			};
+			render() {
+				if (this.state.error) {
+					const detail = this.state.error.stack ?? `${this.state.error.name}: ${this.state.error.message}`;
+					return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-crash",
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-crash-title",
+								children: this.props.t("crashTitle")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-crash-desc",
+								children: this.props.t("crashDesc")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("pre", {
+								className: "dab-crash-detail",
+								children: detail
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "dab-btn",
+								onClick: this.reset,
+								children: this.props.t("crashReset")
+							})
+						]
+					});
+				}
+				return this.props.children;
+			}
+		};
+		//#endregion
+		//#region src/client/components/Portal.tsx
+		/**
+		* Render children into a fixed root attached to document.documentElement.
+		*
+		* The host's sidebar is often implemented by translating the body or a wrapper
+		* (margin-left / transform). A fixed element portaled to body would still be
+		* captured by that transformed ancestor and shift with the sidebar. Attaching
+		* the portal root directly to <html> escapes body-level transforms so the
+		* overlay is always painted relative to the viewport and centered correctly.
+		*/
+		function Portal({ children }) {
+			const [target, setTarget] = (0, react.useState)(null);
+			(0, react.useEffect)(() => {
+				const el = document.createElement("div");
+				el.dataset.dabPortal = "1";
+				el.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:999999";
+				document.documentElement.appendChild(el);
+				setTarget(el);
+				return () => {
+					el.remove();
+				};
+			}, []);
+			return target ? (0, react_dom.createPortal)(children, target) : null;
+		}
+		//#endregion
+		//#region src/client/components/ColorWheel.tsx
+		const WHEEL_SIZE = 220;
+		const CX = WHEEL_SIZE / 2;
+		const RING_OUTER = 106;
+		const RING_INNER = 82;
+		const SQ_HALF = RING_INNER / Math.SQRT2;
+		/** Static hue ring cached once across all wheels. */
+		let ringCache = null;
+		function getRingCache() {
+			if (ringCache) return ringCache;
+			const cvs = document.createElement("canvas");
+			cvs.width = WHEEL_SIZE;
+			cvs.height = WHEEL_SIZE;
+			const c = cvs.getContext("2d");
+			const g = c.createConicGradient(0, CX, CX);
+			for (let i = 0; i <= 360; i++) g.addColorStop(i / 360, `hsl(${i},100%,50%)`);
+			c.beginPath();
+			c.arc(CX, CX, RING_OUTER, 0, Math.PI * 2);
+			c.arc(CX, CX, RING_INNER, 0, Math.PI * 2, true);
+			c.fillStyle = g;
+			c.fill();
+			ringCache = cvs;
+			return ringCache;
+		}
+		function drawMarkers(ctx, hue, sat, lit) {
+			const hRad = hue * Math.PI / 180;
+			const hR = 94;
+			const hmx = CX + Math.cos(hRad) * hR;
+			const hmy = CX + Math.sin(hRad) * hR;
+			ctx.beginPath();
+			ctx.arc(hmx, hmy, 8, 0, Math.PI * 2);
+			ctx.fillStyle = "rgba(0,0,0,0.25)";
+			ctx.fill();
+			ctx.beginPath();
+			ctx.arc(hmx, hmy, 6.5, 0, Math.PI * 2);
+			ctx.strokeStyle = "#fff";
+			ctx.lineWidth = 2;
+			ctx.stroke();
+			const gx = CX - SQ_HALF, gy = CX - SQ_HALF, sz = SQ_HALF * 2;
+			const smx = gx + sat * sz;
+			const smy = gy + (1 - lit) * sz;
+			ctx.beginPath();
+			ctx.arc(smx, smy, 7, 0, Math.PI * 2);
+			ctx.fillStyle = "rgba(0,0,0,0.25)";
+			ctx.fill();
+			ctx.beginPath();
+			ctx.arc(smx, smy, 5.5, 0, Math.PI * 2);
+			ctx.strokeStyle = "#fff";
+			ctx.lineWidth = 2;
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.arc(smx, smy, 3.5, 0, Math.PI * 2);
+			ctx.strokeStyle = "#000";
+			ctx.lineWidth = 1;
+			ctx.stroke();
+		}
+		function drawSquare(c, hue) {
+			const gx = CX - SQ_HALF, gy = CX - SQ_HALF, sz = SQ_HALF * 2;
+			c.clearRect(gx - 1, gy - 1, sz + 2, sz + 2);
+			c.fillStyle = "#fff";
+			c.fillRect(gx, gy, sz, sz);
+			const gh = c.createLinearGradient(gx, 0, gx + sz, 0);
+			gh.addColorStop(0, "rgba(255,255,255,1)");
+			gh.addColorStop(1, `hsl(${hue},100%,50%)`);
+			c.fillStyle = gh;
+			c.fillRect(gx, gy, sz, sz);
+			const gv = c.createLinearGradient(0, gy, 0, gy + sz);
+			gv.addColorStop(0, "rgba(0,0,0,0)");
+			gv.addColorStop(1, "rgba(0,0,0,1)");
+			c.fillStyle = gv;
+			c.fillRect(gx, gy, sz, sz);
+		}
+		function hitTest(x, y) {
+			if (Math.abs(x - CX) <= SQ_HALF && Math.abs(y - CX) <= SQ_HALF) return "square";
+			const dx = x - CX, dy = y - CX;
+			const dist = Math.sqrt(dx * dx + dy * dy);
+			if (dist >= 78 && dist <= 110) return "ring";
+			return null;
+		}
+		function pickHue(x, y) {
+			let angle = Math.atan2(y - CX, x - CX) * 180 / Math.PI;
+			if (angle < 0) angle += 360;
+			return angle;
+		}
+		function pickSL(x, y) {
+			const gx = CX - SQ_HALF, gy = CX - SQ_HALF, sz = SQ_HALF * 2;
+			return [Math.max(0, Math.min(1, (x - gx) / sz)), Math.max(.02, Math.min(.98, 1 - (y - gy) / sz))];
+		}
+		const ColorWheel = (0, react.memo)(function ColorWheel({ hue, sat, lit, onChange }) {
+			const cvsRef = (0, react.useRef)(null);
+			const [col, setCol] = (0, react.useState)({
+				hue,
+				sat,
+				lit
+			});
+			const colRef = (0, react.useRef)(col);
+			colRef.current = col;
+			(0, react.useEffect)(() => {
+				setCol((c) => c.hue === hue && c.sat === sat && c.lit === lit ? c : {
+					hue,
+					sat,
+					lit
+				});
+			}, [
+				hue,
+				sat,
+				lit
+			]);
+			(0, react.useEffect)(() => {
+				const cvs = cvsRef.current;
+				if (!cvs) return;
+				const ctx = cvs.getContext("2d");
+				ctx.clearRect(0, 0, WHEEL_SIZE, WHEEL_SIZE);
+				drawSquare(ctx, col.hue);
+				ctx.drawImage(getRingCache(), 0, 0);
+				drawMarkers(ctx, col.hue, col.sat, col.lit);
+			}, [col]);
+			const pendingRef = (0, react.useRef)(null);
+			const rafRef = (0, react.useRef)(null);
+			/** Unmount-time cleanup for a drag that never saw its mouseup (panel closed
+			*  mid-drag): without it the document listeners stay attached forever and the
+			*  pending rAF keeps calling setState on a dead component. */
+			const dragCleanupRef = (0, react.useRef)(null);
+			const flushPending = (0, react.useCallback)(() => {
+				rafRef.current = null;
+				const p = pendingRef.current;
+				if (!p) return;
+				pendingRef.current = null;
+				setCol({
+					hue: p.h,
+					sat: p.s,
+					lit: p.l
+				});
+				onChange(p.h, p.s, p.l);
+			}, [onChange]);
+			const schedule = (0, react.useCallback)((h, s, l) => {
+				pendingRef.current = {
+					h,
+					s,
+					l
+				};
+				if (rafRef.current === null) rafRef.current = requestAnimationFrame(flushPending);
+			}, [flushPending]);
+			const onDown = (0, react.useCallback)((e) => {
+				const r = cvsRef.current.getBoundingClientRect();
+				const x = e.clientX - r.left, y = e.clientY - r.top;
+				const region = hitTest(x, y);
+				if (!region) return;
+				if (region === "ring") schedule(pickHue(x, y), colRef.current.sat, colRef.current.lit);
+				else {
+					const [s, l] = pickSL(x, y);
+					schedule(colRef.current.hue, s, l);
+				}
+				const onMove = (ev) => {
+					const rr = cvsRef.current.getBoundingClientRect();
+					const mx = ev.clientX - rr.left, my = ev.clientY - rr.top;
+					if (region === "ring") {
+						const d = Math.sqrt((mx - CX) ** 2 + (my - CX) ** 2);
+						if (d >= 72 && d <= 116) schedule(pickHue(mx, my), colRef.current.sat, colRef.current.lit);
+					} else {
+						const [s, l] = pickSL(mx, my);
+						schedule(colRef.current.hue, s, l);
+					}
+				};
+				const stopDrag = () => {
+					document.removeEventListener("mousemove", onMove);
+					document.removeEventListener("mouseup", stopDrag);
+					dragCleanupRef.current = null;
+				};
+				dragCleanupRef.current = stopDrag;
+				document.addEventListener("mousemove", onMove);
+				document.addEventListener("mouseup", stopDrag);
+			}, [schedule]);
+			(0, react.useEffect)(() => {
+				return () => {
+					if (rafRef.current !== null) {
+						cancelAnimationFrame(rafRef.current);
+						rafRef.current = null;
+					}
+					pendingRef.current = null;
+					dragCleanupRef.current?.();
+				};
+			}, []);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("canvas", {
+				ref: cvsRef,
+				width: WHEEL_SIZE,
+				height: WHEEL_SIZE,
+				className: "dab-wheel",
+				onMouseDown: onDown
+			});
+		});
+		//#endregion
+		//#region src/client/components/ColorInputs.tsx
+		const SEG_W$1 = 66;
+		function clamp(v, min, max) {
+			return Math.min(max, Math.max(min, v));
+		}
+		/**
+		* A single numeric field that edits one color channel. Keeps its own text
+		* while focused so typing never gets clobbered by the parent re-rendering the
+		* canonical value; commits every valid keystroke live and re-normalizes on
+		* blur. The value prop only pushes back in when the field is not focused
+		* (wheel drags, wallpaper extraction, mode switches).
+		*/
+		function NumField({ label, value, min, max, step, onChange }) {
+			const [text, setText] = (0, react.useState)(String(value));
+			const focused = (0, react.useRef)(false);
+			(0, react.useEffect)(() => {
+				if (!focused.current) setText(String(value));
+			}, [value]);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+				className: "dab-field",
+				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+					className: "dab-field-label",
+					children: label
+				}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+					type: "number",
+					min,
+					max,
+					step,
+					value: text,
+					className: "dab-num",
+					onFocus: () => {
+						focused.current = true;
+					},
+					onBlur: () => {
+						focused.current = false;
+						setText(String(value));
+					},
+					onChange: (e) => {
+						setText(e.target.value);
+						if (e.target.value === "") return;
+						const v = Number(e.target.value);
+						if (Number.isFinite(v)) onChange(clamp(v, min, max));
+					}
+				})]
+			});
+		}
+		/**
+		* Precise color entry next to the wheel: a HSL/RGB segmented toggle plus three
+		* numeric channel fields and a live swatch. The wheel is HSV end-to-end, so
+		* this panel converts at the boundary — HSL fields map straight onto the
+		* stored HSL, RGB fields round-trip through rgbToHsl — and both emit HSV via
+		* the same onChange the wheel uses, keeping one canonical color.
+		*/
+		function ColorInputs({ hue, sat, lit, onChange }) {
+			const [mode, setMode] = (0, react.useState)("hsl");
+			const [h, s, l] = hsvToHsl(hue, sat, lit);
+			const [r, g, b] = hslToRgb(h, s, l);
+			const setHsl = (nh, ns, nl) => onChange(...hslToHsv(nh, ns, nl));
+			const setRgb = (nr, ng, nb) => {
+				const [nh, ns, nl] = rgbToHsl(nr, ng, nb);
+				onChange(...hslToHsv(nh, ns, nl));
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+				className: "dab-inputs",
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-seg",
+						style: { "--w": `${SEG_W$1}px` },
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-seg-thumb",
+								style: { transform: `translateX(${mode === "hsl" ? 0 : SEG_W$1}px)` }
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `dab-seg-item${mode === "hsl" ? " is-active" : ""}`,
+								onClick: () => setMode("hsl"),
+								children: "HSL"
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `dab-seg-item${mode === "rgb" ? " is-active" : ""}`,
+								onClick: () => setMode("rgb"),
+								children: "RGB"
+							})
+						]
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						style: {
+							display: "flex",
+							flexDirection: "column",
+							gap: 7
+						},
+						children: mode === "hsl" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)(NumField, {
+								label: "H",
+								value: Math.round(h),
+								min: 0,
+								max: 360,
+								step: 1,
+								onChange: (v) => setHsl(v, s, l)
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)(NumField, {
+								label: "S",
+								value: Math.round(s * 100),
+								min: 0,
+								max: 100,
+								step: 1,
+								onChange: (v) => setHsl(h, v / 100, l)
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)(NumField, {
+								label: "L",
+								value: Math.round(l * 100),
+								min: 0,
+								max: 100,
+								step: 1,
+								onChange: (v) => setHsl(h, s, v / 100)
+							})
+						] }) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)(NumField, {
+								label: "R",
+								value: r,
+								min: 0,
+								max: 255,
+								step: 1,
+								onChange: (v) => setRgb(v, g, b)
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)(NumField, {
+								label: "G",
+								value: g,
+								min: 0,
+								max: 255,
+								step: 1,
+								onChange: (v) => setRgb(r, v, b)
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)(NumField, {
+								label: "B",
+								value: b,
+								min: 0,
+								max: 255,
+								step: 1,
+								onChange: (v) => setRgb(r, g, v)
+							})
+						] })
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-swatch-lg",
+						style: { background: `hsl(${Math.round(h)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%)` }
+					})
+				]
+			});
+		}
+		//#endregion
+		//#region src/client/components/ColorPicker.tsx
+		const MAG_SIZE = 96;
+		const MAG_ZOOM = 8;
+		/**
+		* Eyedropper modal: shows the wallpaper full-bleed (no drag/zoom) and lets the
+		* user click any pixel to adopt it as the theme color. A magnifier circle
+		* follows the cursor so small details can be picked precisely. The wallpaper
+		* is a data URL, so sampling is CORS-free: draw it once to an offscreen-sized
+		* canvas and read pixels via getImageData.
+		*/
+		function ColorPicker({ url, t, onPick, onClose }) {
+			const canvasRef = (0, react.useRef)(null);
+			const magRef = (0, react.useRef)(null);
+			const imgRef = (0, react.useRef)(null);
+			const [ready, setReady] = (0, react.useState)(false);
+			const [hover, setHover] = (0, react.useState)(null);
+			const [mag, setMag] = (0, react.useState)(null);
+			(0, react.useEffect)(() => {
+				const img = new Image();
+				img.onload = () => {
+					imgRef.current = img;
+					setReady(true);
+				};
+				img.src = url;
+			}, [url]);
+			(0, react.useEffect)(() => {
+				if (!ready || !canvasRef.current || !imgRef.current) return;
+				const canvas = canvasRef.current;
+				canvas.width = imgRef.current.naturalWidth;
+				canvas.height = imgRef.current.naturalHeight;
+				const ctx = canvas.getContext("2d");
+				if (ctx) ctx.drawImage(imgRef.current, 0, 0);
+			}, [ready, url]);
+			const sampleAt = (0, react.useCallback)((clientX, clientY) => {
+				const canvas = canvasRef.current;
+				if (!canvas) return null;
+				const rect = canvas.getBoundingClientRect();
+				if (rect.width === 0 || rect.height === 0) return null;
+				const ctx = canvas.getContext("2d");
+				if (!ctx) return null;
+				const sx = Math.round((clientX - rect.left) * (canvas.width / rect.width));
+				const sy = Math.round((clientY - rect.top) * (canvas.height / rect.height));
+				if (sx < 0 || sy < 0 || sx >= canvas.width || sy >= canvas.height) return null;
+				const d = ctx.getImageData(sx, sy, 1, 1).data;
+				return {
+					sx,
+					sy,
+					rgb: [
+						d[0],
+						d[1],
+						d[2]
+					]
+				};
+			}, []);
+			const drawMagnifier = (0, react.useCallback)((sx, sy) => {
+				const mag = magRef.current;
+				const src = canvasRef.current;
+				if (!mag || !src) return;
+				const ctx = mag.getContext("2d");
+				if (!ctx) return;
+				const half = MAG_SIZE / MAG_ZOOM / 2;
+				ctx.clearRect(0, 0, MAG_SIZE, MAG_SIZE);
+				ctx.drawImage(src, sx - half, sy - half, 12, 12, 0, 0, MAG_SIZE, MAG_SIZE);
+				ctx.strokeStyle = "rgba(255,255,255,0.85)";
+				ctx.lineWidth = 1;
+				ctx.beginPath();
+				ctx.moveTo(MAG_SIZE / 2, 0);
+				ctx.lineTo(MAG_SIZE / 2, MAG_SIZE);
+				ctx.moveTo(0, MAG_SIZE / 2);
+				ctx.lineTo(MAG_SIZE, MAG_SIZE / 2);
+				ctx.stroke();
+			}, []);
+			const onMove = (e) => {
+				const s = sampleAt(e.clientX, e.clientY);
+				if (!s) {
+					setHover(null);
+					setMag(null);
+					return;
+				}
+				setHover({ rgb: s.rgb });
+				drawMagnifier(s.sx, s.sy);
+				const off = 28;
+				let x = e.clientX + off;
+				let y = e.clientY + off;
+				if (x + MAG_SIZE > window.innerWidth) x = e.clientX - off - MAG_SIZE;
+				if (y + MAG_SIZE > window.innerHeight) y = e.clientY - off - MAG_SIZE;
+				setMag({
+					x,
+					y
+				});
+			};
+			const onClick = (e) => {
+				const s = sampleAt(e.clientX, e.clientY);
+				if (!s) return;
+				const [h, sl, l] = rgbToHsl(s.rgb[0], s.rgb[1], s.rgb[2]);
+				onPick(hslToHsv(h, sl, l));
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Portal, { children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+				className: "dab-overlay",
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-overlay-title",
+						children: t("pickerTitle")
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-overlay-hint",
+						children: t("pickerHint")
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-modal-card",
+						style: {
+							maxWidth: "min(90vw, 720px)",
+							maxHeight: "60vh",
+							overflow: "hidden",
+							borderRadius: 12,
+							border: "2px solid rgba(255,255,255,0.3)",
+							background: "#000",
+							cursor: "crosshair"
+						},
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("canvas", {
+							ref: canvasRef,
+							style: {
+								display: "block",
+								maxWidth: "100%",
+								maxHeight: "60vh",
+								objectFit: "contain"
+							},
+							onMouseMove: onMove,
+							onMouseLeave: () => {
+								setHover(null);
+								setMag(null);
+							},
+							onClick
+						})
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						style: {
+							display: "flex",
+							alignItems: "center",
+							gap: 10,
+							minWidth: 260
+						},
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", { style: {
+							width: 28,
+							height: 28,
+							borderRadius: 8,
+							border: "1px solid rgba(255,255,255,0.4)",
+							background: hover ? rgbToHex(hover.rgb) : "transparent"
+						} }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							style: {
+								color: "#fff",
+								fontSize: 13,
+								fontFamily: "var(--dab-mono, monospace)"
+							},
+							children: hover ? `${rgbToHex(hover.rgb)} · rgb(${hover.rgb.join(", ")})` : "—"
+						})]
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						style: {
+							display: "flex",
+							gap: 10
+						},
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: "dab-btn",
+							onClick: onClose,
+							children: t("pickerClose")
+						})
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("canvas", {
+						ref: magRef,
+						width: MAG_SIZE,
+						height: MAG_SIZE,
+						style: {
+							position: "fixed",
+							width: MAG_SIZE,
+							height: MAG_SIZE,
+							borderRadius: "50%",
+							border: "2px solid rgba(255,255,255,0.7)",
+							boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
+							zIndex: 1e4,
+							background: "#000",
+							pointerEvents: "none",
+							transition: "opacity 0.08s",
+							left: mag?.x ?? 0,
+							top: mag?.y ?? 0,
+							opacity: mag ? 1 : 0
+						}
+					})
+				]
+			}) });
+		}
+		//#endregion
+		//#region src/client/components/pages/ColorPage.tsx
+		/** Curated quick-pick hues (HSL, s .72 l .55). */
+		const SWATCHES = [
+			[
+				356,
+				.72,
+				.55
+			],
+			[
+				24,
+				.78,
+				.55
+			],
+			[
+				44,
+				.8,
+				.55
+			],
+			[
+				152,
+				.62,
+				.5
+			],
+			[
+				174,
+				.68,
+				.48
+			],
+			[
+				208,
+				.72,
+				.55
+			],
+			[
+				252,
+				.68,
+				.6
+			],
+			[
+				300,
+				.64,
+				.58
+			]
+		];
+		function ColorPage({ p, notify }) {
+			const { t, hue, sat, lit, setColor, extractColor, setSchemeOverride, useStore } = p;
+			const storeUrl = useStore((s) => s.url);
+			const schemeOverride = useStore((s) => s.schemeOverride);
+			const color = useStore((s) => s.color);
+			const [pickerOpen, setPickerOpen] = (0, react.useState)(false);
+			const [extracting, setExtracting] = (0, react.useState)(false);
+			const wheel = color ?? [
+				hue,
+				sat,
+				lit
+			];
+			const [h, s, l] = hsvToHsl(wheel[0], wheel[1], wheel[2]);
+			const [r, g, b] = hslToRgb(h, s, l);
+			const hex = rgbToHex([
+				r,
+				g,
+				b
+			]);
+			const orbVars = {
+				"--c": hex,
+				"--c-soft": `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},0.5)`
+			};
+			const onExtract = async () => {
+				if (!storeUrl || extracting) return;
+				setExtracting(true);
+				try {
+					const ok = await extractColor();
+					notify(ok ? t("extractDone") : t("extractFail"), ok);
+				} catch {
+					notify(t("extractFail"), false);
+				} finally {
+					setExtracting(false);
+				}
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("header", {
+					className: "dab-head dab-rise",
+					style: { "--d": 0 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-overline",
+							children: "Accent"
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+							className: "dab-h1",
+							children: t("colorTitle")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-desc",
+							children: t("descColor")
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-card-hover dab-hero-accent dab-rise",
+					style: { "--d": 1 },
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-orb-wrap",
+						style: orbVars,
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", { className: "dab-orb-ring" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", { className: "dab-orb" })]
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						style: {
+							flex: 1,
+							minWidth: 200
+						},
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-hex-caption",
+								children: t("hexCaption")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-hex",
+								children: hex.toUpperCase()
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-hsl-row",
+								children: [
+									/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", { children: ["H ", /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("b", { children: [Math.round(h), "°"] })] }),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", { children: ["S ", /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("b", { children: [Math.round(s * 100), "%"] })] }),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", { children: ["L ", /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("b", { children: [Math.round(l * 100), "%"] })] })
+								]
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-chip-row",
+								style: { marginTop: 14 },
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									disabled: !storeUrl || extracting,
+									onClick: onExtract,
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(SparkleIcon, { size: 14 }), extracting ? t("extracting") : t("extractColor")]
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									disabled: !storeUrl,
+									onClick: () => setPickerOpen(true),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(PipetteIcon, { size: 14 }), t("eyedropper")]
+								})]
+							})
+						]
+					})]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-wheel-card dab-rise",
+					style: { "--d": 2 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-wheel-glow",
+							style: { background: hex }
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)(ColorWheel, {
+							hue: wheel[0],
+							sat: wheel[1],
+							lit: wheel[2],
+							onChange: setColor
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)(ColorInputs, {
+							hue: wheel[0],
+							sat: wheel[1],
+							lit: wheel[2],
+							onChange: setColor
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+					className: "dab-hint dab-rise",
+					style: { "--d": 3 },
+					children: t("colorHint")
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-card-hover dab-rise",
+					style: { "--d": 3 },
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-swatch-title",
+						children: t("swatchTitle")
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-swatches",
+						children: SWATCHES.map(([sh, ss, sl], i) => {
+							const on = Math.abs((wheel[0] - sh + 540) % 360 - 180) < 3 && Math.abs(s - ss) < .05 && Math.abs(l - sl) < .05;
+							return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `dab-swatch${on ? " is-on" : ""}`,
+								style: { background: `hsl(${sh} ${Math.round(ss * 100)}% ${Math.round(sl * 100)}%)` },
+								title: rgbToHex(hslToRgb(sh, ss, sl)).toUpperCase(),
+								onClick: () => setColor(...hslToHsv(sh, ss, sl))
+							}, i);
+						})
+					})]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 4 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-swatch-title",
+							children: t("schemeTitle")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-seg",
+							style: { "--w": "86px" },
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-seg-thumb",
+									style: { transform: `translateX(${schemeOverride === "light" ? 0 : schemeOverride === "dark" ? 86 : 172}px)` }
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-seg-item${schemeOverride === "light" ? " is-active" : ""}`,
+									onClick: () => setSchemeOverride("light"),
+									children: t("schemeLight")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-seg-item${schemeOverride === "dark" ? " is-active" : ""}`,
+									onClick: () => setSchemeOverride("dark"),
+									children: t("schemeDark")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-seg-item${schemeOverride === "auto" ? " is-active" : ""}`,
+									onClick: () => setSchemeOverride("auto"),
+									children: t("schemeAuto")
+								})
+							]
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginTop: 10 },
+							children: t("schemeHint")
+						})
+					]
+				}),
+				pickerOpen && storeUrl ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ColorPicker, {
+					url: storeUrl,
+					t,
+					onClose: () => setPickerOpen(false),
+					onPick: (hsv) => {
+						setColor(hsv[0], hsv[1], hsv[2]);
+						setPickerOpen(false);
+					}
+				}) : null
+			] });
+		}
+		//#endregion
+		//#region src/client/third-party.ts
+		/**
+		* Third-party plugin compatibility — the registry, and the boot self-check that names
+		* collisions out loud.
+		*
+		* WHY THIS FILE EXISTS
+		* This plugin does not restyle surfaces; it re-emits HOST TOKENS on `<body>` at a
+		* slider's alpha (`OWNED_TOKENS`), and every element that fills from one of those names
+		* fades with it — the host's own, and any other plugin's too. A third-party author has
+		* no reason to expect that: a sticky bar painted with `background:var(--dsw-alias-bg-base)`
+		* is correct on an unthemed host and invisible on ours, because our 「主界面」 slider
+		* defaults to 0. That is issue-class §2-V, and it was found the slow way — a user
+		* reported unreadable text, and someone had to grep another plugin's stylesheet to see
+		* which token it drank.
+		*
+		* WHAT THE SELF-CHECK DOES
+		* Third-party plugins tag their own stylesheets (`style[data-plugin="<package>"]` —
+		* dsh-better-display mounts exactly that, at module load, before any of its views
+		* exists). So the page can answer "who is installed and what of ours do they read"
+		* without anyone reporting it: scan those sheets, look for `var(--<owned token>)`, and
+		* name each hit once in the console. A registered pin says so and stays quiet; an
+		* UNREGISTERED collision logs a warning, which turns "the user finds broken pixels and
+		* files an issue" into "the boot log already knows which plugin and which token".
+		*
+		* WHAT IT DELIBERATELY DOES NOT DO
+		* It never auto-pins an unknown surface. Guessing which of another plugin's elements are
+		* "supposed to stay legible" would repaint someone else's design on a heuristic — the
+		* §2-G lesson about heuristics with side effects. Detection is automatic; protection is
+		* a reviewed table entry, and the settings card exposes it so a user can switch the
+		* whole class off.
+		*/
+		/** The table. Adding a plugin is one row here plus the CSS that honors it. */
+		const THIRD_PARTY_PINS = [{
+			plugin: "dsh-better-display",
+			labelKey: "tpReaderLanes",
+			probe: "[data-dsh-better-display]",
+			tokens: ["--dsw-alias-bg-base"]
+		}];
+		/** This plugin's own sheets are tagged with its name (plus a suffix per table); they
+		*  consume the tokens by design, so they must never count as a collision. */
+		const SELF = "dsh-any-background";
+		/** The host's own client modules tag their stylesheets the same way — measured on
+		*  0.2.1-rc.3: **157 of the 172 `style[data-plugin]` sheets on a real page belong to
+		*  `@deepseek-ai/…`**, and they read these tokens on purpose (fading them IS the
+		*  product). Treating them as collisions would concatenate ~540 KB of host CSS per
+		*  scan, warn about the host's own UI, and fill the settings card with a hundred rows.
+		*  So the host namespace is excluded by prefix. The cost of that rule is asymmetric on
+		*  purpose: a scoped third-party package gets missed (no log, no wrong pixel), while a
+		*  false positive would spam and mislead. */
+		const HOST_NAMESPACE = "@deepseek-ai/";
+		function isHost(name) {
+			return name.startsWith(HOST_NAMESPACE);
+		}
+		function isSelf(name) {
+			return name === SELF || name.startsWith("dsh-any-background-");
+		}
+		/** The package a sheet came from. Scoped names keep their scope (`@hytime/dsh-x` →
+		*  `@hytime/dsh-x`, not `@hytime`), and a `pkg/module.css`-style tag trims to its
+		*  package. Ordering matters: this runs AFTER the host/self tests, which must see the
+		*  raw attribute — truncating first turned `@deepseek-ai/dsh-client-ui-chat` into
+		*  `@deepseek-ai`, which no longer matches the `@deepseek-ai/` prefix and so let 157
+		*  host sheets through as one phantom "plugin" (found on the real host, not in the
+		*  mock: the mock only ever had one host-ish sheet to begin with). */
+		function pluginKey(name) {
+			if (name.startsWith("@")) {
+				const i = name.indexOf("/", 1);
+				return i > 0 ? name.slice(0, i) : name;
+			}
+			const i = name.indexOf("/");
+			return i > 0 ? name.slice(0, i) : name;
+		}
+		let sightings = [];
+		const subs$1 = /* @__PURE__ */ new Set();
+		const logged = /* @__PURE__ */ new Set();
+		/** Read every tagged third-party stylesheet in `<head>` and report the collisions.
+		*  Runs at boot and again whenever a sheet appears; per sheet, not concatenated — the
+		*  real page has 170+ sheets and the difference is measurable. */
+		function scan() {
+			if (typeof document === "undefined") return;
+			const hits = /* @__PURE__ */ new Map();
+			const seen = /* @__PURE__ */ new Set();
+			const note = (plugin, tokens) => {
+				seen.add(plugin);
+				if (tokens.length === 0) return;
+				const set = hits.get(plugin) ?? /* @__PURE__ */ new Set();
+				for (const t of tokens) set.add(t);
+				hits.set(plugin, set);
+			};
+			for (const el of Array.from(document.querySelectorAll("style[data-plugin]"))) {
+				const raw = (el.getAttribute("data-plugin") ?? "").trim();
+				if (raw === "" || isSelf(raw) || isHost(raw)) continue;
+				const plugin = pluginKey(raw);
+				const text = el.textContent ?? "";
+				note(plugin, OWNED_TOKENS.filter((t) => text.includes(`var(${t})`) || text.includes(`var(${t},`) || text.includes(`var(${t} `)));
+			}
+			for (const pin of THIRD_PARTY_PINS) if (pin.probe !== void 0 && !seen.has(pin.plugin) && document.querySelector(pin.probe) !== null) note(pin.plugin, []);
+			const next = [];
+			for (const plugin of seen) {
+				const read = [...hits.get(plugin) ?? []];
+				const pin = THIRD_PARTY_PINS.find((p) => p.plugin === plugin);
+				if (pin === void 0 && read.length === 0) continue;
+				const s = {
+					plugin,
+					tokens: read.length > 0 ? read : [...pin?.tokens ?? []],
+					pinned: pin !== void 0,
+					labelKey: pin?.labelKey
+				};
+				next.push(s);
+				report(plugin, s);
+			}
+			const changed = JSON.stringify(next) !== JSON.stringify(sightings);
+			sightings = next;
+			if (changed) subs$1.forEach((cb) => cb());
+		}
+		function report(plugin, s) {
+			if (logged.has(plugin)) return;
+			logged.add(plugin);
+			if (s.pinned) {
+				const state = rProtectThirdParty() ? "the registered compatibility pin keeps them legible" : "a pin exists for it but 「保护第三方表面」 is currently OFF";
+				console.log(`dsh-any-background: ${plugin} detected — its surfaces fill from tokens this plugin fades, and ${state} (${s.tokens.join(", ")})`);
+				return;
+			}
+			console.warn(`dsh-any-background: ${plugin} paints from ${s.tokens.join(", ")} — the same tokens the interface-opacity sliders own, so those surfaces fade with them. No compatibility pin is registered for ${plugin}; if one of its surfaces goes transparent or unreadable, report this line and a pin can be added.`);
+		}
+		/** Snapshot of what the scan found (for the settings card). */
+		function thirdPartySightings() {
+			return sightings;
+		}
+		/** Subscribe to sightings changing. */
+		function subscribeThirdParty(cb) {
+			subs$1.add(cb);
+			return () => {
+				subs$1.delete(cb);
+			};
+		}
+		/** Run the scan at boot and keep it current. Returns an unsubscribe for teardown. */
+		function startThirdPartyWatch() {
+			scan();
+			return watchDom((records) => {
+				let relevant = false;
+				for (const r of records) {
+					for (const n of r.addedNodes) {
+						if (!(n instanceof HTMLStyleElement)) continue;
+						const name = n.getAttribute("data-plugin");
+						if (name !== null && !isSelf(name) && !isHost(name)) {
+							relevant = true;
+							break;
+						}
+					}
+					if (relevant) break;
+				}
+				if (relevant) scan();
+			}, "head");
+		}
+		//#endregion
+		//#region src/client/components/LiveSlider.tsx
+		/**
+		* Zero-lag slider: the thumb and value label update through DOM refs while
+		* dragging (onInput) so the caller can mutate the live UI directly without a
+		* React re-render; onChange commits the settled value. Double-click resets to
+		* the canonical default. The track fill is a gradient driven by the --pct
+		* custom property, updated imperatively alongside the thumb.
+		*/
+		function LiveSlider({ min, max, step, def, fmt, label, onInput, onChange }) {
+			const inputRef = (0, react.useRef)(null);
+			const valRef = (0, react.useRef)(null);
+			const paint = (el, v) => {
+				el.style.setProperty("--pct", String((v - min) / (max - min) * 100));
+			};
+			const fmtRef = (0, react.useRef)(fmt);
+			fmtRef.current = fmt;
+			(0, react.useEffect)(() => {
+				if (inputRef.current) {
+					inputRef.current.value = String(def);
+					paint(inputRef.current, def);
+				}
+				if (valRef.current) valRef.current.textContent = fmtRef.current(def);
+			}, [
+				def,
+				min,
+				max
+			]);
+			const apply = (v) => {
+				if (inputRef.current) {
+					inputRef.current.value = String(v);
+					paint(inputRef.current, v);
+				}
+				if (valRef.current) valRef.current.textContent = fmt(v);
+				onInput?.(v);
+				onChange(v);
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+				className: "dab-slider-block",
+				children: [label ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+					className: "dab-slider-label",
+					children: label
+				}) : null, /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					style: {
+						display: "flex",
+						alignItems: "center",
+						gap: 10
+					},
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+						ref: inputRef,
+						type: "range",
+						className: "dab-slider",
+						style: { "--pct": (def - min) / (max - min) * 100 },
+						min,
+						max,
+						step,
+						defaultValue: def,
+						title: label ? `${label} · ${fmt(def)}` : fmt(def),
+						onDoubleClick: () => apply(def),
+						onInput: (e) => {
+							const el = e.target;
+							const v = Number(el.value);
+							paint(el, v);
+							onInput?.(v);
+							if (valRef.current) valRef.current.textContent = fmt(v);
+						},
+						onChange: (e) => onChange(Number(e.target.value))
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						ref: valRef,
+						className: "dab-slider-val",
+						children: fmt(def)
+					})]
+				})]
+			});
+		}
+		//#endregion
+		//#region src/client/components/pages/InterfacePage.tsx
+		const PARTS$1 = [
+			{
+				opKey: "bg",
+				labelKey: "uiOpacityBg",
+				Icon: CanvasIcon
+			},
+			{
+				opKey: "sidebar",
+				labelKey: "uiOpacitySide",
+				Icon: SidebarIcon
+			},
+			{
+				opKey: "card",
+				labelKey: "uiOpacityCard",
+				Icon: ChatIcon
+			},
+			{
+				opKey: "input",
+				labelKey: "uiOpacityInput",
+				Icon: InputIcon
+			},
+			{
+				isSettings: true,
+				labelKey: "uiSop",
+				Icon: GearIcon
+			},
+			{
+				isChat: true,
+				labelKey: "uiChatRegion",
+				Icon: TextIcon
+			},
+			{
+				isTrajectory: true,
+				labelKey: "uiTrajectory",
+				Icon: TrajectoryIcon
+			},
+			{
+				isProduced: true,
+				labelKey: "uiProduced",
+				Icon: TextIcon
+			},
+			{
+				isHeader: true,
+				labelKey: "uiHeader",
+				Icon: PanelIcon
+			},
+			{
+				isHeaderBar: true,
+				labelKey: "uiHeaderBar",
+				Icon: HeaderBarIcon
+			},
+			{
+				isPanel: true,
+				labelKey: "uiPanelNative",
+				Icon: PanelIcon
+			}
+		];
+		function InterfacePage({ p }) {
+			const { t, setOps, setBlurs, setSop, setPanelOp, useStore } = p;
+			useStore((s) => s.metaRev);
+			const [tpRev, setTpRev] = (0, react.useState)(0);
+			(0, react.useEffect)(() => subscribeThirdParty(() => setTpRev((v) => v + 1)), []);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("header", {
+					className: "dab-head dab-rise",
+					style: { "--d": 0 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-overline",
+							children: "Surfaces"
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+							className: "dab-h1",
+							children: t("uiTitle")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-desc",
+							children: t("descInterface")
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					className: "dab-grid-parts",
+					children: PARTS$1.map((part, i) => {
+						const { labelKey, Icon, isSettings, isChat, isTrajectory, isPanel, isProduced, isHeader, isHeaderBar } = part;
+						const opKey = part.opKey;
+						const label = t(labelKey);
+						const blurKey = isChat ? "chat" : isTrajectory ? "trajectory" : isSettings ? "settings" : isPanel ? "panel" : isProduced ? "produced" : isHeader ? "header" : isHeaderBar ? "headerBar" : opKey;
+						const opacity = isChat ? rChatTextOpacity() : isTrajectory ? rTrajectoryOpacity() : isSettings ? rSop() : isPanel ? rPanelOpacity() : isProduced ? rProducedOpacity() : isHeader ? rHeaderOpacity() : isHeaderBar ? rHeaderBarOpacity() : rOps()[opKey];
+						return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+							className: "dab-card dab-card-hover dab-rise",
+							style: { "--d": i + 1 },
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+									className: "dab-part-head",
+									children: [
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+											className: "dab-part-ico",
+											children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Icon, { size: 16 })
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+											className: "dab-part-name",
+											children: label
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+											className: "dab-part-badge",
+											children: [Math.round(opacity * 100), "%"]
+										})
+									]
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("uiOpacity"),
+									min: 0,
+									max: 100,
+									step: 1,
+									def: Math.round(opacity * 100),
+									fmt: (v) => `${v}%`,
+									onInput: (v) => {
+										const op = v / 100;
+										if (isChat) {
+											cfg.chatTextOpacity = op;
+											applyViewCards();
+										} else if (isTrajectory) {
+											cfg.trajectoryOpacity = op;
+											applyTrajectoryOverrides(op);
+										} else if (isSettings) {
+											cfg.settingsOpacity = op;
+											applySettingsOverrides(op);
+										} else if (isPanel) {
+											cfg.panelOpacity = op;
+											applyPanelOverrides(op);
+										} else if (isProduced) {
+											cfg.producedOpacity = op;
+											applyProduced();
+										} else if (isHeader) {
+											cfg.headerOpacity = op;
+											applyHeaderPopovers();
+										} else if (isHeaderBar) {
+											cfg.headerBarOpacity = op;
+											applyHeaderBar();
+										} else {
+											const ops = { ...rOps() };
+											ops[opKey] = op;
+											cfg.opacities = ops;
+											applyCustomTokens(ops);
+										}
+										saveConfig();
+									},
+									onChange: (v) => {
+										const op = v / 100;
+										if (isChat) {
+											cfg.chatTextOpacity = op;
+											applyViewCards();
+											saveConfig();
+										} else if (isTrajectory) {
+											cfg.trajectoryOpacity = op;
+											applyTrajectoryOverrides(op);
+											saveConfig();
+										} else if (isSettings) setSop(op);
+										else if (isPanel) setPanelOp(op);
+										else if (isProduced) {
+											cfg.producedOpacity = op;
+											applyProduced();
+											saveConfig();
+										} else if (isHeader) {
+											cfg.headerOpacity = op;
+											applyHeaderPopovers();
+											saveConfig();
+										} else if (isHeaderBar) {
+											cfg.headerBarOpacity = op;
+											applyHeaderBar();
+											saveConfig();
+										} else {
+											const ops = { ...rOps() };
+											ops[opKey] = op;
+											setOps(ops);
+										}
+									}
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("uiBlur"),
+									min: 0,
+									max: 60,
+									step: 1,
+									def: rBlurs()[blurKey],
+									fmt: (v) => `${v}px`,
+									onInput: (v) => {
+										const blurs = { ...rBlurs() };
+										blurs[blurKey] = v;
+										cfg.blurs = blurs;
+										setPartBlur(blurKey, v);
+										saveConfig();
+									},
+									onChange: (v) => {
+										const blurs = { ...rBlurs() };
+										blurs[blurKey] = v;
+										setBlurs(blurs);
+									}
+								}),
+								isHeaderBar && /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+									className: "dab-slider-block",
+									title: t("captionInkHint"),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "dab-slider-label",
+										children: t("captionInkLabel")
+									}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+										style: {
+											display: "flex",
+											alignItems: "center",
+											gap: 10
+										},
+										children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("select", {
+											className: "dab-select",
+											value: rCaptionInk(),
+											onChange: (e) => {
+												cfg.captionInk = e.target.value;
+												applyHeaderBar();
+												saveConfig();
+											},
+											children: [
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+													value: "auto",
+													children: t("captionInkAuto")
+												}),
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+													value: "theme",
+													children: t("captionInkTheme")
+												}),
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+													value: "white",
+													children: t("captionInkWhite")
+												}),
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+													value: "black",
+													children: t("captionInkBlack")
+												})
+											]
+										})
+									})]
+								})
+							]
+						}, blurKey);
+					})
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": PARTS$1.length + 1 },
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-row-head",
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							style: {
+								display: "flex",
+								alignItems: "center",
+								gap: 10
+							},
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-part-ico",
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(PanelIcon, { size: 16 })
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-part-name",
+								children: t("tpTitle")
+							})]
+						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: `dab-toggle${rProtectThirdParty() ? " is-on" : ""}`,
+							role: "switch",
+							"aria-checked": rProtectThirdParty(),
+							"aria-label": t("tpEnabled"),
+							title: t("tpHint"),
+							onClick: () => {
+								cfg.protectThirdParty = !rProtectThirdParty();
+								applyReaderLanes();
+								saveConfig();
+								setTpRev((v) => v + 1);
+							},
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "dab-toggle-knob" })
+						})]
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-slider-block",
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							className: "dab-slider-label",
+							title: t("tpHint"),
+							children: t("tpEnabled")
+						}), thirdPartySightings().length === 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							style: { fontSize: 12 },
+							children: t("tpNone")
+						}) : thirdPartySightings().map((s) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+							style: { fontSize: 12 },
+							title: s.tokens.join(", "),
+							children: [
+								s.plugin,
+								"：",
+								s.pinned && s.labelKey ? `${t(s.labelKey)} ${t("tpPinned")}` : s.pinned ? t("tpPinned") : t("tpUnpinned")
+							]
+						}, s.plugin))]
+					})]
+				})
+			] });
+		}
+		//#endregion
+		//#region src/client/components/pages/FontPage.tsx
+		const PARTS = [
+			{
+				key: "bg",
+				labelKey: "uiOpacityBg",
+				Icon: CanvasIcon
+			},
+			{
+				key: "sidebar",
+				labelKey: "uiOpacitySide",
+				Icon: SidebarIcon
+			},
+			{
+				key: "card",
+				labelKey: "uiOpacityCard",
+				Icon: ChatIcon
+			},
+			{
+				key: "input",
+				labelKey: "uiOpacityInput",
+				Icon: InputIcon
+			},
+			{
+				key: "settings",
+				labelKey: "uiSop",
+				Icon: GearIcon
+			},
+			{
+				key: "chat",
+				labelKey: "uiChatRegion",
+				Icon: TextIcon
+			},
+			{
+				key: "trajectory",
+				labelKey: "uiTrajectory",
+				Icon: TrajectoryIcon
+			},
+			{
+				key: "produced",
+				labelKey: "uiProduced",
+				Icon: TextIcon
+			},
+			{
+				key: "header",
+				labelKey: "uiHeader",
+				Icon: PanelIcon
+			},
+			{
+				key: "headerBar",
+				labelKey: "uiHeaderBar",
+				Icon: HeaderBarIcon
+			},
+			{
+				key: "panel",
+				labelKey: "uiPanelNative",
+				Icon: PanelIcon
+			}
+		];
+		const COLOR_KEYS = [
+			"auto",
+			"gray",
+			"black",
+			"white",
+			"theme",
+			"custom"
+		];
+		const COLOR_LABEL_KEYS = {
+			auto: "strokeAuto",
+			gray: "strokeGray",
+			black: "strokeBlack",
+			white: "strokeWhite",
+			theme: "strokeTheme",
+			custom: "strokeCustom"
+		};
+		/** Swatch fill for one preset key. 'auto' gets its half-black/half-white
+		*  conic gradient from CSS, and 'custom' shows the stored hex. */
+		function dotStyle(key, s) {
+			switch (key) {
+				case "gray": return { background: "#808080" };
+				case "black": return { background: "#000" };
+				case "white": return { background: "#fff" };
+				case "theme": return { background: "var(--dsw-alias-brand-primary)" };
+				case "custom": return { background: s.customColor };
+				default: return {};
+			}
+		}
+		function FontPage({ p, notify }) {
+			const { t, setFont, removeFont, setFontEnabled, setStrokes, useStore } = p;
+			const fileRef = (0, react.useRef)(null);
+			const [strokes, setStrokesState] = (0, react.useState)(() => rStrokes());
+			const [fontInfo, setFontInfo] = (0, react.useState)(() => ({
+				mime: cfg.fontMime,
+				enabled: cfg.fontEnabled,
+				name: null
+			}));
+			const [busy, setBusy] = (0, react.useState)(false);
+			const metaRev = useStore((s) => s.metaRev);
+			(0, react.useEffect)(() => {
+				setStrokesState(rStrokes());
+				setFontInfo((prev) => prev.mime === cfg.fontMime && prev.enabled === cfg.fontEnabled ? prev : {
+					mime: cfg.fontMime,
+					enabled: cfg.fontEnabled,
+					name: null
+				});
+			}, [metaRev]);
+			const hasFont = fontInfo.mime !== null;
+			const fontLabel = fontInfo.name ?? (fontInfo.mime !== null ? fontInfo.mime.replace("font/", "").toUpperCase() : t("fontNone"));
+			/** Write one group's stroke: cfg + live DOM now, disk on commit. `live`
+			*  marks slider drags (debounced save, no full re-apply). */
+			const patch = (key, next, live) => {
+				const map = {
+					...strokes,
+					[key]: {
+						...strokes[key],
+						...next
+					}
+				};
+				setStrokesState(map);
+				cfg.strokes = map;
+				setPartStroke(key, map[key]);
+				if (live) saveConfig();
+				else setStrokes(map);
+			};
+			const pickFont = async (file) => {
+				setBusy(true);
+				setFontInfo({
+					...fontInfo,
+					name: file.name
+				});
+				const outcome = await setFont(file);
+				setBusy(false);
+				if (outcome.ok) setFontInfo({
+					mime: cfg.fontMime,
+					enabled: cfg.fontEnabled,
+					name: file.name
+				});
+				else {
+					setFontInfo({
+						mime: cfg.fontMime,
+						enabled: cfg.fontEnabled,
+						name: null
+					});
+					notify(uploadRefusalText(outcome, t, "fontFail"), false);
+				}
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("header", {
+					className: "dab-head dab-rise",
+					style: { "--d": 0 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-overline",
+							children: "Typography"
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+							className: "dab-h1",
+							children: t("fontPageTitle")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-desc",
+							children: t("descFont")
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise dab-font-card",
+					style: { "--d": 1 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-row-head",
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-font-title",
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-part-ico",
+									children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(TextIcon, { size: 16 })
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-part-name",
+									children: t("fontTitle")
+								})]
+							}), hasFont ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `dab-toggle${fontInfo.enabled ? " is-on" : ""}`,
+								role: "switch",
+								"aria-checked": fontInfo.enabled,
+								"aria-label": t("fontEnabled"),
+								onClick: () => {
+									const v = !fontInfo.enabled;
+									setFontEnabled(v);
+									setFontInfo({
+										...fontInfo,
+										enabled: v
+									});
+								},
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "dab-toggle-knob" })
+							}) : null]
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-font-row",
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: `dab-font-name${hasFont ? "" : " is-empty"}`,
+								title: fontLabel,
+								children: fontLabel
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-font-actions",
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-primary",
+									disabled: busy,
+									onClick: () => fileRef.current?.click(),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(UploadIcon, { size: 14 }), busy ? t("fontUploading") : t("fontUpload")]
+								}), hasFont ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-danger",
+									onClick: () => {
+										removeFont();
+										setFontInfo({
+											mime: null,
+											enabled: cfg.fontEnabled,
+											name: null
+										});
+									},
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(TrashIcon, { size: 14 }), t("fontRemove")]
+								}) : null]
+							})]
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginTop: 10 },
+							children: t("fontHint")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+							ref: fileRef,
+							type: "file",
+							accept: ".ttf,.otf,.woff,.woff2,font/*",
+							style: { display: "none" },
+							onChange: (e) => {
+								const f = e.target.files?.[0];
+								e.target.value = "";
+								if (f) pickFont(f);
+							}
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 2 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-part-head",
+							style: { marginBottom: 10 },
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-part-name",
+								children: t("strokeTitle")
+							})
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginBottom: 14 },
+							children: t("strokeHint")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-grid-parts",
+							children: PARTS.map((part, i) => {
+								const s = strokes[part.key];
+								return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+									className: "dab-card dab-card-hover dab-rise",
+									style: { "--d": i + 3 },
+									children: [
+										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+											className: "dab-part-head",
+											children: [
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+													className: "dab-part-ico",
+													children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(part.Icon, { size: 16 })
+												}),
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+													className: "dab-part-name",
+													children: t(part.labelKey)
+												}),
+												/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+													className: "dab-part-badge",
+													children: [s.width, "px"]
+												})
+											]
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+											label: t("strokeWidth"),
+											min: 0,
+											max: 4,
+											step: .5,
+											def: s.width,
+											fmt: (v) => `${v}px`,
+											onInput: (v) => patch(part.key, { width: v }, true),
+											onChange: (v) => patch(part.key, { width: v }, false)
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+											className: "dab-stroke-dots",
+											children: COLOR_KEYS.map((key) => {
+												const active = s.color === key;
+												return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+													className: "dab-stroke-dot-wrap",
+													children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+														type: "button",
+														className: `dab-stroke-dot${key === "auto" ? " dab-stroke-dot-auto" : ""}${active ? " is-active" : ""}`,
+														style: dotStyle(key, s),
+														title: t(COLOR_LABEL_KEYS[key]),
+														"aria-label": t(COLOR_LABEL_KEYS[key]),
+														"aria-pressed": active,
+														onClick: () => patch(part.key, { color: key }, false)
+													}), key === "custom" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+														type: "color",
+														className: "dab-stroke-dot-input",
+														value: s.customColor,
+														"aria-label": t("strokeCustom"),
+														onChange: (e) => patch(part.key, {
+															color: "custom",
+															customColor: e.target.value
+														}, false)
+													}) : null]
+												}, key);
+											})
+										})
+									]
+								}, part.key);
+							})
+						})
+					]
+				})
+			] });
+		}
+		//#endregion
+		//#region src/client/components/BgEditor.tsx
+		/** Placement slot for the active background type: video framing lives in its
+		*  own state so image and video edits never overwrite each other. */
+		const activeState = () => cfg.backgroundType === "video" ? cfg.videoBgState : cfg.bgState;
+		/** Zoom is shared by every input path (wheel + pinch) so all pictures animate
+		*  between the same bounds. */
+		const clampZoom = (z) => Math.max(.1, Math.min(10, z));
+		function BgEditor({ url, t, onClose, onCommit }) {
+			const pw = Math.min(window.innerWidth * .75, 860);
+			const ph = Math.round(pw * window.innerHeight / window.innerWidth);
+			const saved = activeState();
+			const [zoom, setZoom] = (0, react.useState)(saved.iw > 0 ? saved.zoom : 1);
+			const [pos, setPos] = (0, react.useState)(saved.iw > 0 ? {
+				x: saved.x * pw,
+				y: saved.y * ph
+			} : {
+				x: 0,
+				y: 0
+			});
+			const [imgSize, setImgSize] = (0, react.useState)({
+				w: 0,
+				h: 0
+			});
+			const containerRef = (0, react.useRef)(null);
+			const imgRef = (0, react.useRef)(null);
+			/**
+			* The overlay node is held in STATE rather than a plain ref, so the listener
+			* effect below re-runs the moment it actually exists.
+			*
+			* This is not a style choice. Everything here renders through <Portal>, which
+			* returns null on its first render — its own effect has to create the host
+			* node under <html> first. A plain ref is therefore still null when a
+			* mount-only effect runs, and an effect whose deps never change again attaches
+			* nothing, ever. That is exactly how the touch handlers below ended up dead on
+			* real phones: the wheel handler only survived because its deps churn on every
+			* zoom/pan, so the wallpaper's img.onload re-ran it once and wired it up.
+			*/
+			const [overlayEl, setOverlayEl] = (0, react.useState)(null);
+			const dragRef = (0, react.useRef)({
+				active: false,
+				sx: 0,
+				sy: 0,
+				spx: 0,
+				spy: 0
+			});
+			/** Unmount-time cleanup for a drag that never saw its mouseup (editor closed
+			*  mid-drag): without it the document listeners stay attached forever and
+			*  keep calling setPos on a dead component. */
+			const dragStopRef = (0, react.useRef)(null);
+			/** Set once a gesture actually moved, so the click that follows a drag is not
+			*  mistaken for a tap on the backdrop (mousedown and mouseup in different
+			*  subtrees make the click land on the overlay, i.e. "outside"). Reset at the
+			*  start of every gesture — touchstart / mousedown / wheel — so it can only
+			*  ever describe the gesture that just ended, never an earlier one. */
+			const movedRef = (0, react.useRef)(false);
+			const viewRef = (0, react.useRef)({
+				zoom,
+				pos
+			});
+			viewRef.current = {
+				zoom,
+				pos
+			};
+			/** Pinch gesture baseline (two fingers down): finger spread + midpoint and
+			*  the transform that was live at that moment. */
+			const pinchRef = (0, react.useRef)(null);
+			/** Single-finger pan baseline. */
+			const touchDragRef = (0, react.useRef)(null);
+			(0, react.useEffect)(() => {
+				const img = new Image();
+				img.onload = () => {
+					const scale = Math.min(pw / img.width, ph / img.height);
+					const w = img.width * scale, h = img.height * scale;
+					setImgSize({
+						w,
+						h
+					});
+					const s = activeState();
+					if (s.iw > 0 && s.iw === img.width && s.ih === img.height) {
+						setZoom(s.zoom);
+						setPos({
+							x: s.x * pw - w * s.zoom / 2,
+							y: s.y * ph - h * s.zoom / 2
+						});
+					} else {
+						setZoom(1);
+						setPos({
+							x: (pw - w) / 2,
+							y: (ph - h) / 2
+						});
+					}
+				};
+				img.src = url;
+			}, [
+				url,
+				pw,
+				ph
+			]);
+			const onDown = (0, react.useCallback)((e) => {
+				e.preventDefault();
+				movedRef.current = false;
+				dragRef.current = {
+					active: true,
+					sx: e.clientX,
+					sy: e.clientY,
+					spx: pos.x,
+					spy: pos.y
+				};
+				const onMove = (ev) => {
+					if (!dragRef.current.active) return;
+					if (Math.abs(ev.clientX - dragRef.current.sx) > 4 || Math.abs(ev.clientY - dragRef.current.sy) > 4) movedRef.current = true;
+					setPos({
+						x: dragRef.current.spx + ev.clientX - dragRef.current.sx,
+						y: dragRef.current.spy + ev.clientY - dragRef.current.sy
+					});
+				};
+				const stopDrag = () => {
+					dragRef.current.active = false;
+					document.removeEventListener("mousemove", onMove);
+					document.removeEventListener("mouseup", stopDrag);
+					dragStopRef.current = null;
+				};
+				dragStopRef.current = stopDrag;
+				document.addEventListener("mousemove", onMove);
+				document.addEventListener("mouseup", stopDrag);
+			}, [pos]);
+			(0, react.useEffect)(() => () => {
+				dragStopRef.current?.();
+			}, []);
+			const onWheelCb = (0, react.useCallback)((e) => {
+				e.preventDefault();
+				movedRef.current = false;
+				const el = containerRef.current;
+				if (!el) return;
+				const rect = el.getBoundingClientRect();
+				const mx = rect.width / 2, my = rect.height / 2;
+				const factor = e.deltaY > 0 ? .97 : 1.03;
+				const { zoom: z, pos: p } = viewRef.current;
+				const nz = clampZoom(z * factor);
+				const nx = mx - (mx - p.x) * (nz / z);
+				const ny = my - (my - p.y) * (nz / z);
+				setZoom(nz);
+				setPos({
+					x: nx,
+					y: ny
+				});
+			}, []);
+			const onTouchStartCb = (0, react.useCallback)((e) => {
+				const card = containerRef.current;
+				if (!card) return;
+				movedRef.current = false;
+				if (e.touches.length >= 2) {
+					touchDragRef.current = null;
+					const rect = card.getBoundingClientRect();
+					const a = e.touches[0], b = e.touches[1];
+					pinchRef.current = {
+						dist: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+						zoom: viewRef.current.zoom,
+						cx: (a.clientX + b.clientX) / 2 - rect.left,
+						cy: (a.clientY + b.clientY) / 2 - rect.top,
+						px: viewRef.current.pos.x,
+						py: viewRef.current.pos.y
+					};
+					return;
+				}
+				if (e.touches.length === 1) {
+					pinchRef.current = null;
+					if (!card.contains(e.target)) {
+						touchDragRef.current = null;
+						return;
+					}
+					const tp = e.touches[0];
+					touchDragRef.current = {
+						sx: tp.clientX,
+						sy: tp.clientY,
+						spx: viewRef.current.pos.x,
+						spy: viewRef.current.pos.y
+					};
+				}
+			}, []);
+			const onTouchMoveCb = (0, react.useCallback)((e) => {
+				const card = containerRef.current;
+				if (!card) return;
+				if (e.touches.length >= 2 && pinchRef.current !== null) {
+					e.preventDefault();
+					movedRef.current = true;
+					const p = pinchRef.current;
+					if (p.dist <= 0) return;
+					const rect = card.getBoundingClientRect();
+					const a = e.touches[0], b = e.touches[1];
+					const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+					const cx = (a.clientX + b.clientX) / 2 - rect.left;
+					const cy = (a.clientY + b.clientY) / 2 - rect.top;
+					const nz = clampZoom(p.zoom * (dist / p.dist));
+					setZoom(nz);
+					setPos({
+						x: cx - (p.cx - p.px) / p.zoom * nz,
+						y: cy - (p.cy - p.py) / p.zoom * nz
+					});
+					return;
+				}
+				if (e.touches.length === 1 && touchDragRef.current !== null) {
+					e.preventDefault();
+					const d = touchDragRef.current;
+					const tp = e.touches[0];
+					if (Math.abs(tp.clientX - d.sx) > 4 || Math.abs(tp.clientY - d.sy) > 4) movedRef.current = true;
+					setPos({
+						x: d.spx + tp.clientX - d.sx,
+						y: d.spy + tp.clientY - d.sy
+					});
+				}
+			}, []);
+			const onTouchEndCb = (0, react.useCallback)((e) => {
+				if (e.touches.length === 1) {
+					const tp = e.touches[0];
+					touchDragRef.current = {
+						sx: tp.clientX,
+						sy: tp.clientY,
+						spx: viewRef.current.pos.x,
+						spy: viewRef.current.pos.y
+					};
+					pinchRef.current = null;
+				} else if (e.touches.length === 0) {
+					touchDragRef.current = null;
+					pinchRef.current = null;
+				}
+			}, []);
+			(0, react.useEffect)(() => {
+				if (!overlayEl) return;
+				const noPageGesture = (e) => e.preventDefault();
+				overlayEl.addEventListener("wheel", onWheelCb, { passive: false });
+				overlayEl.addEventListener("touchstart", onTouchStartCb, { passive: false });
+				overlayEl.addEventListener("touchmove", onTouchMoveCb, { passive: false });
+				overlayEl.addEventListener("touchend", onTouchEndCb, { passive: false });
+				overlayEl.addEventListener("touchcancel", onTouchEndCb, { passive: false });
+				overlayEl.addEventListener("gesturestart", noPageGesture, { passive: false });
+				overlayEl.addEventListener("gesturechange", noPageGesture, { passive: false });
+				overlayEl.addEventListener("gestureend", noPageGesture, { passive: false });
+				return () => {
+					overlayEl.removeEventListener("wheel", onWheelCb);
+					overlayEl.removeEventListener("touchstart", onTouchStartCb);
+					overlayEl.removeEventListener("touchmove", onTouchMoveCb);
+					overlayEl.removeEventListener("touchend", onTouchEndCb);
+					overlayEl.removeEventListener("touchcancel", onTouchEndCb);
+					overlayEl.removeEventListener("gesturestart", noPageGesture);
+					overlayEl.removeEventListener("gesturechange", noPageGesture);
+					overlayEl.removeEventListener("gestureend", noPageGesture);
+				};
+			}, [
+				overlayEl,
+				onWheelCb,
+				onTouchStartCb,
+				onTouchMoveCb,
+				onTouchEndCb
+			]);
+			const resetView = (0, react.useCallback)(() => {
+				if (imgSize.w === 0) return;
+				setZoom(1);
+				setPos({
+					x: (pw - imgSize.w) / 2,
+					y: (ph - imgSize.h) / 2
+				});
+			}, [
+				pw,
+				ph,
+				imgSize
+			]);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Portal, { children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+				ref: setOverlayEl,
+				className: "dab-overlay",
+				style: {
+					touchAction: "none",
+					overscrollBehavior: "contain"
+				},
+				onClick: (e) => {
+					if (movedRef.current) {
+						movedRef.current = false;
+						return;
+					}
+					if (e.target === e.currentTarget) onClose();
+				},
+				onMouseDown: () => {
+					movedRef.current = false;
+				},
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-overlay-title",
+						children: t("editorTitle")
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						ref: containerRef,
+						className: "dab-modal-card",
+						style: {
+							position: "relative",
+							overflow: "hidden",
+							border: "2px solid rgba(255,255,255,0.3)",
+							borderRadius: 12,
+							background: "#000",
+							cursor: "grab",
+							width: pw,
+							height: ph,
+							touchAction: "none",
+							WebkitUserSelect: "none",
+							userSelect: "none"
+						},
+						onMouseDown: onDown,
+						children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("img", {
+							ref: imgRef,
+							src: url,
+							alt: "",
+							draggable: false,
+							style: {
+								position: "absolute",
+								transformOrigin: "0 0",
+								pointerEvents: "none",
+								width: imgSize.w,
+								height: imgSize.h,
+								transform: `translate(${pos.x}px,${pos.y}px) scale(${zoom})`
+							}
+						})
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-overlay-hint",
+						children: t("editorHint")
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						style: {
+							display: "flex",
+							gap: 10
+						},
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "dab-btn",
+								onClick: resetView,
+								children: t("editorReset")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "dab-btn",
+								onClick: onClose,
+								children: t("editorCancel")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "dab-btn",
+								onClick: () => onCommit(zoom, (pos.x + imgSize.w * zoom / 2) / pw, (pos.y + imgSize.h * zoom / 2) / ph, imgRef.current?.naturalWidth ?? 0, imgRef.current?.naturalHeight ?? 0),
+								children: t("editorCommit")
+							})
+						]
+					})
+				]
+			}) });
+		}
+		//#endregion
+		//#region src/client/components/pages/BackgroundPage.tsx
+		const SEG_W = 108;
+		const BG_MODES = [
+			{
+				mode: "fit",
+				labelKey: "bgModeFit"
+			},
+			{
+				mode: "fill",
+				labelKey: "bgModeFill"
+			},
+			{
+				mode: "stretch",
+				labelKey: "bgModeStretch"
+			},
+			{
+				mode: "tile",
+				labelKey: "bgModeTile"
+			},
+			{
+				mode: "center",
+				labelKey: "bgModeCenter"
+			}
+		];
+		function BackgroundPage({ p, notify }) {
+			const { t, setWpFromServer, setVideo, setWop, setBl, setBgType, setGeneratedBg, regenerateBg, setRegenerateOnReload, setRotation, addRotationItems, removeRotationItem, rotateNow, setVideoFromUrl, useStore } = p;
+			const storeUrl = useStore((s) => s.url);
+			const backgroundType = useStore((s) => s.backgroundType);
+			const generatedBg = useStore((s) => s.generatedBg);
+			const regenerateOnReload = useStore((s) => s.regenerateOnReload);
+			const rotation = useStore((s) => s.rotation);
+			const fileRef = (0, react.useRef)(null);
+			const rotFileRef = (0, react.useRef)(null);
+			const [editorOpen, setEditorOpen] = (0, react.useState)(false);
+			const [dragOver, setDragOver] = (0, react.useState)(false);
+			const [spinTick, setSpinTick] = (0, react.useState)(0);
+			const [rotBusy, setRotBusy] = (0, react.useState)(false);
+			const [urlOpen, setUrlOpen] = (0, react.useState)(false);
+			const [urlVal, setUrlVal] = (0, react.useState)("");
+			const [urlBusy, setUrlBusy] = (0, react.useState)(false);
+			const [urlErr, setUrlErr] = (0, react.useState)(null);
+			const bgRev = useStore((s) => s.bgRev);
+			const [mode, setModeState] = (0, react.useState)(rBgMode());
+			(0, react.useEffect)(() => {
+				setModeState(rBgMode());
+			}, [bgRev]);
+			const isVideo = backgroundType === "video";
+			const isStatic = backgroundType === "image" || isVideo;
+			const isGenerated = !isStatic;
+			const activeGenType = isGenerated && generatedBg ? generatedBg.type : "mesh";
+			const [paused, setPaused] = (0, react.useState)(false);
+			const genPreset = generatedBg !== null && generatedBg.type !== "mesh" ? generatedBg.preset : void 0;
+			(0, react.useEffect)(() => {
+				setPaused(false);
+			}, [
+				activeGenType,
+				genPreset,
+				generatedBg?.seed
+			]);
+			const onFileSelect = async (f) => {
+				if (f.type.startsWith("video/")) {
+					const outcome = await setVideo(f, f.type);
+					if (!outcome.ok) notify(uploadRefusalText(outcome, t, "videoUploadFail"), false);
+					return;
+				}
+				const outcome = await uploadWallpaper(f);
+				if (outcome.ok) setWpFromServer(WALLPAPER_SERVE_URL);
+				else notify(uploadRefusalText(outcome, t, "bgUploadFail"), false);
+			};
+			const onDrop = (e) => {
+				e.preventDefault();
+				setDragOver(false);
+				const f = e.dataTransfer.files?.[0];
+				if (f && (f.type.startsWith("image/") || f.type.startsWith("video/"))) onFileSelect(f);
+			};
+			const applyUrl = async () => {
+				const u = urlVal.trim();
+				if (!/^https?:\/\//i.test(u)) {
+					setUrlErr(t("bgUrlBadHttp"));
+					return;
+				}
+				setUrlBusy(true);
+				setUrlErr(null);
+				const r = await setWallpaperFromUrl(u);
+				if (r.ok) {
+					setWpFromServer(r.wallpaperUrl ?? null);
+					setUrlOpen(false);
+					setUrlVal("");
+				} else if (r.error === "not an image") {
+					if (await setVideoFromUrl(u)) {
+						setUrlOpen(false);
+						setUrlVal("");
+					} else setUrlErr(t("bgUrlVideoFail"));
+				} else setUrlErr(r.error === "invalid url" || r.error === "unsupported scheme" ? t("bgUrlBadHttp") : r.error ?? t("bgUrlFail"));
+				setUrlBusy(false);
+			};
+			const switchToStatic = () => {
+				if (isStatic) return;
+				setBgType(isVideo || cfg.videoMime !== null ? "video" : "image");
+			};
+			const setMode = (m) => {
+				if (m === mode) return;
+				setModeState(m);
+				cfg.bgMode = m;
+				applyWp();
+				saveConfig();
+			};
+			const setGenType = (type) => {
+				if (type === activeGenType) return;
+				setPaused(false);
+				setBgType(type);
+			};
+			const ensureGenParams = () => generatedBg ?? defaultParamsFor(activeGenType);
+			const updateGenerated = (patch) => {
+				setPaused(false);
+				setGeneratedBg({
+					...ensureGenParams(),
+					...patch
+				});
+			};
+			const typeMeta = [
+				{
+					type: "mesh",
+					labelKey: "bgTypeMesh",
+					descKey: "bgMeshDesc",
+					thumb: "dab-thumb-mesh"
+				},
+				{
+					type: "shader",
+					labelKey: "bgTypeShader",
+					descKey: "bgShaderDesc",
+					thumb: "dab-thumb-shader"
+				},
+				{
+					type: "pattern",
+					labelKey: "bgTypePattern",
+					descKey: "bgPatternDesc",
+					thumb: "dab-thumb-pattern"
+				}
+			];
+			const presetLabel = (key) => {
+				switch (key) {
+					case "aurora": return t("presetAurora");
+					case "nebula": return t("presetNebula");
+					case "noise": return t("presetNoise");
+					case "starfield": return t("presetStarfield");
+					case "dots": return t("presetDots");
+					case "waves": return t("presetWaves");
+					case "poly": return t("presetPoly");
+					case "rain": return t("presetRain");
+					case "contour": return t("presetContour");
+					case "meta": return t("presetMeta");
+					default: return key;
+				}
+			};
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("header", {
+					className: "dab-head dab-rise",
+					style: { "--d": 0 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-overline",
+							children: "Canvas"
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+							className: "dab-h1",
+							children: t("bgTitle")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-desc",
+							children: t("descBackground")
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("section", {
+					className: "dab-rise",
+					style: { "--d": 1 },
+					children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-hero",
+						children: storeUrl ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("img", {
+								className: "dab-hero-img",
+								src: storeUrl,
+								alt: "",
+								draggable: false
+							}),
+							isGenerated ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+								className: "dab-hero-badge",
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(SparkleIcon, { size: 11 }), t("liveBadge")]
+							}) : isVideo ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+								className: "dab-hero-badge",
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(VideoIcon, { size: 11 }), t("bgVideoBadge")]
+							}) : null,
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-hero-veil",
+								children: [isStatic && storeUrl ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									disabled: mode !== "fit",
+									title: mode !== "fit" ? t("bgEditLocked") : void 0,
+									onClick: () => setEditorOpen(true),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(EditIcon, { size: 13 }), t("bgEdit")]
+								}) : isGenerated ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									onClick: () => {
+										setPaused(false);
+										regenerateBg();
+										setSpinTick((x) => x + 1);
+									},
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(RefreshIcon, { size: 13 }), t("bgRegenerate")]
+								}) : null, /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-danger",
+									onClick: () => setWpFromServer(null),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(TrashIcon, { size: 13 }), t("bgRemove")]
+								})]
+							})
+						] }) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+							type: "button",
+							className: `dab-hero-empty${dragOver ? " is-over" : ""}`,
+							onClick: () => fileRef.current?.click(),
+							onDragOver: (e) => {
+								e.preventDefault();
+								setDragOver(true);
+							},
+							onDragLeave: () => setDragOver(false),
+							onDrop,
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(UploadIcon, { size: 20 }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: t("dropHint") })]
+						})
+					})
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("section", {
+					className: "dab-rise",
+					style: { "--d": 2 },
+					children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-seg",
+						style: { "--w": `${SEG_W}px` },
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-seg-thumb",
+								style: { transform: `translateX(${isGenerated ? SEG_W : 0}px)` }
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: `dab-seg-item${!isGenerated ? " is-active" : ""}`,
+								onClick: switchToStatic,
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(PhotoIcon, { size: 14 }), t("bgSourceImage")]
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: `dab-seg-item${isGenerated ? " is-active" : ""}`,
+								onClick: () => {
+									if (!isGenerated) setBgType(generatedBg?.type ?? "mesh");
+								},
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(SparkleIcon, { size: 14 }), t("bgSourceGenerated")]
+							})
+						]
+					})
+				}),
+				!isGenerated ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-card-hover dab-rise",
+					style: { "--d": 3 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-chip-row",
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-primary",
+									onClick: () => fileRef.current?.click(),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(UploadIcon, { size: 14 }), t("bgChoose")]
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-soft",
+									onClick: () => setUrlOpen((o) => !o),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LinkIcon, { size: 14 }), t("bgFromUrl")]
+								}),
+								storeUrl || isVideo ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [isStatic && storeUrl ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									disabled: mode !== "fit",
+									title: mode !== "fit" ? t("bgEditLocked") : void 0,
+									onClick: () => setEditorOpen(true),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(EditIcon, { size: 14 }), t("bgEdit")]
+								}) : null, /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-danger-inverted",
+									onClick: () => setWpFromServer(null),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(TrashIcon, { size: 14 }), t("bgRemove")]
+								})] }) : null
+							]
+						}),
+						urlOpen ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-urlrow",
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									type: "text",
+									className: "dab-urlinput",
+									value: urlVal,
+									placeholder: t("bgUrlPlaceholder"),
+									onChange: (e) => setUrlVal(e.target.value),
+									onKeyDown: (e) => {
+										if (e.key === "Enter") {
+											e.preventDefault();
+											applyUrl();
+										}
+									},
+									autoFocus: true
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-primary",
+									disabled: urlBusy,
+									onClick: () => void applyUrl(),
+									children: urlBusy ? t("bgUrlApplying") : t("bgUrlApply")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "dab-btn",
+									onClick: () => {
+										setUrlOpen(false);
+										setUrlVal("");
+										setUrlErr(null);
+									},
+									children: t("bgUrlCancel")
+								})
+							]
+						}) : null,
+						urlErr ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-urlerr",
+							style: {
+								marginTop: 8,
+								color: "var(--dsw-alias-state-error-primary)",
+								fontSize: 12
+							},
+							children: urlErr
+						}) : null,
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							style: { marginTop: 16 },
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-swatch-title",
+								children: t("bgModeTitle")
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-chip-row",
+								children: BG_MODES.map((m) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${mode === m.mode ? " is-active" : ""}`,
+									onClick: () => setMode(m.mode),
+									children: t(m.labelKey)
+								}, m.mode))
+							})]
+						})
+					]
+				}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 4 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-row-head",
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-swatch-title",
+								style: { marginBottom: 0 },
+								children: t("rotTitle")
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `dab-toggle${rotation.enabled ? " is-on" : ""}`,
+								role: "switch",
+								"aria-checked": rotation.enabled,
+								onClick: () => setRotation({ enabled: !rotation.enabled }),
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "dab-toggle-knob" })
+							})]
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginTop: 8 },
+							children: t("rotHint")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-thumbstrip",
+							children: [rotation.items.map((it, i) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: `dab-thumb${rotation.enabled && i === rotation.current ? " is-current" : ""}`,
+								children: [it.thumb ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("img", {
+									src: it.thumb,
+									alt: "",
+									draggable: false
+								}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)(PhotoIcon, { size: 15 }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "dab-thumb-x",
+									title: t("rotRemove"),
+									disabled: rotBusy,
+									onClick: () => {
+										setRotBusy(true);
+										removeRotationItem(i).finally(() => setRotBusy(false));
+									},
+									children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(XIcon, { size: 10 })
+								})]
+							}, it.file)), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "dab-thumb dab-thumb-add",
+								title: t("rotAdd"),
+								disabled: rotBusy,
+								onClick: () => rotFileRef.current?.click(),
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(PlusIcon, { size: 16 })
+							})]
+						}),
+						rotation.items.length > 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-chip-row",
+							style: { marginTop: 12 },
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${rotation.mode === "shuffle" ? " is-active" : ""}`,
+									onClick: () => setRotation({ mode: "shuffle" }),
+									children: t("rotShuffle")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${rotation.mode === "order" ? " is-active" : ""}`,
+									onClick: () => setRotation({ mode: "order" }),
+									children: t("rotOrder")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "dab-chip-sep" }),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${rotation.interval === "reload" ? " is-active" : ""}`,
+									onClick: () => setRotation({ interval: "reload" }),
+									children: t("rotReload")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${rotation.interval === "hourly" ? " is-active" : ""}`,
+									onClick: () => setRotation({ interval: "hourly" }),
+									children: t("rotHourly")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${rotation.interval === "daily" ? " is-active" : ""}`,
+									onClick: () => setRotation({ interval: "daily" }),
+									children: t("rotDaily")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${rotation.interval === "weekly" ? " is-active" : ""}`,
+									onClick: () => setRotation({ interval: "weekly" }),
+									children: t("rotWeekly")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									disabled: rotBusy,
+									onClick: () => {
+										setRotBusy(true);
+										rotateNow().finally(() => setRotBusy(false));
+									},
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(RefreshIcon, { size: 13 }), t("rotNow")]
+								})
+							]
+						}) : null,
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+							ref: rotFileRef,
+							type: "file",
+							accept: "image/*",
+							multiple: true,
+							style: { display: "none" },
+							onChange: (e) => {
+								const files = Array.from(e.target.files ?? []);
+								e.target.value = "";
+								if (files.length === 0) return;
+								setRotBusy(true);
+								addRotationItems(files).finally(() => setRotBusy(false));
+							}
+						})
+					]
+				})] }) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 3 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-types",
+							children: typeMeta.map((m, i) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: `dab-type${activeGenType === m.type ? " is-active" : ""}`,
+								style: { "--i": i },
+								onClick: () => setGenType(m.type),
+								children: [
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", { className: `dab-type-thumb ${m.thumb}` }),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+										className: "dab-type-name",
+										children: t(m.labelKey)
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+										className: "dab-type-desc",
+										children: t(m.descKey)
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "dab-type-check",
+										children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(CheckIcon, { size: 11 })
+									})
+								]
+							}, m.type))
+						}),
+						activeGenType === "shader" && generatedBg?.type === "shader" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							style: { marginTop: 14 },
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-swatch-title",
+								children: t("bgShaderPreset")
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-chip-row",
+								children: [
+									"aurora",
+									"nebula",
+									"noise",
+									"starfield"
+								].map((pr) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${generatedBg.preset === pr ? " is-active" : ""}`,
+									onClick: () => updateGenerated({ preset: pr }),
+									children: presetLabel(pr)
+								}, pr))
+							})]
+						}) : null,
+						activeGenType === "pattern" && generatedBg?.type === "pattern" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							style: { marginTop: 14 },
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-swatch-title",
+								children: t("bgPatternPreset")
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-chip-row",
+								children: [
+									"dots",
+									"waves",
+									"poly",
+									"rain",
+									"contour",
+									"meta"
+								].map((pr) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-chip${generatedBg.preset === pr ? " is-active" : ""}`,
+									onClick: () => updateGenerated({ preset: pr }),
+									children: presetLabel(pr)
+								}, pr))
+							})]
+						}) : null,
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							style: { marginTop: 16 },
+							children: [
+								activeGenType === "mesh" && generatedBg?.type === "mesh" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("bgMeshScale"),
+									min: 30,
+									max: 300,
+									step: 1,
+									def: Math.round(generatedBg.scale * 100),
+									fmt: (v) => `${v}%`,
+									onChange: (v) => updateGenerated({ scale: v / 100 })
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("bgMeshIntensity"),
+									min: 0,
+									max: 100,
+									step: 1,
+									def: Math.round(generatedBg.intensity * 100),
+									fmt: (v) => `${v}%`,
+									onChange: (v) => updateGenerated({ intensity: v / 100 })
+								})] }) : null,
+								activeGenType === "shader" && generatedBg?.type === "shader" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("bgShaderSpeed"),
+									min: 0,
+									max: 200,
+									step: 1,
+									def: Math.round(generatedBg.speed * 100),
+									fmt: (v) => `${v}%`,
+									onChange: (v) => updateGenerated({ speed: v / 100 })
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("bgShaderScale"),
+									min: 30,
+									max: 300,
+									step: 1,
+									def: Math.round(generatedBg.scale * 100),
+									fmt: (v) => `${v}%`,
+									onChange: (v) => updateGenerated({ scale: v / 100 })
+								})] }) : null,
+								activeGenType === "pattern" && generatedBg?.type === "pattern" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("bgPatternDensity"),
+									min: 0,
+									max: 100,
+									step: 1,
+									def: Math.round(generatedBg.density * 100),
+									fmt: (v) => `${v}%`,
+									onChange: (v) => updateGenerated({ density: v / 100 })
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+									label: t("bgPatternScale"),
+									min: 30,
+									max: 300,
+									step: 1,
+									def: Math.round(generatedBg.scale * 100),
+									fmt: (v) => `${v}%`,
+									onChange: (v) => updateGenerated({ scale: v / 100 })
+								})] }) : null
+							]
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-seed",
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+									className: "dab-seed-ico",
+									children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(LockIcon, { size: 15 })
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+									className: "dab-seed-txt",
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+										className: "dab-seed-title",
+										children: t("seedLock")
+									}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+										className: "dab-seed-desc",
+										children: !regenerateOnReload ? t("bgSeedLocked") : t("bgSeedUnlocked")
+									})]
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: `dab-toggle${!regenerateOnReload ? " is-on" : ""}`,
+									role: "switch",
+									"aria-checked": !regenerateOnReload,
+									onClick: () => setRegenerateOnReload(!regenerateOnReload),
+									children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "dab-toggle-knob" })
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn",
+									onClick: () => {
+										if (paused) {
+											resumeGeneratedBg();
+											setPaused(false);
+										} else {
+											pauseGeneratedBg();
+											setPaused(true);
+										}
+									},
+									children: [paused ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(PlayIcon, { size: 13 }) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)(PauseIcon, { size: 13 }), paused ? t("bgResume") : t("bgPause")]
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-primary",
+									onClick: () => {
+										regenerateBg();
+										setPaused(false);
+										setSpinTick((x) => x + 1);
+									},
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "dab-spin",
+										style: { display: "grid" },
+										children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(RefreshIcon, { size: 13 })
+									}, spinTick), t("bgRegenerate")]
+								})
+							]
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-card-hover dab-rise",
+					style: { "--d": 5 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+							label: t("wpOpacity"),
+							min: 0,
+							max: 100,
+							step: 1,
+							def: Math.round(rWop() * 100),
+							fmt: (v) => `${v}%`,
+							onInput: (v) => {
+								const op = v / 100;
+								cfg.wallpaperOpacity = op;
+								setWpOpacity(op);
+								saveConfig();
+							},
+							onChange: (v) => setWop(v / 100)
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)(LiveSlider, {
+							label: t("bgBlur"),
+							min: 0,
+							max: 60,
+							step: 1,
+							def: rBl(),
+							fmt: (v) => `${v}px`,
+							onInput: (v) => {
+								cfg.blur = v;
+								setWpBlur(v);
+								saveConfig();
+							},
+							onChange: (v) => setBl(v)
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginTop: 12 },
+							children: t("bgHint")
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+					ref: fileRef,
+					type: "file",
+					accept: "image/*,video/*",
+					style: { display: "none" },
+					onChange: (e) => {
+						const f = e.target.files?.[0];
+						if (!f) return;
+						onFileSelect(f);
+						e.target.value = "";
+					}
+				}),
+				editorOpen && storeUrl && isStatic && mode === "fit" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(BgEditor, {
+					url: storeUrl,
+					t,
+					onClose: () => setEditorOpen(false),
+					onCommit: (z, x, y, iw, ih) => {
+						const st = {
+							zoom: z,
+							x,
+							y,
+							iw,
+							ih
+						};
+						if (backgroundType === "video") cfg.videoBgState = st;
+						else cfg.bgState = st;
+						applyWp();
+						saveConfig();
+						setEditorOpen(false);
+					}
+				}) : null
+			] });
+		}
+		//#endregion
+		//#region src/client/utils/presets.ts
+		const zeroBlurs = {
+			bg: 0,
+			sidebar: 0,
+			card: 0,
+			settings: 0,
+			chat: 0,
+			trajectory: 0,
+			input: 0,
+			panel: 0,
+			produced: 0,
+			header: 0,
+			headerBar: 0
+		};
+		/** Presets ship with strokes off — text outlines are an opt-in look. Fresh
+		*  objects per call so a profile restore can never alias another preset's
+		*  stroke config (applyAppearance copies, but mutation-proofing is free). */
+		const zeroStrokes = () => {
+			const off = () => ({
+				width: 0,
+				color: "auto",
+				customColor: "#808080"
+			});
+			return {
+				bg: off(),
+				sidebar: off(),
+				card: off(),
+				settings: off(),
+				chat: off(),
+				trajectory: off(),
+				input: off(),
+				panel: off(),
+				produced: off(),
+				header: off(),
+				headerBar: off()
+			};
+		};
+		const BUILTIN_PRESETS = [
+			{
+				key: "default",
+				appearance: {
+					color: null,
+					opacities: {
+						bg: .85,
+						sidebar: .93,
+						card: 1,
+						input: 1
+					},
+					blurs: { ...zeroBlurs },
+					strokes: zeroStrokes(),
+					settingsOpacity: 1,
+					wallpaperOpacity: 1,
+					blur: 0,
+					chatTextOpacity: 0,
+					trajectoryOpacity: 1,
+					panelOpacity: 1,
+					producedOpacity: 1,
+					headerOpacity: 1,
+					headerBarOpacity: .85
+				}
+			},
+			{
+				key: "glass",
+				appearance: {
+					color: [
+						212,
+						.5,
+						.38
+					],
+					opacities: {
+						bg: .62,
+						sidebar: .55,
+						card: .62,
+						input: .58
+					},
+					blurs: {
+						...zeroBlurs,
+						bg: 20,
+						sidebar: 14,
+						card: 12,
+						settings: 20,
+						trajectory: 8,
+						input: 14,
+						panel: 12
+					},
+					strokes: zeroStrokes(),
+					settingsOpacity: .88,
+					wallpaperOpacity: 1,
+					blur: 0,
+					chatTextOpacity: 0,
+					trajectoryOpacity: .85,
+					panelOpacity: .85,
+					producedOpacity: 1,
+					headerOpacity: 1,
+					headerBarOpacity: .62
+				}
+			},
+			{
+				key: "minimal",
+				appearance: {
+					color: null,
+					opacities: {
+						bg: .97,
+						sidebar: .97,
+						card: 1,
+						input: 1
+					},
+					blurs: { ...zeroBlurs },
+					strokes: zeroStrokes(),
+					settingsOpacity: 1,
+					wallpaperOpacity: 1,
+					blur: 0,
+					chatTextOpacity: 0,
+					trajectoryOpacity: 1,
+					panelOpacity: 1,
+					producedOpacity: 1,
+					headerOpacity: 1,
+					headerBarOpacity: .97
+				}
+			},
+			{
+				key: "midnight",
+				appearance: {
+					color: [
+						262,
+						.45,
+						.16
+					],
+					opacities: {
+						bg: .5,
+						sidebar: .45,
+						card: .55,
+						input: .6
+					},
+					blurs: {
+						...zeroBlurs,
+						bg: 24,
+						sidebar: 18,
+						card: 14,
+						settings: 22,
+						trajectory: 10,
+						input: 16,
+						panel: 16
+					},
+					strokes: zeroStrokes(),
+					settingsOpacity: .85,
+					wallpaperOpacity: .92,
+					blur: 2,
+					chatTextOpacity: 0,
+					trajectoryOpacity: .8,
+					panelOpacity: .8,
+					producedOpacity: 1,
+					headerOpacity: 1,
+					headerBarOpacity: .5
+				}
+			},
+			{
+				key: "cyber",
+				appearance: {
+					color: [
+						315,
+						.7,
+						.22
+					],
+					opacities: {
+						bg: .42,
+						sidebar: .5,
+						card: .45,
+						input: .55
+					},
+					blurs: {
+						...zeroBlurs,
+						bg: 16,
+						sidebar: 12,
+						card: 10,
+						settings: 18,
+						trajectory: 6,
+						input: 20,
+						panel: 18
+					},
+					strokes: zeroStrokes(),
+					settingsOpacity: .8,
+					wallpaperOpacity: 1,
+					blur: 0,
+					chatTextOpacity: 0,
+					trajectoryOpacity: .78,
+					panelOpacity: .75,
+					producedOpacity: 1,
+					headerOpacity: 1,
+					headerBarOpacity: .42
+				}
+			},
+			{
+				key: "warm",
+				appearance: {
+					color: [
+						28,
+						.6,
+						.72
+					],
+					opacities: {
+						bg: .92,
+						sidebar: .95,
+						card: 1,
+						input: 1
+					},
+					blurs: { ...zeroBlurs },
+					strokes: zeroStrokes(),
+					settingsOpacity: 1,
+					wallpaperOpacity: 1,
+					blur: 0,
+					chatTextOpacity: 0,
+					trajectoryOpacity: 1,
+					panelOpacity: 1,
+					producedOpacity: 1,
+					headerOpacity: 1,
+					headerBarOpacity: .92
+				}
+			}
+		];
+		//#endregion
+		//#region src/client/components/pages/ProfilePage.tsx
+		const hexOf = (color) => color === null ? "" : "#" + hslToRgb(color[0], color[1], color[2]).map((v) => Math.round(v).toString(16).padStart(2, "0")).join("");
+		function ProfileDot({ entry }) {
+			const hex = hexOf(entry.config.color);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+				className: "dab-profile-dot",
+				style: hex ? { background: hex } : void 0,
+				title: hex ? hex.toUpperCase() : void 0,
+				children: hex ? null : /* @__PURE__ */ (0, react_jsx_runtime.jsx)(CheckIcon, { size: 11 })
+			});
+		}
+		function ProfilePage({ p, notify }) {
+			const { t, exportTheme, importTheme, saveProfile, applyProfile, deleteProfile, renameProfile, duplicateProfile, applyPreset, setSchedule, useStore } = p;
+			const profiles = useStore((s) => s.profiles);
+			const schedule = useStore((s) => s.schedule);
+			const activeProfile = useStore((s) => s.activeProfile);
+			const importRef = (0, react.useRef)(null);
+			const [nameOpen, setNameOpen] = (0, react.useState)(false);
+			const [nameVal, setNameVal] = (0, react.useState)("");
+			const [confirmId, setConfirmId] = (0, react.useState)(null);
+			const [editId, setEditId] = (0, react.useState)(null);
+			const [editVal, setEditVal] = (0, react.useState)("");
+			const onImport = async (file) => {
+				try {
+					const ok = await importTheme(file);
+					notify(ok ? t("importDone") : t("importFail"), ok);
+				} catch {
+					notify(t("importFail"), false);
+				}
+			};
+			const onSave = () => {
+				const name = nameVal.trim();
+				if (!name) return;
+				if (saveProfile(name)) {
+					notify(t("profileSaved"), true);
+					setNameVal("");
+					setNameOpen(false);
+				} else notify(t("profileNameRequired"), false);
+			};
+			const onApply = (entry) => {
+				if (applyProfile(entry.id)) notify(t("profileApplied"), true);
+			};
+			const onDelete = (entry) => {
+				if (confirmId !== entry.id) {
+					setConfirmId(entry.id);
+					return;
+				}
+				setConfirmId(null);
+				deleteProfile(entry.id);
+			};
+			const onRenameCommit = (entry) => {
+				const name = editVal.trim();
+				setEditId(null);
+				if (name && name !== entry.name && renameProfile(entry.id, name)) notify(t("profileRenamed"), true);
+			};
+			const onDuplicate = (entry) => {
+				if (duplicateProfile(entry.id)) notify(t("profileDuplicated"), true);
+			};
+			const profileOptions = (value, onChange) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("select", {
+				className: "dab-select",
+				value: value ?? "",
+				onChange: (e) => onChange(e.target.value || null),
+				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+					value: "",
+					children: t("profileNone")
+				}), profiles.map((pr) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)("option", {
+					value: pr.id,
+					children: pr.name
+				}, pr.id))]
+			});
+			const patchSchedule = (patch) => setSchedule(patch);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("header", {
+					className: "dab-head dab-rise",
+					style: { "--d": 0 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-overline",
+							children: "Profile"
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h2", {
+							className: "dab-h1",
+							children: t("pageProfile")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-desc",
+							children: t("descProfile")
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 1 },
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-swatch-title",
+						children: t("presetGalleryTitle")
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+						className: "dab-preset-grid",
+						children: BUILTIN_PRESETS.map((ps, i) => {
+							const hex = hexOf(ps.appearance.color);
+							return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: "dab-preset",
+								style: { "--i": i },
+								onClick: () => {
+									applyPreset(ps.appearance);
+									notify(t("presetApplied"));
+								},
+								children: [
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "dab-preset-dot",
+										style: hex ? { background: hex } : void 0,
+										children: hex ? null : /* @__PURE__ */ (0, react_jsx_runtime.jsx)(CheckIcon, { size: 12 })
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "dab-preset-name",
+										children: t(`presetName_${ps.key}`)
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "dab-preset-desc",
+										children: t(`presetDesc_${ps.key}`)
+									})
+								]
+							}, ps.key);
+						})
+					})]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 2 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-row-head",
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-swatch-title",
+								style: { marginBottom: 0 },
+								children: t("profilesTitle")
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: "dab-btn dab-btn-primary",
+								onClick: () => setNameOpen((o) => !o),
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(PlusIcon, { size: 14 }), t("profileSave")]
+							})]
+						}),
+						nameOpen ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-urlrow",
+							children: [
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+									type: "text",
+									className: "dab-urlinput",
+									value: nameVal,
+									placeholder: t("profileNamePlaceholder"),
+									maxLength: 60,
+									onChange: (e) => setNameVal(e.target.value),
+									onKeyDown: (e) => {
+										if (e.key === "Enter") {
+											e.preventDefault();
+											onSave();
+										}
+									},
+									autoFocus: true
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "dab-btn dab-btn-primary",
+									disabled: !nameVal.trim(),
+									onClick: onSave,
+									children: t("editorCommit")
+								}),
+								/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "dab-btn",
+									onClick: () => {
+										setNameOpen(false);
+										setNameVal("");
+									},
+									children: t("bgUrlCancel")
+								})
+							]
+						}) : null,
+						profiles.length === 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginTop: 10 },
+							children: t("profilesEmpty")
+						}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-profile-list",
+							children: profiles.map((entry, i) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: `dab-profile-row${activeProfile === entry.id ? " is-active" : ""}`,
+								style: { "--i": i },
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProfileDot, { entry }), editId === entry.id ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(react_jsx_runtime.Fragment, { children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+									className: "dab-urlrow",
+									style: {
+										flex: 1,
+										minWidth: 0
+									},
+									children: [
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+											type: "text",
+											className: "dab-urlinput",
+											value: editVal,
+											maxLength: 60,
+											onChange: (e) => setEditVal(e.target.value),
+											onKeyDown: (e) => {
+												if (e.key === "Enter") {
+													e.preventDefault();
+													onRenameCommit(entry);
+												}
+											},
+											autoFocus: true
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: "dab-btn dab-btn-primary",
+											disabled: !editVal.trim(),
+											onClick: () => onRenameCommit(entry),
+											children: t("editorCommit")
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: "dab-btn",
+											onClick: () => setEditId(null),
+											children: t("bgUrlCancel")
+										})
+									]
+								}) }) : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+									/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+										className: "dab-profile-meta",
+										children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+											className: "dab-profile-name",
+											children: entry.name
+										}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+											className: "dab-profile-sub",
+											children: new Date(entry.createdAt).toLocaleDateString()
+										})]
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: "dab-btn",
+										onClick: () => onApply(entry),
+										children: t("profileApply")
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: "dab-btn",
+										title: t("profileRename"),
+										onClick: () => {
+											setEditId(entry.id);
+											setEditVal(entry.name);
+										},
+										children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(EditIcon, { size: 13 })
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: "dab-btn",
+										title: t("profileDuplicate"),
+										onClick: () => onDuplicate(entry),
+										children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(PlusIcon, { size: 13 })
+									}),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: `dab-btn dab-btn-danger-solid${confirmId === entry.id ? " dab-btn-confirm" : ""}`,
+										title: t("profileDelete"),
+										onClick: () => onDelete(entry),
+										children: confirmId === entry.id ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(CheckIcon, { size: 13 }), t("profileDeleteConfirm")] }) : t("profileDelete")
+									})
+								] })]
+							}, entry.id))
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+					className: "dab-card dab-rise",
+					style: { "--d": 3 },
+					children: [
+						/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dab-row-head",
+							children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-swatch-title",
+								style: { marginBottom: 0 },
+								children: t("scheduleTitle")
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `dab-toggle${schedule.enabled ? " is-on" : ""}`,
+								role: "switch",
+								"aria-checked": schedule.enabled,
+								onClick: () => patchSchedule({ enabled: !schedule.enabled }),
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "dab-toggle-knob" })
+							})]
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("p", {
+							className: "dab-hint",
+							style: { marginTop: 8 },
+							children: t("scheduleHint")
+						}),
+						/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: `dab-schedule-wrap${schedule.enabled ? " is-open" : ""}`,
+							"aria-hidden": !schedule.enabled,
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-schedule-clip",
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+									className: "dab-schedule-grid",
+									children: [
+										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+											className: "dab-schedule-cell",
+											style: { "--i": 0 },
+											children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+												className: "dab-swatch-title",
+												children: t("scheduleMode")
+											}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+												className: "dab-chip-row",
+												children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+													type: "button",
+													className: `dab-chip${schedule.mode === "time" ? " is-active" : ""}`,
+													onClick: () => patchSchedule({ mode: "time" }),
+													children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(ClockIcon, { size: 13 }), t("scheduleModeTime")]
+												}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													type: "button",
+													className: `dab-chip${schedule.mode === "system" ? " is-active" : ""}`,
+													onClick: () => patchSchedule({ mode: "system" }),
+													children: t("scheduleModeSystem")
+												})]
+											})]
+										}),
+										schedule.mode === "time" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+											className: "dab-schedule-cell",
+											style: { "--i": 1 },
+											children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+												className: "dab-swatch-title",
+												children: t("scheduleTimes")
+											}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+												className: "dab-time-row",
+												children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+													className: "dab-time-label",
+													children: [
+														/* @__PURE__ */ (0, react_jsx_runtime.jsx)(SunIcon, { size: 13 }),
+														t("scheduleDayStart"),
+														/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+															type: "time",
+															className: "dab-timeinput",
+															value: schedule.dayStart,
+															onChange: (e) => {
+																if (/^([01]\d|2[0-3]):[0-5]\d$/.test(e.target.value)) patchSchedule({ dayStart: e.target.value });
+															}
+														})
+													]
+												}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+													className: "dab-time-label",
+													children: [
+														/* @__PURE__ */ (0, react_jsx_runtime.jsx)(MoonIcon, { size: 13 }),
+														t("scheduleNightStart"),
+														/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+															type: "time",
+															className: "dab-timeinput",
+															value: schedule.nightStart,
+															onChange: (e) => {
+																if (/^([01]\d|2[0-3]):[0-5]\d$/.test(e.target.value)) patchSchedule({ nightStart: e.target.value });
+															}
+														})
+													]
+												})]
+											})]
+										}) : null,
+										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+											className: "dab-schedule-cell",
+											style: { "--i": 2 },
+											children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+												className: "dab-swatch-title",
+												children: t("scheduleProfiles")
+											}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+												className: "dab-time-row",
+												children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+													className: "dab-time-label",
+													children: [
+														/* @__PURE__ */ (0, react_jsx_runtime.jsx)(SunIcon, { size: 13 }),
+														t("scheduleDayProfile"),
+														profileOptions(schedule.dayProfile, (id) => patchSchedule({ dayProfile: id }))
+													]
+												}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("label", {
+													className: "dab-time-label",
+													children: [
+														/* @__PURE__ */ (0, react_jsx_runtime.jsx)(MoonIcon, { size: 13 }),
+														t("scheduleNightProfile"),
+														profileOptions(schedule.nightProfile, (id) => patchSchedule({ nightProfile: id }))
+													]
+												})]
+											})]
+										})
+									]
+								})
+							})
+						})
+					]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					className: "dab-profile-grid",
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+						className: "dab-card dab-card-hover dab-rise",
+						style: { "--d": 4 },
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-profile-ico",
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(DownloadIcon, { size: 17 })
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-profile-title",
+								children: t("exportCardTitle")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-profile-desc",
+								children: t("exportCardDesc")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: "dab-btn dab-btn-primary",
+								onClick: () => {
+									exportTheme();
+									notify(t("toastExportDone"));
+								},
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(DownloadIcon, { size: 14 }), t("exportTheme")]
+							})
+						]
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
+						className: "dab-card dab-card-hover dab-rise",
+						style: { "--d": 5 },
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-profile-ico",
+								children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(UploadIcon, { size: 17 })
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-profile-title",
+								children: t("importCardTitle")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dab-profile-desc",
+								children: t("importCardDesc")
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: "dab-btn",
+								onClick: () => importRef.current?.click(),
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(UploadIcon, { size: 14 }), t("importTheme")]
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("input", {
+								ref: importRef,
+								type: "file",
+								accept: "application/json,.json",
+								style: { display: "none" },
+								onChange: (e) => {
+									const f = e.target.files?.[0];
+									if (!f) return;
+									onImport(f);
+									e.target.value = "";
+								}
+							})
+						]
+					})]
+				}),
+				/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("footer", {
+					className: "dab-footer dab-rise",
+					style: { "--d": 6 },
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						className: "dab-footer-mono",
+						children: "dsh-any-background"
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: t("footerTag") })]
+				})
+			] });
+		}
+		//#endregion
+		//#region src/client/components/ThemeSection.tsx
+		/**
+		* dsh-any-background — appearance shell for the five pages.
+		*
+		* Two surfaces render this shell, and only the chrome differs:
+		*   · `settings` — injected into the host settings dialog's content column,
+		*     which supplies the modal frame (nav rail on the left, brand block, page
+		*     max-width, the dialog's own scrolling);
+		*   · `sidebar`  — a page inside dsh-better-sidebar, where the panel is much
+		*     narrower, is handed a full-height column, and has to own its own scroll
+		*     region. The brand block is dropped (the sidebar's tab bar already names
+		*     the page) and the rail turns into a compact row.
+		* The five pages themselves never branch on the surface: width-driven
+		* adaptation lives in the stylesheet's container queries, which measure the
+		* shell itself rather than assuming either surface's width.
+		*/
+		function ThemeSection(props) {
+			ensureUiCss();
+			const { t } = props;
+			const surface = props.surface ?? "settings";
+			const [page, setPage] = (0, react.useState)(0);
+			const [toast, setToast] = (0, react.useState)(null);
+			const toastTimer = (0, react.useRef)(void 0);
+			(0, react.useEffect)(() => () => window.clearTimeout(toastTimer.current), []);
+			const notify = (0, react.useCallback)((msg, ok = true) => {
+				setToast({
+					msg,
+					ok
+				});
+				window.clearTimeout(toastTimer.current);
+				toastTimer.current = window.setTimeout(() => setToast(null), 2600);
+			}, []);
+			const pages = (0, react.useMemo)(() => [
+				{
+					label: t("pageColor"),
+					Icon: DropletIcon,
+					node: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ColorPage, {
+						p: props,
+						notify
+					})
+				},
+				{
+					label: t("pageInterface"),
+					Icon: LayersIcon,
+					node: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(InterfacePage, { p: props })
+				},
+				{
+					label: t("pageFont"),
+					Icon: FontIcon,
+					node: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(FontPage, {
+						p: props,
+						notify
+					})
+				},
+				{
+					label: t("pageBackground"),
+					Icon: PhotoIcon,
+					node: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(BackgroundPage, {
+						p: props,
+						notify
+					})
+				},
+				{
+					label: t("pageProfile"),
+					Icon: SlidersIcon,
+					node: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(ProfilePage, {
+						p: props,
+						notify
+					})
+				}
+			], [
+				t,
+				props,
+				notify
+			]);
+			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(ErrorBoundary, {
+				t,
+				children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+					className: "dab-root",
+					"data-dab-surface": surface,
+					children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dab-shell",
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("nav", {
+							className: "dab-nav",
+							children: [surface === "sidebar" ? null : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-brand",
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-brand-tile",
+									children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)(SunIcon, { size: 15 })
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-brand-name",
+									children: t("nav")
+								}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-brand-tag",
+									children: t("brandTag")
+								})] })]
+							}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+								className: "dab-nav-list",
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+									className: "dab-nav-ind",
+									style: { transform: `translateY(${page * 42}px)` }
+								}), pages.map((pg, i) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: `dab-nav-item${i === page ? " is-active" : ""}`,
+									onClick: () => setPage(i),
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)(pg.Icon, { size: 16 }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: pg.label })]
+								}, pg.label))]
+							})]
+						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dab-page",
+							children: pages[page].node
+						}, page)]
+					})
+				}), toast ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(Portal, { children: /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+					className: "dab-toast",
+					role: "status",
+					children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						className: toast.ok ? "dab-toast-ok" : "dab-toast-err",
+						children: toast.ok ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)(CheckIcon, { size: 14 }) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)(AlertIcon, { size: 14 })
+					}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: toast.msg })]
+				}) }) : null]
+			});
+		}
+		//#endregion
+		//#region src/client/sidebar/store-hook.ts
+		/**
+		* dsh-any-background — selector hook over a host store instance.
+		*
+		* The settings slot kit hands the pages a `useStore(selector)` hook that is
+		* bound to this plugin's store instance by the host renderer. A better-sidebar
+		* page gets no such kit — its tab props carry `ctx`/`store`/`scope` for
+		* better-sidebar's own store — so the same contract is rebuilt here from the
+		* store instance itself, which already IS an observable source
+		* (`getSnapshot`/`subscribe`, see `defineStore` in the host's client store).
+		*
+		* Semantics match the host binding on purpose: reduce the published snapshot
+		* through the selector and compare with `Object.is`, so a page subscribing to
+		* one field does not re-render on unrelated writes.
+		*/
+		/**
+		* Bind a store instance to a `useStore(selector)` hook. Call once per store and
+		* share the result: the returned hook keeps one subscription identity for its
+		* whole lifetime.
+		* @param store - observable store instance (`defineStore` handle).
+		* @returns a selector hook reading that instance.
+		*/
+		function createStoreHook(store) {
+			const subscribe = (onChange) => store.subscribe(onChange);
+			const { getSnapshot } = store;
+			return function useStoreSelector(selector) {
+				const cache = (0, react.useRef)(null);
+				const read = (0, react.useCallback)(() => {
+					const snapshot = getSnapshot();
+					const hit = cache.current;
+					if (hit !== null && hit.snapshot === snapshot) return hit.value;
+					const value = selector(snapshot);
+					cache.current = {
+						snapshot,
+						value
+					};
+					return value;
+				}, [selector]);
+				return (0, react.useSyncExternalStore)(subscribe, read, read);
+			};
+		}
+		//#endregion
+		//#region src/client/sidebar/tab.tsx
+		/**
+		* dsh-any-background — dsh-better-sidebar integration.
+		*
+		* Publishes the plugin's appearance controls as a sidebar page ("主题") in
+		* better-sidebar's tab registry. The page renders the SAME five-page tree as
+		* the settings section — `ThemeSection` takes a `surface` variant — so there is
+		* one UI to maintain, not two forks of it.
+		*
+		* The dependency is optional at every level, which is why nothing here imports
+		* the package:
+		*   · the service is read off the client context at runtime, so a DSH install
+		*     without better-sidebar silently registers nothing, and a better-sidebar
+		*     that mounts *after* this plugin still gets the page (`ctx.inject` fires
+		*     whenever the service shows up, never when it never does);
+		*   · the plugin's own types are restated in the minimal local contract below
+		*     instead of imported — a value import would be rejected by the host's
+		*     client-bundle purity gate, and even a type-only import would make the
+		*     package a build-time dependency for everyone who does not run it.
+		*/
+		/**
+		* The active locale id, used as a re-render signal: page labels are resolved by
+		* calling `t(...)` at render time, so the props object (and with it the memoized
+		* page tree) has to be rebuilt when the language flips — otherwise the page
+		* would keep painting the previous language until some unrelated store write
+		* happened to re-render it.
+		* @param locale - host locale service.
+		* @returns the active locale id (a stable string, safe for `Object.is`).
+		*/
+		function useActiveLocale(locale) {
+			const subscribe = (0, react.useCallback)((onChange) => locale.subscribe(onChange), [locale]);
+			const read = (0, react.useCallback)(() => locale.getSnapshot().active, [locale]);
+			return (0, react.useSyncExternalStore)(subscribe, read, read);
+		}
+		/** Rendered inside a sidebar tab: the five pages, `surface: 'sidebar'` shell.
+		*  Shared by the better-sidebar page and the native right-Sidebar tab — both
+		*  hand a full-height column that owns its own scroll. */
+		function ThemeTab({ face, useStore, locale }) {
+			const active = useActiveLocale(locale);
+			const props = (0, react.useMemo)(() => ({
+				...face,
+				useStore
+			}), [
+				face,
+				useStore,
+				active
+			]);
+			return (0, react.createElement)(ThemeSection, {
+				...props,
+				surface: "sidebar"
+			});
+		}
+		/**
+		* Register the appearance page with better-sidebar, if it is installed.
+		*
+		* Call from the client `apply`. The registration is owned by the injected
+		* scope's effect, so unloading the plugin (or HMR) withdraws it — without that,
+		* the next activation would throw on the duplicate id.
+		* @param ctx - client context.
+		* @param opts.face - lazy accessor for the shared business face.
+		* @param opts.store - the plugin's store instance, or null on a host where the
+		*   store module never resolved (in that case there is nothing to bind and no
+		*   page is registered).
+		*/
+		function registerThemeSidebarTab(ctx, opts) {
+			const { store } = opts;
+			if (store === null || typeof store.getSnapshot !== "function" || typeof store.subscribe !== "function") {
+				console.warn("dsh-any-background: no observable store instance on this host; the sidebar page stays unregistered");
+				return;
+			}
+			const locale = ctx.locale;
+			const t = locale.bind(NS);
+			const useStore = createStoreHook(store);
+			const ORDER = 55;
+			ctx.inject?.(["betterSidebar"], (scope) => {
+				const service = scope.betterSidebar;
+				if (service === void 0) return;
+				const owner = sidebarGuideOwner();
+				if (owner === "host") return;
+				let disposeTab = null;
+				const unsubscribeHost = owner === "pending" ? subscribeHostInfo(() => {
+					if (sidebarGuideOwner() === "host") {
+						disposeTab?.();
+						disposeTab = null;
+						unsubscribeHost();
+					}
+				}) : () => {};
+				const face = opts.face();
+				scope.effect(() => {
+					disposeTab = service.registerTab({
+						id: "dsh-any-background:theme",
+						title: () => t("nav"),
+						icon: (size) => (0, react.createElement)(SunIcon, { size }),
+						order: ORDER,
+						single: true,
+						component: () => (0, react.createElement)(ThemeTab, {
+							face,
+							useStore,
+							locale
+						})
+					}) ?? null;
+					return () => {
+						unsubscribeHost();
+						disposeTab?.();
+						disposeTab = null;
+					};
+				});
+			});
+		}
+		//#endregion
+		//#region src/client/env.ts
+		/**
+		* Host capability detection — which third-party plugins are actually present.
+		*
+		* The host exposes no plugin registry on the client context, so presence is
+		* inferred from the stable DOM markers those plugins mount. Detection runs
+		* once (plugin boot) and is re-armed by a cheap body-level MutationObserver so
+		* a plugin that mounts after this one still flips the cached verdict. The
+		* verdict is sticky-true for the session: whether a detected plugin's surface
+		* is currently collapsed must not hide the settings that govern it.
+		*/
+		/** Persistent container + surfaces dsh-better-sidebar mounts when loaded.
+		*  `[data-dsh-better-sidebar]` is the plugin's host wrapper — always appended
+		*  to document.body on mount — so it is the authoritative "plugin is loaded"
+		*  signal and the body childList observer fires exactly when it appears. The
+		*  panel surfaces are listed only as reinforcement: they are conditionally
+		*  rendered (collapsed panels drop them), so they must never be the sole
+		*  signal.
+		*
+		*  `[data-sidebar-right-panel]` is deliberately ABSENT: on every host generation
+		*  it marks the host's own right Sidebar (always present once a session opens),
+		*  so counting it would make the better-sidebar verdict permanently true on any
+		*  host and mis-drive everything gated on it. */
+		const BETTER_SIDEBAR_MARKERS = [
+			"[data-dsh-better-sidebar]",
+			"[data-dsh-panel-host]",
+			"[data-dsh-bottom-panel]"
+		];
+		let betterSidebar = false;
+		const subs = /* @__PURE__ */ new Set();
+		/** Read snapshot of whether the better-sidebar plugin is present. */
+		function rBetterSidebar() {
+			return betterSidebar;
+		}
+		function emit() {
+			subs.forEach((cb) => cb());
+		}
+		function sync() {
+			if (document.querySelector(BETTER_SIDEBAR_MARKERS.join(",")) !== null && !betterSidebar) {
+				betterSidebar = true;
+				emit();
+			}
+		}
+		/** Subscribe to verdict changes. */
+		function subscribe(cb) {
+			subs.add(cb);
+			return () => {
+				subs.delete(cb);
+			};
+		}
+		/** Start detection (probe once, then watch body mounts). Returns an
+		*  unsubscribe for plugin teardown. */
+		function startBetterSidebarWatch() {
+			sync();
+			return watchDom((records) => {
+				if (records.some((r) => r.target === document.body && r.type === "childList")) sync();
+			});
+		}
+		let nativeTabs = false;
+		const nativeSubs = /* @__PURE__ */ new Set();
+		/** Mark the native right-Sidebar service as confirmed. Sticky — the service
+		*  never goes away within a session. */
+		function markNativeSidebarTabs() {
+			if (nativeTabs) return;
+			nativeTabs = true;
+			nativeSubs.forEach((cb) => cb());
+		}
+		//#endregion
+		//#region src/client/sidebar/native-tab.tsx
+		/**
+		* dsh-any-background — native right-Sidebar integration.
+		*
+		* DSH ships an official right Sidebar (`dsh-client-ui-sidebar-right`) with a
+		* public two-stage extension path: a static tab type into
+		* `ctx.sidebarRightTabs` — whose `guide` entry draws a card on the Sidebar's
+		* guide page — and a body under the keyed `sidebar.right.pane.tab` seat. This
+		* module registers the plugin's appearance pages through that path, so the
+		* official Sidebar gains a "主题" card that opens the very same five pages the
+		* settings panel shows (one implementation, one state store; editing in either
+		* place shows up in the other).
+		*
+		* NOTE: that registry is NOT a new-host feature. It is provided on 0.1.5-rc.2
+		* already (verified against the release tag), so nothing here may treat "the
+		* service answered" as "this is a recent DSH" — whether this tab or the
+		* better-sidebar page owns the guide surface is the host adapter's call.
+		*
+		* The dependency is optional at every level, mirroring `sidebar/tab.tsx`:
+		*   · the registry is waited on with `ctx.inject`, so a host without the
+		*     right Sidebar (or an older DSH) silently registers nothing, and a
+		*     Sidebar that initializes after this plugin still gets the card;
+		*   · the service shape is restated as a minimal local contract instead of
+		*     imported — a value import would be rejected by the host's client-bundle
+		*     purity gate, and even a type-only import would make the package a
+		*     build-time dependency for everyone who does not run it.
+		*
+		* When dsh-better-sidebar is installed it brings its own "主题" page (registered
+		* by `sidebar/tab.tsx`), which would duplicate this card on the same guide
+		* page. The native card therefore yields: it is not registered while
+		* better-sidebar is detected, and it withdraws itself if better-sidebar mounts
+		* later (the presence verdict is sticky-true, so no re-registration path is
+		* needed). The Interface page's panel slider follows the same split:
+		* "右方侧边栏" natively, "bettersidebar" when that plugin is present.
+		*/
+		/** The tab implementation's identity, and the key the body registers under. */
+		const NATIVE_TAB_ID = "dsh-any-background:theme";
+		/** The page kind: what `openTab` names and the guide entry opens. */
+		const NATIVE_TAB_KIND = "danybg-theme";
+		/**
+		* Register the appearance pages with the native right Sidebar, if one exists.
+		*
+		* Call from the client `apply`. Both registrations sit inside the injected
+		* scope's effects, so unloading the plugin (or HMR) withdraws them — without
+		* that, the next activation would throw on the duplicate id.
+		* @param ctx - client context.
+		* @param opts.face - lazy accessor for the shared business face.
+		* @param opts.store - the plugin's store instance, or null on a host where the
+		*   store module never resolved (in that case there is nothing to bind and no
+		*   page is registered).
+		*/
+		function registerNativeSidebarTab(ctx, opts) {
+			const { store } = opts;
+			if (store === null || typeof store.getSnapshot !== "function" || typeof store.subscribe !== "function") {
+				console.warn("dsh-any-background: no observable store instance on this host; the native sidebar page stays unregistered");
+				return;
+			}
+			const locale = ctx.locale;
+			const t = locale.bind(NS);
+			const useStore = createStoreHook(store);
+			ctx.inject?.(["sidebarRightTabs"], (scope) => {
+				const tabs = scope.sidebarRightTabs;
+				if (tabs === void 0 || typeof tabs.register !== "function") return;
+				markNativeSidebarTabs();
+				const face = opts.face();
+				const ThemeBody = () => (0, react.createElement)(ThemeTab, {
+					face,
+					useStore,
+					locale
+				});
+				scope.effect(() => {
+					const yieldTo = () => sidebarGuideOwner() === "plugin" && rBetterSidebar();
+					if (yieldTo()) return;
+					let disposeTab = null;
+					const withdraw = () => {
+						disposeTab?.();
+						disposeTab = null;
+					};
+					const unsubscribeBetter = subscribe(() => {
+						if (yieldTo()) withdraw();
+					});
+					const unsubscribeHost = subscribeHostInfo(() => {
+						if (yieldTo()) withdraw();
+					});
+					disposeTab = tabs.register({
+						id: NATIVE_TAB_ID,
+						kind: NATIVE_TAB_KIND,
+						title: () => t("nav"),
+						guide: [{
+							id: "theme",
+							order: 55,
+							title: () => t("nav"),
+							description: () => t("guideDesc"),
+							icon: SunIcon
+						}]
+					});
+					return () => {
+						unsubscribeBetter();
+						unsubscribeHost();
+						withdraw();
+					};
+				}, "dsh-any-background: native sidebar theme tab");
+				scope.effect(() => ctx.slots.inject("sidebar.right.pane.tab", () => ctx.slots.register({
+					name: "sidebar.right.pane.tab",
+					key: NATIVE_TAB_ID
+				}, ThemeBody)), "dsh-any-background: native sidebar theme body");
+			});
+		}
+		//#endregion
+		//#region src/shared/rotation.ts
+		/** ISO week key (Monday-first). */
+		function isoWeekKey(d) {
+			const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+			const day = t.getUTCDay() || 7;
+			t.setUTCDate(t.getUTCDate() + 4 - day);
+			const yearStart = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+			const week = Math.ceil(((t.getTime() - yearStart.getTime()) / 864e5 + 1) / 7);
+			return `${t.getUTCFullYear()}-W${week}`;
+		}
+		/** Whether the pool should advance right now. */
+		function rotationDue(rot, now = /* @__PURE__ */ new Date()) {
+			if (!rot.enabled || rot.items.length === 0) return false;
+			if (rot.interval === "reload") return true;
+			const last = rot.lastRotate !== null ? new Date(rot.lastRotate) : null;
+			if (last === null || isNaN(last.getTime())) return true;
+			if (rot.interval === "hourly") return hourKey(last) !== hourKey(now);
+			if (rot.interval === "daily") return last.toDateString() !== now.toDateString();
+			return isoWeekKey(last) !== isoWeekKey(now);
+		}
+		/** Epoch-hour bucket: hourly cadence advances on each full hour boundary
+		*  (in whole-hour timezones — UTC+8 among them — that is exactly the local
+		*  on-the-hour tick). */
+		const hourKey = (d) => Math.floor(d.getTime() / 36e5);
+		/** Whether an OPEN page should keep advancing this cadence on its timer.
+		*  Only the time-based cadences tick live; 'reload' is a once-per-READ pick
+		*  (the server advances it inside the `read` itself), so a live tick driving
+		*  it would flip the wallpaper every 30 s — exactly the v0.4.0 regression
+		*  (rotationDue is unconditionally true for 'reload'). */
+		function rotationAdvancesLive(rot) {
+			return rot.interval !== "reload";
+		}
+		/** Pick the next pool index under the configured mode. */
+		function pickNextRotationIndex(rot) {
+			const n = rot.items.length;
+			if (n === 0) return -1;
+			if (rot.mode === "shuffle" && n > 1) {
+				let idx = rot.current;
+				while (idx === rot.current) idx = Math.floor(Math.random() * n);
+				return idx;
+			}
+			return (rot.current + 1) % n;
+		}
+		//#endregion
+		//#region src/client/index.tsx
+		/**
+		* dsh-any-background — browser half entry.
+		*
+		* Wires the plugin lifecycle: theme registration, wallpaper layer, viewport
+		* watch, i18n, settings-section injection, boot restore, watchdog. The heavy
+		* lifting lives in the sibling modules (state/rpc/wallpaper/utils/components).
+		*/
+		const name = "dsh-any-background";
+		const inject = [
+			"slots",
+			"locale",
+			"theme",
+			"connection"
+		];
+		const CUSTOM_ID = "custom-color";
+		function apply(ctx) {
+			initRpc((endpoint, payload) => ctx.connection.rpc.call(RPC_CHANNEL, endpoint, payload).then((res) => res));
+			const [initH, initS, initL] = rColor();
+			let customDispose = null;
+			let registerFailed = false;
+			const registerCustom = (h, s, l) => {
+				customDispose?.();
+				try {
+					let colorScheme;
+					let tokens;
+					if (rHasColor()) ({colorScheme, tokens} = genTokens(h ?? rColor()[0], s ?? rColor()[1], l ?? rColor()[2], rColorScheme()));
+					else if (rSchemeOverride() !== "auto") {
+						const dark = rScheme() === "dark";
+						({colorScheme, tokens} = genTokens(220, .04, dark ? .14 : .92, dark ? "dark" : "light"));
+					} else {
+						const verdict = rBgDark();
+						if (verdict === null) {
+							customDispose = null;
+							return false;
+						}
+						const snap = ctx.theme.getTheme();
+						const wantScheme = verdict ? "dark" : "light";
+						const source = snap.themes.find((t) => t.id !== CUSTOM_ID && t.colorScheme === wantScheme) ?? snap.themes.find((t) => t.id !== CUSTOM_ID);
+						if (source === void 0) {
+							customDispose = null;
+							return false;
+						}
+						colorScheme = wantScheme;
+						tokens = { ...source.tokens };
+						const font = verdict ? "#fff" : "#000";
+						for (const name of LABEL_TOKENS) tokens[name] = font;
+					}
+					customDispose = ctx.theme.register({
+						id: CUSTOM_ID,
+						colorScheme,
+						tokens
+					});
+				} catch (e) {
+					if (!(() => {
+						try {
+							return ctx.theme.getTheme().themes.some((t) => t.id === CUSTOM_ID);
+						} catch {
+							return false;
+						}
+					})()) {
+						if (!registerFailed) {
+							registerFailed = true;
+							console.error("dsh-any-background: host theme register failed; the custom skin will stay inactive", e);
+						}
+						customDispose = null;
+						return false;
+					}
+					customDispose = null;
+				}
+				const present = (() => {
+					try {
+						return ctx.theme.getTheme().themes.some((t) => t.id === CUSTOM_ID);
+					} catch {
+						return false;
+					}
+				})();
+				if (present) ctx.theme.setTheme(CUSTOM_ID);
+				return present;
+			};
+			if (rHasColor()) registerCustom(initH, initS, initL);
+			const disposeVerdict = onVerdictApplied(() => {
+				if (!rHasColor()) registerCustom();
+			});
+			const disposeColorAdopted = onColorAdopted((hsl) => {
+				registerCustom(hsl[0], hsl[1], hsl[2]);
+				saveConfig();
+				colorRev++;
+				bound?.syncColor(hslToHsv(hsl[0], hsl[1], hsl[2]), colorRev);
+			});
+			ctx.effect(() => () => {
+				disposeVerdict();
+				disposeColorAdopted();
+			}, "dsh-any-background: verdict/color listeners");
+			ctx.effect(() => () => {
+				customDispose?.();
+				if (colorTimerRef.current !== null) window.clearTimeout(colorTimerRef.current);
+			}, "dsh-any-background: skin dispose");
+			ctx.effect(() => mountStaticStyles(), "dsh-any-background: stylesheet");
+			const disposeDragQuality = watchWallpaperDragQuality();
+			ctx.effect(() => () => disposeDragQuality(), "dsh-any-background: drag quality");
+			let rev = 0;
+			let colorRev = 0;
+			let bgRev = 0;
+			const colorTimerRef = { current: null };
+			const storeSpec = defineStore === null ? null : defineStore({
+				init: () => ({
+					url: null,
+					rev: -1,
+					colorRev: -1,
+					color: null,
+					backgroundType: cfg.backgroundType,
+					generatedBg: cfg.generatedBg,
+					bgRev: -1,
+					regenerateOnReload: cfg.regenerateOnReload,
+					profiles: [],
+					rotation: {
+						...DEFAULT_CONFIG.rotation,
+						items: []
+					},
+					schedule: { ...DEFAULT_CONFIG.schedule },
+					schemeOverride: "auto",
+					activeProfile: null,
+					metaRev: -1
+				}),
+				actions: {
+					syncBg: (d, url, r, bgType, genBg, bgr, reload) => {
+						if (r > d.rev) {
+							d.url = url;
+							d.rev = r;
+						}
+						if (bgr !== void 0 && bgr > d.bgRev) {
+							d.backgroundType = bgType;
+							d.generatedBg = genBg ?? null;
+							d.bgRev = bgr;
+						}
+						if (reload !== void 0) d.regenerateOnReload = reload;
+					},
+					syncColor: (d, hsv, r) => {
+						if (r > d.colorRev) {
+							d.color = hsv;
+							d.colorRev = r;
+						}
+					},
+					syncMeta: (d, profiles, rotation, schedule, schemeOverride, activeProfile, r) => {
+						if (r > d.metaRev) {
+							d.profiles = profiles;
+							d.rotation = rotation;
+							d.schedule = schedule;
+							d.schemeOverride = schemeOverride;
+							d.activeProfile = activeProfile;
+							d.metaRev = r;
+						}
+					}
+				}
+			});
+			/** One shared instance, whatever the host build handed back.
+			*
+			*  The plugin publishes a single appearance state that BOTH surfaces read —
+			*  the settings section (through the renderer's `useStore`) and the
+			*  better-sidebar page (through the hook in `sidebar/store-hook`). Handing the
+			*  host a declaration whose `create` always returns this very instance is what
+			*  keeps them from drifting: letting the renderer mint its own would give the
+			*  sidebar a second, permanently empty copy of the state. */
+			const storeInstance = storeSpec === null ? null : typeof storeSpec.getSnapshot === "function" ? storeSpec : storeSpec.create();
+			/** What gets registered: the instance on newer builds, a single-instance
+			*  declaration on the ones that expect a declaration. */
+			const store = storeSpec === null || storeInstance === storeSpec ? storeSpec : {
+				spec: storeSpec.spec ?? {},
+				create: () => storeInstance
+			};
+			let bound = null;
+			if (storeInstance !== null) bound = storeInstance.actions;
+			const syncBg = () => {
+				rev++;
+				bgRev++;
+				bound?.syncBg(rWp(), rev, cfg.backgroundType, cfg.generatedBg, bgRev, cfg.regenerateOnReload);
+			};
+			const disposeSnapshot = onGeneratedSnapshot(syncBg);
+			ctx.effect(() => () => disposeSnapshot(), "dsh-any-background: snapshot listener");
+			/** Capture the first frame of the video now applied and finish its
+			*  adaptation: the frame stands in for every still-image API (previews,
+			*  color extraction) and the brightness verdict follows it. The stale guard
+			*  skips a capture whose video was swapped out from under it (another
+			*  upload or a rotation switch landing mid-decode). */
+			const captureAndApplyVideo = (url) => {
+				if (url === null) return;
+				captureVideoSnapshot(url).then((snap) => {
+					if (rWpVideo() !== url) return;
+					setWpVideoSnapshot(snap);
+					applyThemeColor();
+					syncBg();
+				});
+			};
+			let metaRev = 0;
+			const syncMetaNow = () => {
+				metaRev++;
+				bound?.syncMeta(rProfiles(), rRotation(), rSchedule(), rSchemeOverride(), cfg.activeProfile, metaRev);
+			};
+			/** Apply an appearance snapshot (profile or built-in preset) to the whole
+			*  interface: re-register the skin, re-emit tokens, persist. */
+			const applyAppearanceLive = (ap) => {
+				applyAppearance(ap);
+				if (rHasColor()) {
+					const [h, s, l] = rColor();
+					registerCustom(h, s, l);
+				} else if (!registerCustom()) {
+					customDispose?.();
+					customDispose = null;
+					clearThemeTokens();
+					const snap = ctx.theme.getTheme();
+					const fallback = snap.themes.find((t) => t.id !== CUSTOM_ID);
+					if (fallback !== void 0 && snap.preference === CUSTOM_ID) ctx.theme.setTheme(fallback.id);
+				}
+				applyWp();
+			};
+			const applyProfileById = (id) => {
+				const entry = rProfiles().find((p) => p.id === id);
+				if (entry === void 0) return false;
+				applyAppearanceLive(entry.config);
+				cfg.activeProfile = id;
+				applyWp();
+				persistConfig();
+				syncMetaNow();
+				return true;
+			};
+			/** Extract the theme color once from a freshly activated wallpaper and run
+			*  the full adaptation (host skin + editor wheel sync); the caller persists. */
+			const adoptWallpaperColor = async (dataUrl) => {
+				const hsl = await extractWallpaperColor(dataUrl, rBgState());
+				if (!hsl || rWp() !== dataUrl) return;
+				cfg.color = hsl;
+				registerCustom(hsl[0], hsl[1], hsl[2]);
+				colorRev++;
+				bound?.syncColor(hslToHsv(hsl[0], hsl[1], hsl[2]), colorRev);
+			};
+			/** Activate a rotation item: the server copies its bytes into the wallpaper
+			*  slot; the client applies the returned serve URL through the normal image
+			*  path, then re-extracts the theme color from the new picture so the
+			*  palette follows the rotation. */
+			const applyRotationIndex = async (idx, auto) => {
+				const rot = rRotation();
+				if (idx < 0 || idx >= rot.items.length) return false;
+				const r = await rotationActivate(idx);
+				if (!r.ok || !r.wallpaperUrl) {
+					console.warn("dsh-any-background: rotation activate failed", r.error);
+					return false;
+				}
+				cfg.backgroundType = "image";
+				setBgDark(null);
+				setWpImageUrl(r.wallpaperUrl);
+				setWpUrl(rWpImage());
+				setBgState({ ...DEFAULT_CONFIG.bgState });
+				cfg.rotation = {
+					...rot,
+					current: idx,
+					lastRotate: auto || rot.lastRotate === null ? (/* @__PURE__ */ new Date()).toISOString() : rot.lastRotate
+				};
+				if (cfg.backgroundType === "image") await adoptWallpaperColor(rWp());
+				applyThemeColor();
+				syncBg();
+				saveConfig();
+				syncMetaNow();
+				return true;
+			};
+			const rotationDue$1 = () => rotationDue(rRotation());
+			const pickNextRotationIndex$1 = () => pickNextRotationIndex(rRotation());
+			const maybeRotate = async () => {
+				if (!rotationDue$1()) return;
+				await applyRotationIndex(pickNextRotationIndex$1(), true);
+			};
+			const parseHHMM = (s) => {
+				const m = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(s);
+				return m === null ? -1 : Number(m[1]) * 60 + Number(m[2]);
+			};
+			const isNightNow = (sc) => {
+				const now = /* @__PURE__ */ new Date();
+				const cur = now.getHours() * 60 + now.getMinutes();
+				const day = parseHHMM(sc.dayStart);
+				const night = parseHHMM(sc.nightStart);
+				if (day < 0 || night < 0) return false;
+				if (day <= night) return cur >= night || cur < day;
+				return cur >= night && cur < day;
+			};
+			const scheduleTick = () => {
+				if (rotationAdvancesLive(rRotation())) maybeRotate();
+				const sc = rSchedule();
+				if (!sc.enabled) return;
+				const want = (sc.mode === "system" ? window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false : isNightNow(sc)) ? sc.nightProfile : sc.dayProfile;
+				if (!want || want === cfg.activeProfile) return;
+				applyProfileById(want);
+			};
+			applyWp();
+			syncBg();
+			watchParts();
+			loadPersisted().then(async ({ rotated: serverRotated, firstRun }) => {
+				if (firstRun) {
+					persistConfig();
+					await loadPersisted();
+					applyWp();
+				}
+				syncMetaNow();
+				applyFontFace(fontServeUrl, cfg.fontEnabled, cfg.fontMime);
+				if (rHasColor()) {
+					const [h, s, l] = rColor();
+					registerCustom(h, s, l);
+				}
+				if (serverRotated) {
+					if (cfg.backgroundType === "image" && rWp()) {
+						await adoptWallpaperColor(rWp());
+						saveConfig();
+					}
+				} else await maybeRotate();
+				if (cfg.backgroundType === "video") {
+					const v = rWpVideo();
+					if (v) {
+						captureAndApplyVideo(v);
+						applyWp();
+					} else {
+						cfg.backgroundType = "image";
+						setWpUrl(rWpImage());
+						applyThemeColor();
+					}
+				} else if (cfg.backgroundType !== "image") {
+					if (cfg.regenerateOnReload) regenerateGeneratedBg();
+					else if (cfg.generatedBg) updateGeneratedBg(cfg.generatedBg);
+					persistConfig();
+				} else applyThemeColor();
+				syncBg();
+				scheduleTick();
+				if (rHasColor()) {
+					colorRev++;
+					bound?.syncColor(hslToHsv(...rColor()), colorRev);
+				}
+			});
+			const schemeMq = window.matchMedia?.("(prefers-color-scheme: dark)");
+			const scheduleTimer = window.setInterval(scheduleTick, 3e4);
+			schemeMq?.addEventListener?.("change", scheduleTick);
+			ctx.effect(() => () => {
+				window.clearInterval(scheduleTimer);
+				schemeMq?.removeEventListener?.("change", scheduleTick);
+			}, "dsh-any-background: schedule timer");
+			ctx.effect(() => () => {
+				teardownWp();
+			}, "dsh-any-background: wp cleanup");
+			ctx.effect(() => startBetterSidebarWatch(), "dsh-any-background: better-sidebar watch");
+			ctx.effect(() => startThirdPartyWatch(), "dsh-any-background: third-party scan");
+			ctx.effect(() => startHeaderPopoverTagging(), "dsh-any-background: header popover tagging");
+			ctx.effect(() => ctx.on("theme/change", () => {
+				if (rHasColor() || rBgDark() !== null || rSchemeOverride() !== "auto") {
+					const snapshot = ctx.theme.getTheme();
+					if (snapshot.preference !== CUSTOM_ID && snapshot.themes.some((t) => t.id === CUSTOM_ID)) ctx.theme.setTheme(CUSTOM_ID);
+				}
+				applyWp();
+			}), "dsh-any-background: theme change");
+			let frame = 0;
+			const applySoon = () => {
+				if (frame !== 0) return;
+				frame = requestAnimationFrame(() => {
+					frame = 0;
+					applyWp();
+				});
+			};
+			const sentinel = document.createElement("div");
+			sentinel.style.cssText = "position:fixed;inset:0;pointer-events:none;visibility:hidden";
+			document.body.append(sentinel);
+			const viewportObserver = new ResizeObserver(applySoon);
+			viewportObserver.observe(sentinel);
+			const dprQuery = window.matchMedia?.(`(resolution: ${window.devicePixelRatio}dppx)`);
+			dprQuery?.addEventListener?.("change", applySoon);
+			ctx.effect(() => () => {
+				viewportObserver.disconnect();
+				dprQuery?.removeEventListener?.("change", applySoon);
+				sentinel.remove();
+			}, "dsh-any-background: viewport watch");
+			ctx.effect(() => ctx.locale.register(NS, {
+				zh,
+				en
+			}), "dsh-any-background: i18n");
+			/** The business face, built once on first use and shared by both surfaces
+			*  (the settings section and the better-sidebar page). Memoizing is not just
+			*  about cost: the face closes over per-surface state — the font preview blob
+			*  URL behind releaseFontPreview — so a second build would give the sidebar
+			*  its own preview slot and leak whichever copy never gets released. */
+			let themeFace = null;
+			const buildFace = () => {
+				if (themeFace !== null) return themeFace;
+				syncBg();
+				syncMetaNow();
+				const playVideoFromBlob = (blob, mime) => {
+					const localUrl = URL.createObjectURL(blob);
+					cfg.backgroundType = "video";
+					setWpUrl(null);
+					cfg.videoBgState = { ...DEFAULT_CONFIG.bgState };
+					setWpVideoUrl(localUrl, mime ?? blob.type ?? "video/mp4");
+					applyWp();
+					syncBg();
+					captureAndApplyVideo(rWpVideo());
+					return uploadVideo(blob, mime ?? blob.type ?? "video/mp4").then((outcome) => {
+						if (outcome.ok) persistConfig();
+						return outcome;
+					});
+				};
+				const FONT_EXT_MIME = {
+					woff2: "font/woff2",
+					woff: "font/woff",
+					otf: "font/otf",
+					ttf: "font/ttf"
+				};
+				const fontMimeFromName = (name) => {
+					const ext = name.split(".").pop()?.toLowerCase() ?? "";
+					return FONT_EXT_MIME[ext] ?? "font/ttf";
+				};
+				let fontPreviewUrl = null;
+				const releaseFontPreview = (delay) => {
+					if (fontPreviewUrl === null) return;
+					const url = fontPreviewUrl;
+					fontPreviewUrl = null;
+					window.setTimeout(() => URL.revokeObjectURL(url), delay);
+				};
+				/** Point the @font-face at whatever is authoritative right now: the
+				*  persisted slot when one exists, otherwise nothing. */
+				const applyStoredFont = () => {
+					applyFontFace(cfg.fontMime !== null ? FONT_SERVE_URL : null, cfg.fontEnabled, cfg.fontMime);
+				};
+				const [wh, ws, wl] = rColor();
+				const [dh, ds, dv] = hslToHsv(wh, ws, wl);
+				const built = {
+					t: ctx.locale.bind(NS),
+					hue: dh,
+					sat: ds,
+					lit: dv,
+					setColor: (nh, ns, nl) => {
+						const [sh, ss, sl] = hsvToHsl(nh, ns, nl);
+						cfg.color = [
+							sh,
+							ss,
+							sl
+						];
+						if (colorTimerRef.current !== null) window.clearTimeout(colorTimerRef.current);
+						colorTimerRef.current = window.setTimeout(() => {
+							colorTimerRef.current = null;
+							registerCustom(sh, ss, sl);
+							applyWp();
+							saveConfig();
+						}, 80);
+						colorRev++;
+						bound?.syncColor([
+							nh,
+							ns,
+							nl
+						], colorRev);
+					},
+					setWpFromServer: (u) => {
+						cfg.backgroundType = "image";
+						setBgDark(null);
+						setWpImageUrl(u);
+						setWpUrl(rWpImage());
+						setBgState({ ...DEFAULT_CONFIG.bgState });
+						if (u === null) {
+							setWpVideoUrl(null, null);
+							persistVideo(null);
+							persistWallpaper(null);
+						}
+						applyThemeColor();
+						syncBg();
+					},
+					setVideo: async (u, mime) => {
+						setBgDark(null);
+						if (u === null) {
+							setWpVideoUrl(null, null);
+							cfg.backgroundType = "image";
+							setWpUrl(rWpImage());
+							persistVideo(null);
+							applyThemeColor();
+							syncBg();
+							saveConfig();
+							return { ok: true };
+						}
+						if (typeof u !== "string") return playVideoFromBlob(u, mime);
+						const ok = await persistVideo(u);
+						const live = ok ? VIDEO_SERVE_URL : u;
+						cfg.backgroundType = "video";
+						setWpUrl(null);
+						cfg.videoBgState = { ...DEFAULT_CONFIG.bgState };
+						setWpVideoUrl(live, mime ?? null);
+						applyWp();
+						saveConfig();
+						syncBg();
+						captureAndApplyVideo(rWpVideo());
+						return { ok };
+					},
+					setBgType: (type) => {
+						setBackgroundType(type);
+						saveConfig();
+						syncBg();
+					},
+					setGeneratedBg: (params) => {
+						updateGeneratedBg(params);
+						saveConfig();
+						syncBg();
+					},
+					regenerateBg: () => {
+						regenerateGeneratedBg();
+						persistConfig();
+						syncBg();
+					},
+					setRegenerateOnReload: (v) => {
+						cfg.regenerateOnReload = v;
+						persistConfig();
+						syncBg();
+					},
+					setOps: (ops) => {
+						cfg.opacities = ops;
+						applyWp();
+						syncBg();
+						saveConfig();
+					},
+					setBlurs: (blurs) => {
+						cfg.blurs = blurs;
+						applyWp();
+						syncBg();
+						saveConfig();
+					},
+					setStrokes: (strokes) => {
+						cfg.strokes = strokes;
+						applyStrokes();
+						saveConfig();
+					},
+					setFont: async (file) => {
+						releaseFontPreview(0);
+						const localUrl = URL.createObjectURL(file);
+						fontPreviewUrl = localUrl;
+						applyFontFace(localUrl, true, fontMimeFromName(file.name));
+						const outcome = await uploadFont(file);
+						if (!outcome.ok || outcome.mime === void 0) {
+							applyStoredFont();
+							releaseFontPreview(4e3);
+							return {
+								ok: false,
+								refusal: outcome.refusal
+							};
+						}
+						cfg.fontMime = outcome.mime;
+						cfg.fontEnabled = true;
+						applyFontFace(FONT_SERVE_URL, true, outcome.mime);
+						releaseFontPreview(4e3);
+						persistConfig();
+						return { ok: true };
+					},
+					removeFont: () => {
+						releaseFontPreview(0);
+						cfg.fontMime = null;
+						applyFontFace(null, false, null);
+						removeFont();
+						persistConfig();
+					},
+					setFontEnabled: (v) => {
+						cfg.fontEnabled = v;
+						applyStoredFont();
+						persistConfig();
+					},
+					setWop: (v) => {
+						cfg.wallpaperOpacity = v;
+						applyWp();
+						syncBg();
+						saveConfig();
+					},
+					setBl: (v) => {
+						cfg.blur = v;
+						applyWp();
+						syncBg();
+						saveConfig();
+					},
+					setSop: (v) => {
+						cfg.settingsOpacity = v;
+						applySettingsOverrides(v);
+						saveConfig();
+					},
+					setPanelOp: (v) => {
+						cfg.panelOpacity = v;
+						applyPanelOverrides(v);
+						saveConfig();
+					},
+					extractColor: async () => {
+						const url = rWp();
+						if (!url) return false;
+						const hsl = await extractWallpaperColor(url, cfg.backgroundType === "video" ? rVideoBgState() : rBgState());
+						if (!hsl) return false;
+						cfg.color = hsl;
+						registerCustom(hsl[0], hsl[1], hsl[2]);
+						applyWp();
+						saveConfig();
+						const hsv = hslToHsv(hsl[0], hsl[1], hsl[2]);
+						colorRev++;
+						bound?.syncColor(hsv, colorRev);
+						return true;
+					},
+					exportTheme: async () => {
+						let videoPayload = null;
+						if (cfg.backgroundType === "video") {
+							const vurl = rWpVideo();
+							if (vurl) try {
+								videoPayload = await blobToDataUrl(await fetch(vurl).then((r) => r.blob()));
+								if (videoPayload && !/^data:video\//.test(videoPayload)) videoPayload = videoPayload.replace(/^data:[^;,]*/, `data:${cfg.videoMime ?? "video/mp4"}`);
+							} catch {
+								videoPayload = null;
+							}
+						}
+						let wallpaperPayload = null;
+						if (cfg.backgroundType === "image") {
+							const wurl = rWp();
+							if (wurl) {
+								if (wurl.startsWith("data:")) wallpaperPayload = wurl;
+								else try {
+									wallpaperPayload = await blobToDataUrl(await fetch(wurl).then((r) => r.blob()));
+								} catch {
+									wallpaperPayload = null;
+								}
+							}
+						}
+						let pool;
+						const rotItems = rRotation().items;
+						if (rotItems.length > 0) {
+							pool = [];
+							for (const it of rotItems) try {
+								const blob = await fetch(rotationFileUrl(it.file)).then((r) => {
+									if (!r.ok) throw new Error(`http ${r.status}`);
+									return r.blob();
+								});
+								pool.push({
+									file: it.file,
+									thumb: it.thumb,
+									dataUrl: await blobToDataUrl(blob)
+								});
+							} catch {
+								console.warn(`dsh-any-background: export skipped a rotation image (${it.file})`);
+							}
+							if (pool.length === 0) pool = void 0;
+						}
+						const payload = {
+							version: 3,
+							exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+							config: cfg,
+							wallpaper: wallpaperPayload,
+							video: videoPayload,
+							pool
+						};
+						const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+						const url = URL.createObjectURL(blob);
+						const a = document.createElement("a");
+						a.href = url;
+						a.download = "dsh-any-theme.json";
+						a.click();
+						window.setTimeout(() => URL.revokeObjectURL(url), 4e3);
+					},
+					importTheme: async (file) => {
+						try {
+							const data = JSON.parse(await file.text());
+							if (!data || typeof data !== "object") return false;
+							const d = data;
+							if (typeof d.config !== "object" || d.config === null) return false;
+							adoptConfig(d.config);
+							if (cfg.backgroundType === "video") {
+								const video = typeof d.video === "string" && /^data:video\//.test(d.video) ? d.video : null;
+								if (video !== null) {
+									let blob = null;
+									try {
+										blob = await fetch(video).then((r) => r.blob());
+									} catch {
+										blob = null;
+									}
+									if (blob !== null) playVideoFromBlob(blob, cfg.videoMime);
+									else {
+										setWpVideoUrl(await persistVideo(video) ? VIDEO_SERVE_URL : video, cfg.videoMime);
+										applyWp();
+										captureAndApplyVideo(rWpVideo());
+									}
+								} else {
+									setWpVideoUrl(null, null);
+									persistVideo(null);
+									cfg.backgroundType = "image";
+									setWpImageUrl(null);
+									setWpUrl(null);
+									persistWallpaper(null);
+									applyThemeColor();
+								}
+							} else if (cfg.backgroundType === "image") {
+								const wallpaper = typeof d.wallpaper === "string" && /^data:image\//.test(d.wallpaper) ? d.wallpaper : null;
+								setWpImageUrl(wallpaper);
+								setWpUrl(wallpaper);
+								persistWallpaper(wallpaper);
+								applyThemeColor();
+							} else {
+								setWpImageUrl(null);
+								setWpUrl(null);
+								persistWallpaper(null);
+								if (cfg.regenerateOnReload) regenerateGeneratedBg();
+								else if (cfg.generatedBg) updateGeneratedBg(cfg.generatedBg);
+							}
+							const poolRaw = d.pool;
+							if (Array.isArray(poolRaw)) {
+								if (poolRaw.length > 0) {
+									const r = await rotationRestore(poolRaw);
+									if (r.ok && r.items) cfg.rotation = {
+										...cfg.rotation,
+										items: r.items,
+										current: Math.min(cfg.rotation.current, Math.max(0, r.items.length - 1))
+									};
+									else console.warn("dsh-any-background: rotation pool restore failed", r.error);
+								} else if (cfg.rotation.items.length > 0) cfg.rotation = {
+									...cfg.rotation,
+									items: [],
+									current: 0
+								};
+							} else if ((typeof d.version !== "number" || d.version < 3) && cfg.rotation.items.length > 0) cfg.rotation = {
+								...cfg.rotation,
+								items: [],
+								current: 0
+							};
+							persistConfig();
+							syncMetaNow();
+							if (rHasColor()) {
+								const [h, s, l] = rColor();
+								registerCustom(h, s, l);
+							}
+							syncBg();
+							if (rHasColor()) {
+								colorRev++;
+								bound?.syncColor(hslToHsv(...rColor()), colorRev);
+							}
+							return true;
+						} catch {
+							return false;
+						}
+					},
+					saveProfile: (name) => {
+						const trimmed = name.trim();
+						if (!trimmed) return false;
+						const profiles = [...rProfiles()];
+						if (profiles.length >= 20) profiles.shift();
+						const id = `p-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+						profiles.push({
+							id,
+							name: trimmed.slice(0, 60),
+							createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+							config: currentAppearance()
+						});
+						cfg.profiles = profiles;
+						cfg.activeProfile = id;
+						persistConfig();
+						syncMetaNow();
+						return true;
+					},
+					applyProfile: (id) => applyProfileById(id),
+					renameProfile: (id, name) => {
+						const trimmed = name.trim();
+						if (!trimmed) return false;
+						const before = rProfiles();
+						if (!before.some((p) => p.id === id)) return false;
+						cfg.profiles = before.map((p) => p.id === id ? {
+							...p,
+							name: trimmed.slice(0, 60)
+						} : p);
+						persistConfig();
+						syncMetaNow();
+						return true;
+					},
+					duplicateProfile: (id) => {
+						const before = rProfiles();
+						const src = before.find((p) => p.id === id);
+						if (!src) return false;
+						const profiles = [...before];
+						if (profiles.length >= 20) profiles.shift();
+						const nid = `p-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+						profiles.push({
+							...src,
+							id: nid,
+							name: `${src.name} (2)`.slice(0, 60),
+							createdAt: (/* @__PURE__ */ new Date()).toISOString()
+						});
+						cfg.profiles = profiles;
+						persistConfig();
+						syncMetaNow();
+						return true;
+					},
+					deleteProfile: (id) => {
+						const before = rProfiles();
+						if (!before.some((p) => p.id === id)) return false;
+						cfg.profiles = before.filter((p) => p.id !== id);
+						if (cfg.activeProfile === id) cfg.activeProfile = null;
+						const sc = rSchedule();
+						if (sc.dayProfile === id || sc.nightProfile === id) cfg.schedule = {
+							...sc,
+							dayProfile: sc.dayProfile === id ? null : sc.dayProfile,
+							nightProfile: sc.nightProfile === id ? null : sc.nightProfile
+						};
+						persistConfig();
+						syncMetaNow();
+						return true;
+					},
+					applyPreset: (appearance) => {
+						applyAppearanceLive(appearance);
+						cfg.activeProfile = null;
+						applyWp();
+						persistConfig();
+						syncMetaNow();
+					},
+					setSchemeOverride: (v) => {
+						cfg.schemeOverride = v;
+						registerCustom();
+						applyWp();
+						saveConfig();
+						syncMetaNow();
+					},
+					setSchedule: (patch) => {
+						cfg.schedule = {
+							...rSchedule(),
+							...patch
+						};
+						if (patch.enabled === true) scheduleTick();
+						persistConfig();
+						syncMetaNow();
+					},
+					setRotation: (patch) => {
+						cfg.rotation = {
+							...rRotation(),
+							...patch
+						};
+						if (patch.enabled === true) maybeRotate();
+						persistConfig();
+						syncMetaNow();
+					},
+					addRotationItems: async (files) => {
+						let added = false;
+						for (const f of files) {
+							if (!f.type.startsWith("image/")) continue;
+							const dataUrl = await readImgAsync(f);
+							if (!dataUrl) continue;
+							const r = await rotationAdd(dataUrl, await makeThumb(dataUrl) ?? "");
+							if (r.ok && r.items !== void 0) {
+								cfg.rotation = {
+									...rRotation(),
+									items: r.items
+								};
+								added = true;
+							}
+						}
+						if (added) {
+							persistConfig();
+							syncMetaNow();
+							syncBg();
+						}
+						return added;
+					},
+					removeRotationItem: async (index) => {
+						const r = await rotationRemove(index);
+						if (!r.ok || r.items === void 0) return false;
+						const rot = rRotation();
+						cfg.rotation = {
+							...rot,
+							items: r.items,
+							current: Math.max(0, Math.min(rot.current >= index ? rot.current - 1 : rot.current, Math.max(0, r.items.length - 1)))
+						};
+						persistConfig();
+						syncMetaNow();
+						return true;
+					},
+					rotateNow: async () => {
+						if (rRotation().items.length === 0) return false;
+						return applyRotationIndex(pickNextRotationIndex$1(), true);
+					},
+					setVideoFromUrl: async (url) => {
+						const r = await setVideoFromUrl(url);
+						if (!r.ok || !r.mime) {
+							console.warn("dsh-any-background: video url fetch failed", r.error);
+							return false;
+						}
+						setBgDark(null);
+						cfg.backgroundType = "video";
+						setWpUrl(null);
+						cfg.videoBgState = { ...DEFAULT_CONFIG.bgState };
+						setWpVideoUrl(VIDEO_SERVE_URL, r.mime);
+						applyWp();
+						saveConfig();
+						syncBg();
+						captureAndApplyVideo(rWpVideo());
+						return true;
+					}
+				};
+				themeFace = built;
+				return built;
+			};
+			const sectionInject = (actions) => {
+				bound = actions;
+				return buildFace();
+			};
+			if (store === null) console.error("dsh-any-background: settings panel disabled on this host (no store module)");
+			else ctx.slots.inject("settings.section", () => ctx.slots.register({
+				name: "settings.section",
+				id: "dsh-any-background",
+				order: 35,
+				label: () => ctx.locale.bind(NS)("nav"),
+				locale: NS,
+				store,
+				inject: sectionInject
+			}, ThemeSection));
+			registerThemeSidebarTab(ctx, {
+				face: buildFace,
+				store: storeInstance
+			});
+			registerNativeSidebarTab(ctx, {
+				face: buildFace,
+				store: storeInstance
+			});
+			const navLabel = () => ctx.locale.bind(NS)("nav");
+			const applyNavIcon = () => {
+				const nav = document.querySelector(SETTINGS_PANEL_SEL)?.querySelector("nav");
+				if (!nav) return;
+				const target = navLabel();
+				for (const cell of Array.from(nav.querySelectorAll("button"))) {
+					const label = cell.querySelector("span");
+					if (label && label.textContent?.trim() === target) {
+						const svg = cell.querySelector("svg");
+						if (svg && svg.dataset.dshAnyIcon !== "1") {
+							const sun = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+							sun.setAttribute("width", "16");
+							sun.setAttribute("height", "16");
+							sun.setAttribute("viewBox", "0 0 16 16");
+							sun.setAttribute("fill", "none");
+							sun.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+							sun.dataset.dshAnyIcon = "1";
+							sun.innerHTML = SUN_PATHS;
+							svg.replaceWith(sun);
+						}
+						return;
+					}
+				}
+			};
+			let disposeNavWatch = null;
+			const watchNavIcon = () => {
+				if (disposeNavWatch !== null || typeof MutationObserver === "undefined") return;
+				disposeNavWatch = watchDom((records) => {
+					if (records.some((r) => {
+						for (const n of r.addedNodes) {
+							if (n.nodeType !== 1) continue;
+							const el = n;
+							if (el.matches?.("[role=\"dialog\"][aria-modal=\"true\"][aria-labelledby][class*=\"_panel\"]") || el.querySelector?.("[role=\"dialog\"][aria-modal=\"true\"][aria-labelledby][class*=\"_panel\"]")) return true;
+						}
+						return false;
+					})) applyNavIcon();
+				});
+				applyNavIcon();
+			};
+			watchNavIcon();
+			ctx.effect(() => () => {
+				disposeNavWatch?.();
+				disposeNavWatch = null;
+			}, "dsh-any-background: nav icon watch");
+			const restoreSaved = () => {
+				if (rHasColor()) {
+					const snapshot = ctx.theme.getTheme();
+					if (!snapshot.themes.some((t) => t.id === CUSTOM_ID)) {
+						const [h, s, l] = rColor();
+						registerCustom(h, s, l);
+					} else if (snapshot.preference !== CUSTOM_ID) ctx.theme.setTheme(CUSTOM_ID);
+				}
+				applyWp();
+			};
+			const restoreTimers = [300, 1500].map((delay) => window.setTimeout(restoreSaved, delay));
+			ctx.effect(() => () => {
+				restoreTimers.forEach((id) => window.clearTimeout(id));
+			}, "dsh-any-background: boot restore");
+			const watchdogId = window.setInterval(() => {
+				if (!rHasColor() && rBgDark() === null && rSchemeOverride() === "auto") return;
+				const snapshot = ctx.theme.getTheme();
+				let changed = false;
+				if (!snapshot.themes.some((t) => t.id === CUSTOM_ID)) {
+					registerCustom();
+					changed = true;
+				} else if (snapshot.preference !== CUSTOM_ID) {
+					ctx.theme.setTheme(CUSTOM_ID);
+					changed = true;
+				}
+				if (changed) applyWp();
+			}, 1e3);
+			ctx.effect(() => () => {
+				window.clearInterval(watchdogId);
+			}, "dsh-any-background: theme watchdog");
+			const disposeThemeResets = watchThemeResets();
+			ctx.effect(() => () => {
+				disposeThemeResets();
+			}, "dsh-any-background: theme resets watch");
+			const onPageHide = () => flushSave();
+			window.addEventListener("pagehide", onPageHide);
+			ctx.effect(() => () => window.removeEventListener("pagehide", onPageHide), "dsh-any-background: pagehide flush");
+		}
+		//#endregion
+		exports.apply = apply;
+		exports.inject = inject;
+		exports.name = name;
+		return module.exports;
+	}
+});
+
+//# sourceMappingURL=client.js.map
